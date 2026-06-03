@@ -199,13 +199,7 @@
     display: block;
     background: #0E2B4D;
     color: var(--color-white);
-    text-decoration: none;
     border-bottom: 1px solid rgba(255,255,255,0.08);
-    transition: background var(--t-fast);
-  }
-  .book-banner:hover {
-    background: #143560;
-    color: var(--color-white);
   }
   .book-banner__inner {
     max-width: var(--container-max);
@@ -234,6 +228,31 @@
     font-weight: 800;
     letter-spacing: 0.04em;
   }
+  .book-banner__actions {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .book-banner__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-white);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-eyebrow);
+    font-weight: 700;
+    font-size: 12px;
+    white-space: nowrap;
+    text-decoration: none;
+    border-bottom: 1.5px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color var(--t-fast), color var(--t-fast);
+  }
+  .book-banner__link:hover {
+    color: var(--color-white);
+    border-bottom-color: #E8702D;
+  }
   .book-banner__cta {
     flex: 0 0 auto;
     display: inline-flex;
@@ -248,9 +267,10 @@
     font-weight: 700;
     font-size: 12px;
     white-space: nowrap;
+    text-decoration: none;
     transition: all var(--t-fast);
   }
-  .book-banner:hover .book-banner__cta {
+  .book-banner__cta:hover {
     background: var(--color-white);
     color: #0E2B4D;
   }
@@ -258,7 +278,8 @@
     .book-banner__inner { padding: 10px 16px; gap: 12px; flex-wrap: wrap; }
     .book-banner__cover { height: 36px; order: 1; }
     .book-banner__text { font-size: 13.5px; flex-basis: 100%; order: 2; }
-    .book-banner__cta { order: 3; margin-left: auto; padding: 8px 14px; font-size: 11px; }
+    .book-banner__actions { order: 3; margin-left: auto; gap: 12px; }
+    .book-banner__cta { padding: 8px 14px; font-size: 11px; }
   }
 
   /* ============================================================
@@ -416,20 +437,25 @@
 </head>
 <body>
 
-<a class="book-banner" href="https://www.rolloutbook.com/" target="_blank" rel="noopener">
+<div class="book-banner">
   <div class="book-banner__inner">
     <img class="book-banner__cover" src="assets/rollout-book-cover.webp" alt="ROLLOUT book cover" />
     <span class="book-banner__text">
       Want the deep dive? Read <strong>ROLLOUT</strong> by Marisa Smith &amp; Beth Fahey — the book this journey is built on.
     </span>
-    <span class="book-banner__cta">
-      Get the book
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M3 7 H11 M8 4 L11 7 L8 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
+    <span class="book-banner__actions">
+      <a class="book-banner__link" href="https://www.rolloutbook.com/rollout-resources" target="_blank" rel="noopener">
+        Free resources
+      </a>
+      <a class="book-banner__cta" href="https://www.rolloutbook.com/" target="_blank" rel="noopener">
+        Get the book
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M3 7 H11 M8 4 L11 7 L8 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </a>
     </span>
   </div>
-</a>
+</div>
 
 <section class="page-hero">
   <div class="page-hero__brand">
