@@ -26,7 +26,8 @@ function StepChip({ children }) {
 function PictureOfDone({ phase, checked, onToggle }) {
   const total = phase.pictureOfDone.length;
   const done = phase.pictureOfDone.filter((_, i) => checked[i]).length;
-  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  // No percentage — that belongs to the Organizational Checkup, not this tracker.
+  const frac = total > 0 ? (done / total) * 100 : 0;
   return (
     <section className="lp-card lp-pod">
       <header className="lp-card__head">
@@ -58,8 +59,8 @@ function PictureOfDone({ phase, checked, onToggle }) {
         })}
       </ul>
       <footer className="lp-pod__foot">
-        <span className="lp-pod__bar"><span style={{ width: pct + "%" }} /></span>
-        <span className="lp-pod__count hand">{done}/{total} · {pct}%</span>
+        <span className="lp-pod__bar"><span style={{ width: frac + "%" }} /></span>
+        <span className="lp-pod__count hand">{done} of {total}</span>
       </footer>
     </section>
   );
@@ -127,18 +128,19 @@ function ResourceItem({ item, accent }) {
     <li>
       <span className={"lp-kind" + (accent ? " is-accent" : "")}>{item.kind}</span>
       <span className="lp-rlabel">{item.label}</span>
-      <a
-        className="lp-rlink"
-        href="#"
-        target="_blank"
-        rel="noopener"
-        onClick={(e) => e.preventDefault()}
-      >
-        Open
-        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        </svg>
-      </a>
+      {/* .lp-rlist is a 3-column grid and each <li> is display:contents, so every
+          item must contribute exactly three cells — otherwise the columns shift
+          and a long label lands in the max-content column and blows the layout out. */}
+      {item.url ? (
+        <a className="lp-rlink" href={item.url} target="_blank" rel="noopener">
+          Open
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+        </a>
+      ) : (
+        <span className="lp-rlink lp-rlink--none" aria-hidden="true" />
+      )}
     </li>
   );
 }
@@ -191,17 +193,85 @@ function Step({ step, num }) {
 }
 
 function PhaseResources({ phase }) {
-  const items = phase.phaseResources || [];
-  if (items.length === 0) return null;
+  // One button to the ROLLOUT member hub plus a list of what to look for there,
+  // rather than a dozen separate links to the same destination. The hub is
+  // deliberate: new resources are added regularly and the authors notify members.
+  const r = phase.resources || {};
+  const links = r.links || [];
+  const hub = r.hub || [];
+  const ninety = phase.inNinety || [];
+  if (!r.book && !hub.length && !links.length && !ninety.length) return null;
+
   return (
     <section className="lp-pres">
       <header className="lp-pres__head">
         <h4 className="hand lp-pres__title">More for this phase</h4>
-        <span className="lp-pres__kicker">General references for the whole {phase.name} phase</span>
+        <span className="lp-pres__kicker">References for the whole {phase.name} phase</span>
       </header>
-      <ul className="lp-rlist">
-        {items.map((it, i) => <ResourceItem key={i} item={it} />)}
-      </ul>
+
+      <div className="lp-pres__grid">
+        <div className="lp-pres__col">
+          {r.book && (
+            <a className="lp-bookcard" href={window.ROLLOUT_LINKS.book} target="_blank" rel="noopener">
+              <img className="lp-bookcard__cover" src="assets/rollout-book-cover.webp" alt="" aria-hidden="true" />
+              <span>
+                <span className="lp-bookcard__label">In the book</span>
+                <span className="lp-bookcard__ch">{r.book.label}</span>
+                {r.book.note && <span className="lp-bookcard__note">{r.book.note}</span>}
+              </span>
+            </a>
+          )}
+
+          {hub.length > 0 && (
+            <div className="lp-hub">
+              <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
+                ROLLOUT resource hub
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+                </svg>
+              </a>
+              <span className="lp-hub__note">Free account. New resources are added regularly.</span>
+              <span className="lp-hub__lead">Look for:</span>
+              <ul className="lp-hub__list">
+                {hub.map((h, i) => <li key={i}>{h}</li>)}
+              </ul>
+            </div>
+          )}
+
+          {links.length > 0 && (
+            <ul className="lp-rlist lp-pres__links">
+              {links.map((it, i) => <ResourceItem key={i} item={it} />)}
+            </ul>
+          )}
+        </div>
+
+        {ninety.length > 0 && (
+          <div className="lp-pres__col">
+            <ResourceSubList label="In Ninety this phase" accent items={ninety} />
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function Sequence({ phase }) {
+  const seq = phase.sequence || [];
+  if (!seq.length) return null;
+  return (
+    <section className="lp-seq">
+      <header className="lp-seq__head">
+        <span className="eyebrow hand">A common order</span>
+        <span className="lp-seq__note">Every rollout is different — adapt this to your circumstances.</span>
+      </header>
+      <ol className="lp-seq__list">
+        {seq.map((s, i) => (
+          <li key={i}>
+            <span className="lp-seq__label">{s.label}</span>
+            <span className="lp-seq__task">{s.task}</span>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }
@@ -232,7 +302,7 @@ function ProServeCallout({ phase }) {
       </div>
       <div className="lp-ps__cta">
         <button className="btn btn--pill" type="button">Talk to our team</button>
-        <span className="lp-ps__meta hand">Starting at $250/hr</span>
+        <span className="lp-ps__meta hand">Scoped to your team count</span>
       </div>
     </section>
   );
@@ -250,7 +320,7 @@ function ProServeSoft() {
   );
 }
 
-function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan }) {
+function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan, readiness, setReadiness }) {
   const checked = checkedMap[phase.id] || [];
   const steps = phase.steps || [];
 
@@ -273,6 +343,8 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan }) {
 
       <Why phase={phase} />
 
+      <Sequence phase={phase} />
+
       <section className="lp-steps">
         <header className="lp-steps__head">
           <span className="eyebrow hand">The work in this phase</span>
@@ -281,6 +353,10 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan }) {
           {steps.map((s, i) => <Step key={i} step={s} num={i + 1} />)}
         </div>
       </section>
+
+      {phase.readinessTool && (
+        <Readiness readiness={readiness} setReadiness={setReadiness} />
+      )}
 
       <PhaseResources phase={phase} />
 
@@ -294,6 +370,88 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan }) {
 
       <style>{`
         .lp { display: flex; flex-direction: column; gap: 28px; }
+
+        /* ---- suggested order (deliberately not a schedule) ---- */
+        .lp-seq {
+          border-left: 3px solid var(--color-brand-stone);
+          padding: 2px 0 2px 18px;
+          display: flex; flex-direction: column; gap: 10px;
+        }
+        .lp-seq__head { display: flex; flex-direction: column; gap: 1px; }
+        .lp-seq__head .eyebrow { color: var(--fg-2); }
+        .lp-seq__note { font-size: var(--fs-body-sm); color: var(--fg-3); }
+        .lp-seq__list {
+          list-style: none; margin: 0; padding: 0;
+          display: flex; flex-direction: column; gap: 7px;
+        }
+        .lp-seq__list li {
+          display: grid; grid-template-columns: 54px 1fr; gap: 12px;
+          align-items: baseline;
+        }
+        .lp-seq__label {
+          font-family: var(--font-body); font-size: var(--fs-meta);
+          font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+          color: var(--color-brand-blue);
+        }
+        .lp-seq__task { font-size: var(--fs-body-sm); color: var(--fg-2); line-height: 1.55; }
+        @media (max-width: 640px) {
+          .lp-seq__list li { grid-template-columns: 1fr; gap: 1px; }
+        }
+
+        /* ---- phase resources ---- */
+        .lp-pres__grid {
+          display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px;
+          align-items: start;
+        }
+        .lp-pres__col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+        @media (max-width: 860px) {
+          .lp-pres__grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+        }
+
+        .lp-bookcard {
+          display: grid; grid-template-columns: 40px 1fr; gap: 14px;
+          align-items: start; text-decoration: none;
+          border: 1.5px solid var(--border-subtle);
+          border-radius: var(--radius-md);
+          padding: 14px 16px;
+          transition: border-color var(--t-fast);
+        }
+        .lp-bookcard:hover { border-color: var(--color-brand-blue); }
+        .lp-bookcard__cover {
+          width: 40px; height: auto; border-radius: 2px;
+          box-shadow: var(--shadow-sm);
+        }
+        .lp-bookcard > span { display: flex; flex-direction: column; gap: 2px; }
+        .lp-bookcard__label {
+          font-size: var(--fs-meta); font-weight: 700;
+          letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-3);
+        }
+        .lp-bookcard__ch { font-size: var(--fs-body); font-weight: 600; color: var(--fg-1); }
+        .lp-bookcard__note { font-size: var(--fs-body-sm); color: var(--fg-2); }
+
+        .lp-hub { display: flex; flex-direction: column; gap: 7px; align-items: flex-start; }
+        .lp-hub__btn { text-decoration: none; }
+        .lp-hub__note { font-size: var(--fs-meta); color: var(--fg-3); }
+        .lp-hub__lead {
+          margin-top: 4px;
+          font-size: var(--fs-meta); font-weight: 700;
+          letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-2);
+        }
+        .lp-hub__list {
+          list-style: none; margin: 0; padding: 0;
+          display: flex; flex-direction: column; gap: 4px;
+        }
+        .lp-hub__list li {
+          font-size: var(--fs-body-sm); color: var(--fg-2);
+          padding-left: 15px; position: relative; line-height: 1.5;
+        }
+        .lp-hub__list li::before {
+          content: ""; position: absolute; left: 2px; top: 9px;
+          width: 5px; height: 5px; border-radius: 50%;
+          background: var(--color-brand-slate);
+        }
+        .lp-pres__links { margin-top: 2px; }
+
         .lp__head { max-width: 920px; }
         .lp__eyebrow { color: var(--color-brand-blue); margin-bottom: 4px; }
         .lp__title-row {
@@ -333,11 +491,11 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan }) {
 
         .lp-row {
           display: grid;
-          grid-template-columns: 1.35fr 1fr;
+          grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
           gap: 22px;
           align-items: start;
         }
-        @media (max-width: 880px) { .lp-row { grid-template-columns: 1fr; } }
+        @media (max-width: 880px) { .lp-row { grid-template-columns: minmax(0, 1fr); } }
 
         .lp-video {
           aspect-ratio: 16 / 9;
@@ -567,7 +725,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan }) {
           list-style: none;
           margin: 0; padding: 0;
           display: grid;
-          grid-template-columns: max-content 1fr max-content;
+          grid-template-columns: max-content minmax(0, 1fr) max-content;
           column-gap: 12px;
           row-gap: 10px;
           align-items: start;
@@ -603,6 +761,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan }) {
           padding-top: 2px;
         }
         .lp-rlink:hover { color: var(--color-brand-black); }
+        .lp-rlink--none { padding: 0; }
 
         .lp-pres {
           background: var(--bg-card);

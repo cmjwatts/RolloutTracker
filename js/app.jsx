@@ -1,8 +1,9 @@
 /* Root app — wires side rail + phase detail + plan builder together.
    Persists tracker check state and the rollout plan in localStorage. */
 
-const TRACKER_KEY = "ninety.rolloutTracker.v1";
-const PLAN_KEY    = "ninety.rolloutPlan.v2";
+const TRACKER_KEY   = "ninety.rolloutTracker.v1";
+const PLAN_KEY      = "ninety.rolloutPlan.v2";
+const READINESS_KEY = "ninety.rolloutReadiness.v1";
 
 function loadJSON(key) {
   try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; }
@@ -51,6 +52,9 @@ function App() {
     reconcileChecks(loadJSON(TRACKER_KEY), phases)
   );
   const [plan, setPlan] = React.useState(() => loadPlan());
+  const [readiness, setReadiness] = React.useState(
+    () => loadJSON(READINESS_KEY) || { tools: {}, team: {} }
+  );
 
   React.useEffect(() => {
     try { localStorage.setItem(TRACKER_KEY, JSON.stringify(checkedMap)); } catch (e) {}
@@ -59,6 +63,10 @@ function App() {
   React.useEffect(() => {
     try { localStorage.setItem(PLAN_KEY, JSON.stringify(plan)); } catch (e) {}
   }, [plan]);
+
+  React.useEffect(() => {
+    try { localStorage.setItem(READINESS_KEY, JSON.stringify(readiness)); } catch (e) {}
+  }, [readiness]);
 
   const onToggleCheck = (phaseId, idx) => {
     setCheckedMap((prev) => {
@@ -95,6 +103,8 @@ function App() {
         onToggleCheck={onToggleCheck}
         plan={plan}
         setPlan={setPlan}
+        readiness={readiness}
+        setReadiness={setReadiness}
       />
     </React.Fragment>
   );

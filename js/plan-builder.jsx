@@ -271,7 +271,8 @@ function PlanBuilder({ plan, setPlan }) {
     (plan.commsPlan.trim() ? 1 : 0) +
     plan.waves.filter((w) => w.teams.trim()).length;
   const totalChecks = 3 + plan.waves.length;
-  const pct = Math.round((completion / totalChecks) * 100);
+  // Count, not a percentage — see the note in side-rail.jsx.
+  const frac = totalChecks > 0 ? (completion / totalChecks) * 100 : 0;
 
   return (
     <section className="lpb">
@@ -281,13 +282,14 @@ function PlanBuilder({ plan, setPlan }) {
           <h3 className="lpb__title">Build your Rollout Plan</h3>
           <p className="lpb__lead">
             Pick a launch date, your Champion, and how you'll roll EOS out in waves. As you fill it in,
-            the Gantt timeline below builds itself — and your Rollout Plan copies into a Company Rock in Ninety.
+            the timeline below builds itself — and your Rollout Plan copies into a Company Rock in Ninety.
+            This is a starting point to adapt, not a template to follow.
           </p>
         </div>
         <div className="lpb__meter">
-          <div className="lpb__meter-num">{pct}<span>%</span></div>
+          <div className="lpb__meter-num">{completion}<span>/{totalChecks}</span></div>
           <div className="lpb__meter-label">drafted</div>
-          <div className="lpb__meter-bar"><span style={{ width: pct + "%" }} /></div>
+          <div className="lpb__meter-bar"><span style={{ width: frac + "%" }} /></div>
         </div>
       </header>
 

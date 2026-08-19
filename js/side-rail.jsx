@@ -1,14 +1,19 @@
-/* Sticky side rail — overall progress + 4 phase entries connected by a vertical journey-line. */
+/* Sticky side rail — overall progress + 4 phase entries connected by a vertical journey-line.
+
+   No percentage here, deliberately. The percentage belongs to the Organizational
+   Checkup (80%+ strong), and a second number on the tracker competes with it.
+   Progress shows as a bar plus a plain count. Phases read "On Track", never
+   "done" — Sustain in particular is ongoing forever. */
 
 function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
   const allTotal = phases.reduce((s, p) => s + p.pictureOfDone.length, 0);
   const allDone  = phases.reduce(
     (s, p) => s + (checkedMap[p.id] || []).filter(Boolean).length, 0
   );
-  const allPct = allTotal > 0 ? Math.round((allDone / allTotal) * 100) : 0;
+  const allFrac = allTotal > 0 ? (allDone / allTotal) * 100 : 0;
 
   const handleReset = () => {
-    if (window.confirm("Reset all tracker progress? This clears every Picture-of-Done check. Your Rollout Plan is kept.")) {
+    if (window.confirm("Reset all tracker progress? This clears every Picture-of-Done check. Your Rollout Plan and readiness assessment are kept.")) {
       onReset();
     }
   };
@@ -18,13 +23,15 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
       <div className="rail__progress">
         <div className="rail__progress-row">
           <span className="eyebrow">Your rollout</span>
-          <span className="rail__pct">{allPct}%</span>
+          <span className="rail__count-big">
+            {allDone}<span className="rail__count-of">/{allTotal}</span>
+          </span>
         </div>
         <div className="rail__bar">
-          <span style={{ width: allPct + "%" }} />
+          <span style={{ width: allFrac + "%" }} />
         </div>
         <div className="rail__progress-meta">
-          {allDone} of {allTotal} tracker items complete
+          Rollout is a journey, not an event — this is a map, not a score.
         </div>
       </div>
 
@@ -34,22 +41,22 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
           const done = checks.filter(Boolean).length;
           const total = p.pictureOfDone.length;
           const active = p.id === activeId;
-          const complete = done === total && total > 0;
-          const inProgress = done > 0 && !complete;
+          const onTrack = done === total && total > 0;
+          const inProgress = done > 0 && !onTrack;
           return (
             <button
               key={p.id}
               className={
                 "rail__item " +
                 (active ? "is-active " : "") +
-                (complete ? "is-done " : "") +
+                (onTrack ? "is-on-track " : "") +
                 (inProgress ? "is-progress " : "")
               }
               onClick={() => setActiveId(p.id)}
               aria-current={active ? "page" : undefined}
             >
               <span className="rail__node">
-                {complete ? (
+                {onTrack ? (
                   <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true">
                     <path d="M3 8.5 L7 12 L13 4.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
@@ -61,8 +68,8 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
                 <span className="rail__name">{p.name}</span>
                 <span className="rail__meta">{p.duration}</span>
                 <span className="rail__count">
-                  Tasks {done}/{total}
-                  {complete && <span className="rail__yes">DONE ✓</span>}
+                  {done}/{total}
+                  {onTrack && <span className="rail__yes">ON TRACK</span>}
                 </span>
               </span>
             </button>
@@ -87,7 +94,7 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
         }
         @media (max-width: 640px) {
           .rail__progress { padding: 14px 16px 12px; }
-          .rail__pct { font-size: 28px; }
+          .rail__count-big { font-size: 26px; }
           .rail__nav {
             display: flex;
             flex-direction: row;
@@ -137,12 +144,17 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
           font-weight: 700;
           letter-spacing: 0.1em;
         }
-        .rail__pct {
+        .rail__count-big {
           font-family: var(--font-sketch);
-          font-size: 38px; font-weight: 700;
+          font-size: 34px; font-weight: 700;
           color: var(--color-brand-blue);
           line-height: 1;
           letter-spacing: -0.02em;
+        }
+        .rail__count-of {
+          font-size: 20px;
+          color: var(--fg-3);
+          font-weight: 600;
         }
         .rail__bar {
           height: 6px;
@@ -159,8 +171,9 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
         .rail__progress-meta {
           margin-top: 8px;
           font-family: var(--font-hand);
-          font-size: 13px;
-          color: var(--fg-2);
+          font-size: 12.5px;
+          line-height: 1.45;
+          color: var(--fg-3);
         }
 
         .rail__nav {
@@ -230,7 +243,7 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
           border-color: var(--color-brand-blue);
         }
         .rail__item.is-progress:not(.is-active) .rail__node-num { color: var(--color-brand-blue); }
-        .rail__item.is-done .rail__node {
+        .rail__item.is-on-track .rail__node {
           background: var(--color-brand-blue);
           border-color: var(--color-brand-blue);
           color: var(--color-white);
@@ -254,8 +267,10 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
         }
         .rail__yes {
           color: var(--color-brand-blue);
-          font-weight: 700; letter-spacing: 0.06em;
-          font-size: 10px; font-family: var(--font-body);
+          font-weight: 700; letter-spacing: 0.08em;
+          font-size: 9.5px; font-family: var(--font-body);
+          border: 1px solid var(--color-brand-blue);
+          border-radius: 99px; padding: 1px 6px;
         }
 
         .rail__reset {
