@@ -33,7 +33,7 @@ function App() {
     reconcileChecks(loadJSON(TRACKER_KEY), phases)
   );
   const [readiness, setReadiness] = React.useState(
-    () => loadJSON(READINESS_KEY) || { tools: {}, team: {} }
+    () => loadJSON(READINESS_KEY) || { tools: {}, answers: {} }
   );
 
   React.useEffect(() => {

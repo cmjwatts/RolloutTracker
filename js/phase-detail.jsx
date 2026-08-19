@@ -183,7 +183,7 @@ function Step({ step, num, readiness, setReadiness }) {
         </div>
       </header>
       {step.readinessTool && (
-        <Readiness readiness={readiness} setReadiness={setReadiness} embedded />
+        <Readiness readiness={readiness} setReadiness={setReadiness} />
       )}
       {step.planningTool && <PlanningEssentials />}
       {hasAny && (

@@ -37,22 +37,82 @@ window.ROLLOUT_LINKS = {
    begin."
 ------------------------------------------------------------------ */
 window.READINESS = {
-  eyebrow: "Before you build the plan",
-  title: "Assess your readiness",
   lead:
-    "Five questions decide whether you're ready to begin Rollout or need to shore up your " +
-    "foundation first. Work them as a Leadership Team — the disagreements are the useful part.",
-  gridTitle: "The five EOS Foundational Tools",
+    "Here are the questions that will help you decide if you're ready to begin Rollout or need " +
+    "to shore up your foundation first:",
+  leadCite: "ROLLOUT, p. 52",
+
+  // Yes / No only. "Getting there" is a no — it just sounds kinder.
+  scale: [
+    { id: "no",  label: "No" },
+    { id: "yes", label: "Yes" },
+  ],
+
   gridLead:
     "Two questions per tool: have we mastered it, and are we ready to share it? You don't have " +
     "to be ready to share everything — you just have to agree on what you are sharing.",
   colMastered: "Mastered?",
   colShare: "Ready to share?",
 
-  // Yes / No only. "Getting there" is a no — it just sounds kinder.
-  scale: [
-    { id: "no",  label: "No" },
-    { id: "yes", label: "Yes" },
+  holdNote:
+    "If a tool feels particularly shaky or uncertain, it's perfectly fine to wait a quarter or " +
+    "two before rolling it out to the rest of your company. Sometimes, readiness means slowing " +
+    "down just a bit to go faster later.",
+  holdNoteCite: "ROLLOUT, p. 67",
+
+  /* The five key questions, worded as they appear on p. 52. Questions 1 and 2
+     run over the same five tools from two angles, so they share one row and
+     open a single grid. */
+  questions: [
+    {
+      id: "tools",
+      num: "1 · 2",
+      kind: "grid",
+      page: "pp. 55–68",
+      q: "Has the leadership team mastered the five EOS Foundational Tools (V/TO, The Accountability Chart, Rocks, The Meeting Pulse, Scorecard)?",
+      q2: "Are you ready to share your EOS tools with the organization?",
+    },
+    {
+      id: "united-front",
+      num: "3",
+      kind: "checks",
+      page: "p. 71",
+      q: "Are you ready to present a united front as a leadership team?",
+      items: [
+        "Is every leader using consistent language?",
+        "Are we committed to supporting each other publicly, even when we disagree privately?",
+        "Have we worked through any significant conflicts or trust issues between team members?",
+        "Do we agree on how to handle questions we can't answer immediately?",
+      ],
+    },
+    {
+      id: "open-honest",
+      num: "4",
+      kind: "checks",
+      page: "p. 75",
+      q: "Are you ready to be open and honest with your team?",
+      items: [
+        "Are we genuinely committed to transparency, even when it feels uncomfortable?",
+        "Do we trust our team with the truth about our challenges and opportunities?",
+        "Are we prepared to admit when we don't know something or when we make mistakes?",
+        "Can we focus on collective success rather than individual credit or blame?",
+        "Are we willing to be vulnerable in service of the organization's growth?",
+      ],
+    },
+    {
+      id: "student-teacher",
+      num: "5",
+      kind: "checks",
+      page: "p. 77",
+      q: "Are you ready to shift from student to teacher?",
+      items: [
+        "Are we genuinely excited about teaching EOS, not just implementing it?",
+        "Can we explain the “why” behind each tool in compelling terms?",
+        "Are we prepared to answer questions we might not have considered?",
+        "Do we have the patience to explain concepts multiple times in multiple ways?",
+        "Are we committed to modeling what we teach, even when it's difficult?",
+      ],
+    },
   ],
 
   tools: [
@@ -125,52 +185,6 @@ window.READINESS = {
       ],
       share:
         "Are Scorecards really important right out of the gate, or do we need to make sure our data reporting is accurate at the leadership team level first?",
-    },
-  ],
-
-  holdNote:
-    "If a tool feels particularly shaky or uncertain, it's perfectly fine to wait a quarter or " +
-    "two before rolling it out to the rest of your company. Sometimes, readiness means slowing " +
-    "down just a bit to go faster later.",
-  holdNoteCite: "ROLLOUT, p. 67",
-
-  teamTitle: "And the Leadership Team itself",
-  teamLead: "Three questions about how you'll show up, not about the tools.",
-  team: [
-    {
-      id: "united-front",
-      q: "Are you ready to present a united front?",
-      page: "p. 71",
-      items: [
-        "Is every leader using consistent language?",
-        "Are we committed to supporting each other publicly, even when we disagree privately?",
-        "Have we worked through any significant conflicts or trust issues between team members?",
-        "Do we agree on how to handle questions we can't answer immediately?",
-      ],
-    },
-    {
-      id: "open-honest",
-      q: "Are you ready to be open and honest?",
-      page: "p. 75",
-      items: [
-        "Are we genuinely committed to transparency, even when it feels uncomfortable?",
-        "Do we trust our team with the truth about our challenges and opportunities?",
-        "Are we prepared to admit when we don't know something or when we make mistakes?",
-        "Can we focus on collective success rather than individual credit or blame?",
-        "Are we willing to be vulnerable in service of the organization's growth?",
-      ],
-    },
-    {
-      id: "student-teacher",
-      q: "Are you ready to shift from student to teacher?",
-      page: "p. 77",
-      items: [
-        "Are we genuinely excited about teaching EOS, not just implementing it?",
-        "Can we explain the “why” behind each tool in compelling terms?",
-        "Are we prepared to answer questions we might not have considered?",
-        "Do we have the patience to explain concepts multiple times in multiple ways?",
-        "Are we committed to modeling what we teach, even when it's difficult?",
-      ],
     },
   ],
 };
