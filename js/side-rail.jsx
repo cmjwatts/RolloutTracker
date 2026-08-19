@@ -23,9 +23,6 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
       <div className="rail__progress">
         <div className="rail__progress-row">
           <span className="eyebrow">Your rollout</span>
-          <span className="rail__count-big">
-            {allDone}<span className="rail__count-of">/{allTotal}</span>
-          </span>
         </div>
         <div className="rail__bar">
           <span style={{ width: allFrac + "%" }} />
@@ -66,7 +63,6 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
               </span>
               <span className="rail__body">
                 <span className="rail__name">{p.name}</span>
-                <span className="rail__meta">{p.duration}</span>
                 <span className="rail__count">
                   {done}/{total}
                   {onTrack && <span className="rail__yes">ON TRACK</span>}
@@ -94,7 +90,6 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
         }
         @media (max-width: 640px) {
           .rail__progress { padding: 14px 16px 12px; }
-          .rail__count-big { font-size: 26px; }
           .rail__nav {
             display: flex;
             flex-direction: row;
@@ -124,7 +119,6 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
           .rail__node-num { font-size: 13px; }
           .rail__body { padding-top: 0; gap: 1px; }
           .rail__name { font-size: 13.5px; }
-          .rail__meta { display: none; }
           .rail__count { font-size: 11px; }
         }
 
@@ -135,26 +129,11 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
           padding: 18px 20px 16px;
           box-shadow: var(--shadow-xs);
         }
-        .rail__progress-row {
-          display: flex; align-items: baseline; justify-content: space-between;
-          gap: 10px; margin-bottom: 8px; white-space: nowrap;
-        }
+        .rail__progress-row { margin-bottom: 9px; }
         .rail__progress-row .eyebrow {
           font-family: var(--font-hand);
           font-weight: 700;
           letter-spacing: 0.1em;
-        }
-        .rail__count-big {
-          font-family: var(--font-sketch);
-          font-size: 34px; font-weight: 700;
-          color: var(--color-brand-blue);
-          line-height: 1;
-          letter-spacing: -0.02em;
-        }
-        .rail__count-of {
-          font-size: 20px;
-          color: var(--fg-3);
-          font-weight: 600;
         }
         .rail__bar {
           height: 6px;
@@ -255,10 +234,6 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
           color: var(--fg-1); letter-spacing: -0.005em;
         }
         .rail__item.is-active .rail__name { color: var(--color-brand-blue); }
-        .rail__meta {
-          font-family: var(--font-hand);
-          font-size: 13px; color: var(--fg-2);
-        }
         .rail__count {
           font-family: var(--font-hand);
           font-size: 12px; color: var(--fg-2);

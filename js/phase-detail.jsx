@@ -258,13 +258,13 @@ function Sequence({ phase }) {
   return (
     <section className="lp-seq">
       <header className="lp-seq__head">
-        <span className="eyebrow hand">A common order</span>
-        <span className="lp-seq__note">Every rollout is different — adapt this to your circumstances.</span>
+        <span className="lp-seq__eyebrow">A common order</span>
+        <span className="lp-seq__note">Every rollout is different — adapt it to your circumstances.</span>
       </header>
       <ol className="lp-seq__list">
         {seq.map((s, i) => (
           <li key={i}>
-            <span className="lp-seq__label">{s.label}</span>
+            <span className="lp-seq__dot" aria-hidden="true" />
             <span className="lp-seq__task">{s.task}</span>
           </li>
         ))}
@@ -324,9 +324,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
   return (
     <article className="lp">
       <header className="lp__head">
-        <span className="eyebrow hand lp__eyebrow">
-          Phase {phase.num} · {phase.duration}
-        </span>
+        <span className="eyebrow hand lp__eyebrow">Phase {phase.num}</span>
         <div className="lp__title-row">
           <h2 className="lp__title">{phase.headline}</h2>
           <Sequence phase={phase} />
@@ -364,28 +362,48 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
 
         /* ---- suggested order (deliberately not a schedule) ---- */
         .lp-seq {
-          margin-top: 10px;
-          display: flex; flex-direction: column; gap: 7px;
+          margin-top: 14px;
+          display: flex; flex-direction: column; gap: 9px;
         }
-        .lp-seq__head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-        .lp-seq__head .eyebrow { color: var(--fg-2); }
-        .lp-seq__note { font-size: var(--fs-body-sm); color: var(--fg-3); }
-        .lp-seq__list {
-          list-style: none; margin: 0; padding: 0;
-          display: flex; flex-direction: column; gap: 7px;
+        .lp-seq__head {
+          display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
         }
-        .lp-seq__list li {
-          display: grid; grid-template-columns: 54px 1fr; gap: 12px;
-          align-items: baseline;
-        }
-        .lp-seq__label {
-          font-family: var(--font-body); font-size: var(--fs-meta);
-          font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+        .lp-seq__eyebrow {
+          font-size: var(--fs-meta); font-weight: 700;
+          letter-spacing: 0.12em; text-transform: uppercase;
           color: var(--color-brand-blue);
         }
-        .lp-seq__task { font-size: var(--fs-body-sm); color: var(--fg-2); line-height: 1.55; }
-        @media (max-width: 640px) {
-          .lp-seq__list li { grid-template-columns: 1fr; gap: 1px; }
+        .lp-seq__note { font-size: 13.5px; color: var(--fg-3); }
+
+        .lp-seq__list {
+          list-style: none; margin: 0; padding: 0;
+          display: flex; flex-direction: column; gap: 0;
+          position: relative;
+        }
+        .lp-seq__list li {
+          display: grid; grid-template-columns: 16px minmax(0, 1fr);
+          gap: 12px; align-items: start;
+          padding: 4px 0;
+          position: relative;
+        }
+        /* hairline connecting the dots into a path */
+        .lp-seq__list li:not(:last-child)::before {
+          content: "";
+          position: absolute;
+          left: 7px; top: 17px; bottom: -3px;
+          border-left: 1.5px solid var(--color-brand-stone);
+        }
+        .lp-seq__dot {
+          width: 9px; height: 9px; border-radius: 50%;
+          background: var(--color-white);
+          border: 2px solid var(--color-brand-blue);
+          margin: 7px 0 0 3px;
+          position: relative; z-index: 1;
+        }
+        .lp-seq__task {
+          font-size: var(--fs-body-sm);
+          color: var(--fg-2);
+          line-height: 1.55;
         }
 
         /* ---- phase resources ---- */

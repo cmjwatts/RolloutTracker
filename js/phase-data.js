@@ -8,8 +8,8 @@
    - "resources" = { hub: [...], book: {...}, links: [...] } — one button to the
      ROLLOUT member hub plus a list of what to look for there, rather than a
      dozen links to the same destination.
-   - "sequence" = a SUGGESTED order, deliberately not a schedule. Marisa asked us
-     not to sound prescriptive about timing.
+   - "sequence" = a SUGGESTED order, deliberately not a schedule and deliberately
+     unlabelled. Marisa asked us not to sound prescriptive about timing.
    - "readinessTool" flag on a STEP — renders the readiness assessment inside it.
    - No percentages anywhere. The percentage belongs to the Organizational
      Checkup (80%+), not to this tracker. Progress is shown as counts only.
@@ -298,7 +298,6 @@ window.PHASES = [
     id: "prepare",
     num: "01",
     name: "Prepare",
-    duration: "Most teams: 1–3 months",
     headline: "Get the leadership team ready",
     tagline: "The Leadership Team is ready for rollout.",
     why: "Before you teach anyone else EOS, the Leadership Team has to become teachers themselves. Most rollouts stall here because leaders haven't shifted from student to teacher, haven't agreed on a plan, or aren't ready to present a united front.",
@@ -313,9 +312,9 @@ window.PHASES = [
       "Written Rollout Plan exists and agreement across Leadership Team to it",
     ],
     sequence: [
-      { label: "Start", task: "Assess your readiness together: have you mastered the five Foundational Tools, and which are you ready to share?" },
-      { label: "Then",  task: "Create your Rollout Plan — timeline, roles, communication." },
-      { label: "Then",  task: "Brief your mid-managers — before the all-company launch, not after." },
+      { task: "Assess your readiness together: have you mastered the five Foundational Tools, and which are you ready to share?" },
+      { task: "Create your Rollout Plan — timeline, roles, communication." },
+      { task: "Brief your mid-managers — before the all-company launch, not after." },
     ],
     video: {
       title: "What is the Rollout Roadmap?",
@@ -369,7 +368,6 @@ window.PHASES = [
     id: "launch",
     num: "02",
     name: "Launch",
-    duration: "Most teams: 1–2 weeks",
     headline: "Introduce EOS to the whole company",
     tagline: "Every employee has heard the why, seen the V/TO®, and knows the plan.",
     why: "Launch is one moment in time — but it sets the tone for everything after. Without context, employees see L10s as another meeting. With context, they see the operating system they're now part of building.",
@@ -384,10 +382,10 @@ window.PHASES = [
       "Plan to repeat the message often is in place",
     ],
     sequence: [
-      { label: "Start", task: "Practice the all-company announcement with the Leadership Team — don't wing it." },
-      { label: "Then",  task: "Hold the all-company launch — V/TO® and Accountability Chart walkthrough, why EOS, what's coming." },
-      { label: "Then",  task: "Make it visible: swag, displays, Ninety shared along with resources like the Rollout Plan, and What the Heck is EOS?" },
-      { label: "Then",  task: "Schedule the following quarter's State of the Company meetings." },
+      { task: "Practice the all-company announcement with the Leadership Team — don't wing it." },
+      { task: "Hold the all-company launch — V/TO® and Accountability Chart walkthrough, why EOS, what's coming." },
+      { task: "Make it visible: swag, displays, Ninety shared along with resources like the Rollout Plan, and What the Heck is EOS?" },
+      { task: "Schedule the following quarter's State of the Company meetings." },
     ],
     video: {
       title: "Five Best Practices for a Great Launch",
@@ -445,7 +443,6 @@ window.PHASES = [
     id: "integrate",
     num: "03",
     name: "Integrate",
-    duration: "Most teams: 3–9 months",
     headline: "Roll EOS into every department",
     tagline: "Every department runs a Meeting Pulse®, uses Core Values, and is accountable to numbers.",
     why: "This is where most companies stall. Launch was a moment — Integration is a grind. Departments need their own L10s, Scorecards, Rocks, and managers who understand LMA™. Skip this, and EOS becomes leadership-team theater.",
@@ -460,10 +457,10 @@ window.PHASES = [
       "Every seat has at least one number on a Scorecard",
     ],
     sequence: [
-      { label: "Start", task: "Department by department: set up Scorecard, Rocks, and Level 10 Meeting Agenda with each leader." },
-      { label: "Then",  task: "Facilitate the first L10 of each department — make sure it sticks." },
-      { label: "Then",  task: "Build Departmental V/TOs and the quarterly planning cadence." },
-      { label: "Then",  task: "Document Core Processes; run People Analyzer® across the org." },
+      { task: "Department by department: set up Scorecard, Rocks, and Level 10 Meeting Agenda with each leader." },
+      { task: "Facilitate the first L10 of each department — make sure it sticks." },
+      { task: "Build Departmental V/TOs and the quarterly planning cadence." },
+      { task: "Document Core Processes; run People Analyzer® across the org." },
     ],
     video: {
       title: "Rolling Out to Departments",
@@ -549,7 +546,6 @@ window.PHASES = [
     id: "sustain",
     num: "04",
     name: "Sustain",
-    duration: "Ongoing",
     headline: "Run on EOS… forever",
     tagline: "The org is 80%+ strong and stays there.",
     why: "EOS is a discipline, not a project. Sustain is the cadence that keeps the company healthy: quarterly drumbeat, an annual health check, and the metrics that prove it's working.",
@@ -564,9 +560,9 @@ window.PHASES = [
       "Completing 90%+ of weekly To-Dos",
     ],
     sequence: [
-      { label: "Start", task: "Run Weekly, Quarterly, and Annual pulse across all teams in the company." },
-      { label: "Then",  task: "Run the Organizational Checkup® with the Leadership Team to measure 80%+ strong across the 6 Key Components™." },
-      { label: "Then",  task: "Introduce EOS + Ninety as new employees join the company." },
+      { task: "Run Weekly, Quarterly, and Annual pulse across all teams in the company." },
+      { task: "Run the Organizational Checkup® with the Leadership Team to measure 80%+ strong across the 6 Key Components™." },
+      { task: "Introduce EOS + Ninety as new employees join the company." },
     ],
     video: {
       title: "Running on EOS… Forever",
