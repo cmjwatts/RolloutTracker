@@ -190,8 +190,8 @@ window.READINESS = {
 window.PLANNING = {
   title: "The four planning essentials",
   lead:
-    "Successful Rollout planning requires attention to four key areas that will determine whether " +
-    "your Rollout creates lasting change or becomes another forgotten initiative.",
+    "Four areas determine whether your Rollout creates lasting change or becomes another " +
+    "forgotten initiative.",
   cite: "ROLLOUT, p. 88",
   essentials: [
     {
@@ -199,41 +199,23 @@ window.PLANNING = {
       title: "Define your approach and timeline",
       summary: "Create a phased rollout that matches your company's capacity for change.",
       page: "pp. 88–91",
-      blocks: [
-        { kind: "tip", text: "Decide whether it makes sense to Rollout to all departments simultaneously, one department at a time, or use a different approach." },
-        { kind: "list", label: "Build a timeline that considers", items: [
-          "Key meetings and milestones that make sense for your company",
-          "Training sessions for different groups",
-          "Communication points to keep everyone informed",
-          "Regular check-ins to assess progress and make adjustments",
-        ]},
-        { kind: "split", label: "Timeline reality check", note: "Most leadership teams underestimate rollout time by 50 percent.",
-          leftLabel: "What accelerates it", left: [
-            "The leadership team models EOS consistently",
-            "Mid-managers readily embrace change",
-            "Existing meeting discipline and a strong culture",
-            "Clear consequences for non-participation",
-            "A history of successful change initiatives",
-          ],
-          rightLabel: "What slows it down", right: [
-            "A history of failed change initiatives",
-            "Remote or multi-location teams",
-            "High turnover during the rollout period",
-            "Change-resistant cultures",
-            "Competing priorities or major business disruptions",
-          ]},
-        { kind: "tip", text: "Build in more time than you think you'll need for each phase. Rollout can take longer than expected, and rushing can create chaos and resistance." },
+      items: [
+        "All departments at once, one at a time, or something in between",
+        "Key meetings and milestones that make sense for your company",
+        "Training sessions for different groups",
+        "Communication points and regular check-ins",
       ],
+      footnote: "Build in more time than you think you'll need — most leadership teams underestimate rollout time by 50 percent.",
     },
     {
       n: "2",
       title: "Clarify roles and responsibilities",
       summary: "Assign clear ownership and involve the right people at the right times.",
       page: "pp. 91–92",
-      blocks: [
-        { kind: "note", label: "Designate a Rollout Champion", text: "One person should own the rollout process and keep it moving. The Integrator often fills this role, but it could be anyone passionate about EOS, comfortable with facilitation, or detail-oriented — your Operations Leader, for instance. The qualities that matter are a genuine belief in what you're building and the credibility to drive change. Sometimes the best champions aren't the obvious choices." },
-        { kind: "note", label: "Involve your mid-managers", text: "Mid-managers are the bridge between leadership vision and frontline execution. They'll either carry the message down effectively or become bottlenecks that slow progress — so include them in planning as champions, not passive participants." },
-        { kind: "tip", text: "Include mid-managers in your Rollout planning discussions. Their insights about team dynamics, communication preferences, and capacity for change will make your plan more realistic and effective." },
+      items: [
+        "Designate one Rollout Champion to own the process — often the Integrator, but anyone with genuine belief and credibility",
+        "Involve mid-managers as champions, not passive participants — they're the bridge to the frontline",
+        "Include them in planning; their read on capacity for change is what makes a plan realistic",
       ],
     },
     {
@@ -241,39 +223,26 @@ window.PLANNING = {
       title: "Plan your communication",
       summary: "Develop messages that build excitement and address potential resistance to change.",
       page: "pp. 92–94",
-      blocks: [
-        { kind: "list", label: "Align on core messages that answer", items: [
-          "Why are we implementing EOS? What problem are we solving, and how will this help?",
-          "What does this mean for me? How will my daily work change, and what's expected of me?",
-          "When will this happen? What's the timeline in the coming weeks and months?",
-          "Who can I ask for help? Where do I go with questions or concerns?",
-          "What if I don't understand or agree? How can I voice my concerns and get clarity?",
-        ]},
-        { kind: "note", text: "Plan both formal communication (meetings, written updates) and informal reinforcement (daily conversations, visual reminders). Consistent talking points prevent mixed messages and make sure everyone hears the same explanation of why EOS matters." },
-        { kind: "list", label: "Expect to hear", items: [
-          "“Is this just another flavor of the month?”",
-          "“Why should we believe this will be different?”",
-          "“Don't we already have enough on our plates?”",
-          "“What happens if we don't get on board?”",
-        ]},
-        { kind: "note", text: "Many team members carry “initiative PTSD” from programs that promised transformation and faded away. Acknowledge past disappointments and your role in them. Resistance usually signals legitimate concerns about pace, support, or communication gaps — not opposition to improvement." },
-        { kind: "tip", text: "People need to hear your messages at least seven times before they really sink in. Build that repetition into the plan from the beginning, not as an afterthought when you realise people “didn't get it” the first time." },
+      items: [
+        "Why are we implementing EOS?",
+        "What does this mean for me?",
+        "When will this happen?",
+        "Who can I ask for help?",
+        "What if I don't understand or agree?",
       ],
+      footnote: "Expect scepticism from initiatives that faded before. People need to hear the message at least seven times.",
     },
     {
       n: "4",
       title: "Keep it simple and flexible",
-      summary: "Don't over-engineer it with complex tracking systems and rigid processes. Adapt as you learn.",
+      summary: "Don't over-engineer it with complex tracking systems and rigid processes.",
       page: "pp. 94–95",
-      blocks: [
-        { kind: "list", label: "The best Rollout Plans focus on", items: [
-          "Who needs to be involved at each phase",
-          "What tools will be introduced when",
-          "When key meetings and milestones will occur",
-          "How you'll measure progress",
-          "Why each phase matters",
-        ]},
-        { kind: "note", text: "Trust your leaders to develop their own approaches for making EOS stick in their areas — the people closest to the work have the best insights into what will resonate. Build in regular chances to gather feedback, share what's working across departments, and celebrate milestones. Stay open to refining your approach rather than rigidly sticking to the original plan." },
+      items: [
+        "Who needs to be involved at each phase",
+        "What tools will be introduced when",
+        "When key meetings and milestones will occur",
+        "How you'll measure progress",
+        "Why each phase matters",
       ],
     },
   ],
