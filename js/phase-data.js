@@ -361,11 +361,7 @@ window.PHASES = [
         "Tips for Checking for Understanding",
         "Rollout Troubleshooting Guide",
       ],
-      links: [
-        { kind: "Book",  label: "What the Heck is EOS? — order in bulk for the whole team", url: "https://www.eosworldwide.com/" },
-        { kind: "Guide", label: "How to Run a Great Level 10 Meeting · EOS Worldwide library", url: "https://www.eosworldwide.com/" },
-        { kind: "Guide", label: "The 20 EOS Tools Your Team Should Know · EOS Worldwide library", url: "https://www.eosworldwide.com/" },
-      ],
+      links: [],
     },
     steps: [
       {
@@ -373,7 +369,6 @@ window.PHASES = [
         explain: "Don't wing it — walk the Leadership Team through who's saying what first. Then run the all-company moment: V/TO® and Accountability Chart walkthrough, why EOS, what's coming next. Mid-managers get briefed before the all-company moment, not after. Make it visible: swag, displays, Ninety shared along with resources like the Rollout Plan and What the Heck is EOS?",
         ninety: [
           { kind: "V/TO",      label: "Add your team to Ninety as Observers so they can view the V/TO® and Accountability Chart" },
-          { kind: "Headlines",        label: "Post Headlines for the launch moment" },
           { kind: "Knowledge Portal", label: "Share launch content and the Rollout Plan in Knowledge Portal" },
         ],
         resources: [],
@@ -381,9 +376,7 @@ window.PHASES = [
       {
         title: "Schedule the State of the Company cadence",
         explain: "Lock the next quarter's State of the Company on the calendar before you leave the launch moment. Repetition is how the message lands.",
-        ninety: [
-          { kind: "Meetings", label: "Schedule the quarterly State of the Company in Meetings" },
-        ],
+        ninety: [],
         resources: [],
       },
     ],
