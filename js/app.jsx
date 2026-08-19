@@ -1,8 +1,7 @@
-/* Root app — wires side rail + phase detail + plan builder together.
-   Persists tracker check state and the rollout plan in localStorage. */
+/* Root app — wires the side rail to the phase detail panel.
+   Persists tracker checks and the readiness assessment in localStorage. */
 
 const TRACKER_KEY   = "ninety.rolloutTracker.v1";
-const PLAN_KEY      = "ninety.rolloutPlan.v2";
 const READINESS_KEY = "ninety.rolloutReadiness.v1";
 
 function loadJSON(key) {
@@ -26,24 +25,6 @@ function reconcileChecks(saved, phases) {
   return out;
 }
 
-function loadPlan() {
-  const def = PLAN_DEFAULT();
-  const saved = loadJSON(PLAN_KEY);
-  if (!saved) return def;
-  return {
-    ...def,
-    ...saved,
-    rockDescription:
-      saved.rockDescription && saved.rockDescription.trim() &&
-      saved.rockDescription.includes("{commsPlan}")
-        ? saved.rockDescription : def.rockDescription,
-    waves: (saved.waves || def.waves).map((w) => ({ inRock: true, ...w })),
-    extraMilestones: (saved.extraMilestones && saved.extraMilestones.length
-      ? saved.extraMilestones
-      : def.extraMilestones).map((m) => ({ inRock: true, ...m })),
-  };
-}
-
 function App() {
   const phases = window.PHASES;
 
@@ -51,7 +32,6 @@ function App() {
   const [checkedMap, setCheckedMap] = React.useState(() =>
     reconcileChecks(loadJSON(TRACKER_KEY), phases)
   );
-  const [plan, setPlan] = React.useState(() => loadPlan());
   const [readiness, setReadiness] = React.useState(
     () => loadJSON(READINESS_KEY) || { tools: {}, team: {} }
   );
@@ -59,10 +39,6 @@ function App() {
   React.useEffect(() => {
     try { localStorage.setItem(TRACKER_KEY, JSON.stringify(checkedMap)); } catch (e) {}
   }, [checkedMap]);
-
-  React.useEffect(() => {
-    try { localStorage.setItem(PLAN_KEY, JSON.stringify(plan)); } catch (e) {}
-  }, [plan]);
 
   React.useEffect(() => {
     try { localStorage.setItem(READINESS_KEY, JSON.stringify(readiness)); } catch (e) {}
@@ -101,8 +77,6 @@ function App() {
         phase={phase}
         checkedMap={checkedMap}
         onToggleCheck={onToggleCheck}
-        plan={plan}
-        setPlan={setPlan}
         readiness={readiness}
         setReadiness={setReadiness}
       />

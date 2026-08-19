@@ -3,14 +3,14 @@
    ROLLOUT Ch. 4 ("Getting Ready for Rollout", pp. 52-84).
 
    Conventions:
-   - "inNinety" = platform-specific actions, rendered as an accent sublist.
+   - Ninety actions live on the STEP they belong to (steps[].ninety), not at
+     phase level — one place, next to the work they support.
    - "resources" = { hub: [...], book: {...}, links: [...] } — one button to the
      ROLLOUT member hub plus a list of what to look for there, rather than a
      dozen links to the same destination.
    - "sequence" = a SUGGESTED order, deliberately not a schedule. Marisa asked us
      not to sound prescriptive about timing.
-   - "rolloutPlanBuilder" flag — only Prepare renders the inline plan builder.
-   - "readinessTool" flag — only Prepare renders the readiness assessment.
+   - "readinessTool" flag on a STEP — renders the readiness assessment inside it.
    - No percentages anywhere. The percentage belongs to the Organizational
      Checkup (80%+), not to this tracker. Progress is shown as counts only.
 */
@@ -201,9 +201,8 @@ window.PHASES = [
       "Written Rollout Plan exists and agreement across Leadership Team to it",
     ],
     sequence: [
-      { label: "Start", task: "Take the Organizational Checkup® as a Leadership Team — make sure everyone is aligned and able to represent the why behind all EOS tools." },
-      { label: "Then",  task: "Assess your readiness together: have you mastered the five Foundational Tools, and which are you ready to share?" },
-      { label: "Then",  task: "Create your Rollout Plan in the workspace below — timeline, roles, communication." },
+      { label: "Start", task: "Assess your readiness together: have you mastered the five Foundational Tools, and which are you ready to share?" },
+      { label: "Then",  task: "Create your Rollout Plan — timeline, roles, communication." },
       { label: "Then",  task: "Brief your mid-managers — before the all-company launch, not after." },
     ],
     video: {
@@ -212,12 +211,6 @@ window.PHASES = [
       duration: "~5 min",
       cue: "The four phases · why Prepare is non-negotiable",
     },
-    inNinety: [
-      { kind: "Assessment", label: "Run the Organizational Checkup® as a Leadership Team" },
-      { kind: "V/TO",       label: "Open the V/TO® and Accountability Chart; review together to ensure they're up to date" },
-      { kind: "Scorecard",  label: "Review your Leadership Team Scorecard — every leader owning their numbers" },
-      { kind: "Rocks",      label: "Add your Rollout Plan as a Company Rock" },
-    ],
     resources: {
       book: { label: "ROLLOUT — Ch. 1–5", note: "Ch. 4 is readiness; Ch. 5 is building the plan" },
       hub: [
@@ -225,35 +218,22 @@ window.PHASES = [
         "Rollout Troubleshooting Guide",
         "Rollout Tracker (printable)",
       ],
-      links: [
-        { kind: "Assessment", label: "Organizational Checkup®", url: "https://www.organizationalcheckup.com/" },
-        { kind: "Implementer", label: "Working with an EOS Implementer? Send them your plan and your launch deck and ask for feedback and examples — they've seen this go well and badly many times over." },
-      ],
+      links: [],
     },
-    readinessTool: true,
-    rolloutPlanBuilder: true,
     steps: [
       {
-        title: "Take the Organizational Checkup®",
-        explain: "Score the Organizational Checkup® together as a Leadership Team. The disagreements are the gift — they show where you still need shared context before you can teach anyone else.",
-        ninety: [
-          { kind: "Assessment", label: "Run the Organizational Checkup® for your Leadership Team" },
-          { kind: "V/TO",       label: "Open the V/TO® and Accountability Chart; review together to make sure they're current" },
-        ],
-        resources: [],
-      },
-      {
         title: "Assess your readiness",
-        explain: "Five questions decide whether you begin now or shore up the foundation first: have you mastered the five Foundational Tools, are you ready to share them, can you present a united front, can you be open and honest, and can you shift from student to teacher. Use the assessment below — and remember you don't have to share everything at once, you just have to agree on what you are sharing.",
+        readinessTool: true,
+        explain: "Five questions decide whether you begin now or shore up the foundation first — and they're the book's, not ours. Work them as a Leadership Team; the disagreements are the useful part.",
         ninety: [
-          { kind: "V/TO",      label: "Make sure you're aligned on the content of the V/TO® before deciding what to share" },
-          { kind: "Scorecard", label: "Confirm your Leadership Team Scorecard data is one you'd trust in front of the company" },
+          { kind: "V/TO",      label: "Open the V/TO® and Accountability Chart and review them together — they need to be current before you decide what to share" },
+          { kind: "Scorecard", label: "Review your Leadership Team Scorecard — confirm every leader owns their numbers and you'd trust the data in front of the company" },
         ],
         resources: [],
       },
       {
         title: "Create your Rollout Plan",
-        explain: "Every Rollout Plan is unique — this isn't a template to follow, it's an approach to fit your circumstances. Use the workspace below to capture your timeline, roles, and communication. Then brief your mid-managers, before the all-company launch.",
+        explain: "Every Rollout Plan is unique — this isn't a template to follow, it's an approach built for your circumstances, your culture, and your capacity for change. Then brief your mid-managers, before the all-company launch.",
         ninety: [
           { kind: "Rocks", label: "Add your Rollout Plan as a Company Rock so it stays alive" },
         ],
@@ -302,11 +282,6 @@ window.PHASES = [
       duration: "~5 min",
       cue: "The launch-day checklist",
     },
-    inNinety: [
-      { kind: "V/TO",      label: "Add your team as Observers so they can view the V/TO® and Accountability Chart" },
-      { kind: "Headlines", label: "Post Headlines for the launch moment" },
-      { kind: "Knowledge Portal", label: "Share launch content and the Rollout Plan in Knowledge Portal" },
-    ],
     resources: {
       book: { label: "ROLLOUT — Launch chapters", note: "Chapter numbers to confirm against the book" },
       hub: [
@@ -328,7 +303,8 @@ window.PHASES = [
         explain: "Don't wing it — walk the Leadership Team through who's saying what first. Then run the all-company moment: V/TO® and Accountability Chart walkthrough, why EOS, what's coming next. Mid-managers get briefed before the all-company moment, not after. Make it visible: swag, displays, Ninety shared along with resources like the Rollout Plan and What the Heck is EOS?",
         ninety: [
           { kind: "V/TO",      label: "Add your team to Ninety as Observers so they can view the V/TO® and Accountability Chart" },
-          { kind: "Headlines", label: "Post Headlines for the launch moment, or use Knowledge Portal for sharing content" },
+          { kind: "Headlines",        label: "Post Headlines for the launch moment" },
+          { kind: "Knowledge Portal", label: "Share launch content and the Rollout Plan in Knowledge Portal" },
         ],
         resources: [],
       },
@@ -382,13 +358,6 @@ window.PHASES = [
       duration: "~5 min",
       cue: "Departmental Meeting Pulse® and accountability",
     },
-    inNinety: [
-      { kind: "Meetings",         label: "Stand up each department's Level 10 Meeting in Meetings" },
-      { kind: "Scorecard",        label: "Build a Departmental Scorecard per leader; share measurables across teams" },
-      { kind: "Rocks",            label: "Set Departmental Rocks each quarter; share Rocks across teams" },
-      { kind: "Knowledge Portal", label: "Document Core Processes in Knowledge Portal" },
-      { kind: "1-on-1s",          label: "Run People Analyzer® inside 1-on-1s" },
-    ],
     resources: {
       book: { label: "ROLLOUT — Integrate chapters", note: "Chapter numbers to confirm against the book" },
       hub: [
@@ -492,11 +461,6 @@ window.PHASES = [
       duration: "~5 min",
       cue: "The sustain cadence",
     },
-    inNinety: [
-      { kind: "State of the Co.", label: "Run the Quarterly State of the Company with the State brief" },
-      { kind: "Assessment",       label: "Take the Organizational Checkup® on a quarterly schedule" },
-      { kind: "Dashboards",       label: "Run the weekly, quarterly, and annual meeting pulse and track Goals + Rocks + To-Do performance" },
-    ],
     resources: {
       book: { label: "ROLLOUT — Sustain chapters", note: "Chapter numbers to confirm against the book" },
       hub: [
@@ -513,8 +477,9 @@ window.PHASES = [
         title: "Run the weekly, quarterly, and annual pulse across all teams",
         explain: "The meeting pulse is the heartbeat. Once it's running every week, every quarter, every year — across every team — the rollout is done and the discipline begins.",
         ninety: [
-          { kind: "Meetings", label: "Run the weekly, quarterly, annual meeting pulse in Meetings" },
-          { kind: "Insights", label: "Track Goals + Rocks + To-Do performance reports" },
+          { kind: "Meetings",         label: "Run the weekly, quarterly, annual meeting pulse in Meetings" },
+          { kind: "State of the Co.", label: "Run the Quarterly State of the Company with the State brief" },
+          { kind: "Insights",         label: "Track Goals + Rocks + To-Do performance reports" },
         ],
         resources: [],
       },

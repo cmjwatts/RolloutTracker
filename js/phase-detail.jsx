@@ -166,7 +166,7 @@ function ResourceSubList({ label, accent, items }) {
   );
 }
 
-function Step({ step, num }) {
+function Step({ step, num, readiness, setReadiness }) {
   const hasNinety = step.ninety && step.ninety.length > 0;
   const hasResources = step.resources && step.resources.length > 0;
   const hasBoth = hasNinety && hasResources;
@@ -182,6 +182,9 @@ function Step({ step, num }) {
           <p className="lp-step__explain">{step.explain}</p>
         </div>
       </header>
+      {step.readinessTool && (
+        <Readiness readiness={readiness} setReadiness={setReadiness} embedded />
+      )}
       {hasAny && (
         <div className={"lp-step__lists" + (hasBoth ? "" : " is-single")}>
           <ResourceSubList label="Do this in Ninety" accent items={step.ninety} />
@@ -199,29 +202,28 @@ function PhaseResources({ phase }) {
   const r = phase.resources || {};
   const links = r.links || [];
   const hub = r.hub || [];
-  const ninety = phase.inNinety || [];
-  if (!r.book && !hub.length && !links.length && !ninety.length) return null;
+  if (!r.book && !hub.length && !links.length) return null;
 
   return (
     <section className="lp-pres">
       <header className="lp-pres__head">
-        <h4 className="hand lp-pres__title">More for this phase</h4>
+        <h4 className="hand lp-pres__title">{phase.name} resources</h4>
         <span className="lp-pres__kicker">References for the whole {phase.name} phase</span>
       </header>
 
       <div className="lp-pres__grid">
-        <div className="lp-pres__col">
-          {r.book && (
-            <a className="lp-bookcard" href={window.ROLLOUT_LINKS.book} target="_blank" rel="noopener">
-              <img className="lp-bookcard__cover" src="assets/rollout-book-cover.webp" alt="" aria-hidden="true" />
-              <span>
-                <span className="lp-bookcard__label">In the book</span>
-                <span className="lp-bookcard__ch">{r.book.label}</span>
-                {r.book.note && <span className="lp-bookcard__note">{r.book.note}</span>}
-              </span>
-            </a>
-          )}
+        {r.book && (
+          <a className="lp-bookcard" href={window.ROLLOUT_LINKS.book} target="_blank" rel="noopener">
+            <img className="lp-bookcard__cover" src="assets/rollout-book-cover.webp" alt="" aria-hidden="true" />
+            <span>
+              <span className="lp-bookcard__label">In the book</span>
+              <span className="lp-bookcard__ch">{r.book.label}</span>
+              {r.book.note && <span className="lp-bookcard__note">{r.book.note}</span>}
+            </span>
+          </a>
+        )}
 
+        <div className="lp-pres__col">
           {hub.length > 0 && (
             <div className="lp-hub">
               <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
@@ -244,12 +246,6 @@ function PhaseResources({ phase }) {
             </ul>
           )}
         </div>
-
-        {ninety.length > 0 && (
-          <div className="lp-pres__col">
-            <ResourceSubList label="In Ninety this phase" accent items={ninety} />
-          </div>
-        )}
       </div>
     </section>
   );
@@ -320,7 +316,7 @@ function ProServeSoft() {
   );
 }
 
-function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan, readiness, setReadiness }) {
+function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness }) {
   const checked = checkedMap[phase.id] || [];
   const steps = phase.steps || [];
 
@@ -350,13 +346,11 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan, readines
           <span className="eyebrow hand">The work in this phase</span>
         </header>
         <div className="lp-steps__list">
-          {steps.map((s, i) => <Step key={i} step={s} num={i + 1} />)}
+          {steps.map((s, i) => (
+            <Step key={i} step={s} num={i + 1} readiness={readiness} setReadiness={setReadiness} />
+          ))}
         </div>
       </section>
-
-      {phase.readinessTool && (
-        <Readiness readiness={readiness} setReadiness={setReadiness} />
-      )}
 
       <PhaseResources phase={phase} />
 
@@ -365,8 +359,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan, readines
       ) : phase.id !== "prepare" ? (
         <ProServeSoft />
       ) : null}
-
-      {phase.rolloutPlanBuilder && <PlanBuilder plan={plan} setPlan={setPlan} />}
 
       <style>{`
         .lp { display: flex; flex-direction: column; gap: 28px; }
@@ -400,7 +392,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan, readines
 
         /* ---- phase resources ---- */
         .lp-pres__grid {
-          display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px;
+          display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 30px;
           align-items: start;
         }
         .lp-pres__col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
@@ -409,7 +401,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan, readines
         }
 
         .lp-bookcard {
-          display: grid; grid-template-columns: 40px 1fr; gap: 14px;
+          display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px;
           align-items: start; text-decoration: none;
           border: 1.5px solid var(--border-subtle);
           border-radius: var(--radius-md);
@@ -418,7 +410,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, plan, setPlan, readines
         }
         .lp-bookcard:hover { border-color: var(--color-brand-blue); }
         .lp-bookcard__cover {
-          width: 40px; height: auto; border-radius: 2px;
+          width: 46px; height: auto; border-radius: 2px;
           box-shadow: var(--shadow-sm);
         }
         .lp-bookcard > span { display: flex; flex-direction: column; gap: 2px; }

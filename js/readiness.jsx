@@ -161,7 +161,7 @@ function TeamPrompt({ item, state, setState, open, onToggleOpen }) {
   );
 }
 
-function Readiness({ readiness, setReadiness }) {
+function Readiness({ readiness, setReadiness, embedded }) {
   const R = window.READINESS;
   const [openTool, setOpenTool] = React.useState(null);
   const [openTeam, setOpenTeam] = React.useState(null);
@@ -180,12 +180,14 @@ function Readiness({ readiness, setReadiness }) {
   });
 
   return (
-    <section className="rd">
-      <header className="rd__head">
-        <span className="eyebrow hand rd__eyebrow">{R.eyebrow}</span>
-        <h3 className="rd__title">{R.title}</h3>
-        <p className="rd__lead">{R.lead}</p>
-      </header>
+    <section className={"rd" + (embedded ? " rd--embedded" : "")}>
+      {!embedded && (
+        <header className="rd__head">
+          <span className="eyebrow hand rd__eyebrow">{R.eyebrow}</span>
+          <h3 className="rd__title">{R.title}</h3>
+          <p className="rd__lead">{R.lead}</p>
+        </header>
+      )}
 
       <blockquote className="rd__note">
         <p>{R.note}</p>
@@ -269,6 +271,8 @@ function Readiness({ readiness, setReadiness }) {
           box-shadow: var(--shadow-xs);
         }
         @media (max-width: 640px) { .rd { padding: 20px 16px 22px; gap: 18px; } }
+        /* Inside a step the heading is already above it — don't say it twice. */
+        .rd--embedded { margin-top: 4px; }
 
         .rd__head { display: flex; flex-direction: column; gap: 4px; }
         .rd__eyebrow { color: var(--color-brand-blue); }

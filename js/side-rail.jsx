@@ -13,7 +13,7 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
   const allFrac = allTotal > 0 ? (allDone / allTotal) * 100 : 0;
 
   const handleReset = () => {
-    if (window.confirm("Reset all tracker progress? This clears every Picture-of-Done check. Your Rollout Plan and readiness assessment are kept.")) {
+    if (window.confirm("Reset all tracker progress? This clears every Picture-of-Done check. Your readiness assessment is kept.")) {
       onReset();
     }
   };
