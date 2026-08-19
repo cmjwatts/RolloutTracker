@@ -174,10 +174,7 @@ function Readiness({ readiness, setReadiness, embedded }) {
   // Tools the team has said they're ready to share — the actual output of this
   // exercise, and the input to the Rollout Plan below.
   const sharing = R.tools.filter((t) => (tools[t.id] || {}).share === "yes");
-  const holding = R.tools.filter((t) => {
-    const v = (tools[t.id] || {}).share;
-    return v === "no" || v === "part";
-  });
+  const holding = R.tools.filter((t) => (tools[t.id] || {}).share === "no");
 
   return (
     <section className={"rd" + (embedded ? " rd--embedded" : "")}>
@@ -188,11 +185,6 @@ function Readiness({ readiness, setReadiness, embedded }) {
           <p className="rd__lead">{R.lead}</p>
         </header>
       )}
-
-      <blockquote className="rd__note">
-        <p>{R.note}</p>
-        <cite>— {R.noteCite}</cite>
-      </blockquote>
 
       <div className="rd__block">
         <div className="rd__block-head">
@@ -301,7 +293,7 @@ function Readiness({ readiness, setReadiness, embedded }) {
         .rd__block-title {
           margin: 0; font-size: var(--fs-h4); font-weight: 600;
         }
-        .rd__block-lead { margin: 0; color: var(--fg-2); font-size: var(--fs-body-sm); max-width: 68ch; }
+        .rd__block-lead { margin: 0; color: var(--fg-2); font-size: var(--fs-body-sm); }
 
         /* ---- grid ---- */
         .rd-grid {
@@ -311,7 +303,7 @@ function Readiness({ readiness, setReadiness, embedded }) {
         }
         .rd-grid__head, .rd-row__main {
           display: grid;
-          grid-template-columns: minmax(120px, 1fr) 268px 268px;
+          grid-template-columns: minmax(160px, 1fr) 176px 176px;
           align-items: center;
         }
         .rd-grid__head {
@@ -362,8 +354,6 @@ function Readiness({ readiness, setReadiness, embedded }) {
         .rd-rate__btn.is-active { color: var(--fg-1); font-weight: 600; }
         .rd-rate__btn.is-yes.is-active  { border-color: var(--color-brand-blue); background: var(--color-brand-blue-08); }
         .rd-rate__btn.is-yes.is-active  .rd-rate__dot { background: var(--color-brand-blue); border-color: var(--color-brand-blue); }
-        .rd-rate__btn.is-part.is-active { border-color: #C2751B; background: rgba(194,117,27,0.08); }
-        .rd-rate__btn.is-part.is-active .rd-rate__dot { background: #C2751B; border-color: #C2751B; }
         .rd-rate__btn.is-no.is-active   { border-color: var(--color-brand-grey); background: var(--color-brand-mist); }
         .rd-rate__btn.is-no.is-active   .rd-rate__dot { background: var(--color-brand-grey); border-color: var(--color-brand-grey); }
         .rd-rate__btn:focus-visible { outline: 2px solid var(--color-brand-blue); outline-offset: 1px; }

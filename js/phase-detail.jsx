@@ -185,6 +185,7 @@ function Step({ step, num, readiness, setReadiness }) {
       {step.readinessTool && (
         <Readiness readiness={readiness} setReadiness={setReadiness} embedded />
       )}
+      {step.planningTool && <PlanningEssentials />}
       {hasAny && (
         <div className={"lp-step__lists" + (hasBoth ? "" : " is-single")}>
           <ResourceSubList label="Do this in Ninety" accent items={step.ninety} />
@@ -328,7 +329,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         </span>
         <div className="lp__title-row">
           <h2 className="lp__title">{phase.headline}</h2>
-          <p className="lp__tagline">{phase.tagline}</p>
+          <Sequence phase={phase} />
         </div>
       </header>
 
@@ -338,8 +339,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
       </div>
 
       <Why phase={phase} />
-
-      <Sequence phase={phase} />
 
       <section className="lp-steps">
         <header className="lp-steps__head">
@@ -365,11 +364,10 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
 
         /* ---- suggested order (deliberately not a schedule) ---- */
         .lp-seq {
-          border-left: 3px solid var(--color-brand-stone);
-          padding: 2px 0 2px 18px;
-          display: flex; flex-direction: column; gap: 10px;
+          margin-top: 10px;
+          display: flex; flex-direction: column; gap: 7px;
         }
-        .lp-seq__head { display: flex; flex-direction: column; gap: 1px; }
+        .lp-seq__head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
         .lp-seq__head .eyebrow { color: var(--fg-2); }
         .lp-seq__note { font-size: var(--fs-body-sm); color: var(--fg-3); }
         .lp-seq__list {
@@ -450,7 +448,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           display: flex; flex-direction: column; gap: 4px;
         }
         .lp__title { margin: 0 0 8px; font-size: 38px; letter-spacing: -0.015em; }
-        .lp__tagline { margin: 0; font-size: 18px; color: var(--fg-2); font-family: var(--font-hand); }
 
         .lp-card {
           background: var(--bg-card);
@@ -847,7 +844,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         @media (max-width: 640px) {
           .lp { gap: 20px; }
           .lp__title { font-size: 26px; }
-          .lp__tagline { font-size: 16px; }
 
           .lp-card { padding: 16px 16px; }
           .lp-card__head { margin-bottom: 10px; }

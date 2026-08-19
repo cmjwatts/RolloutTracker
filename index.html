@@ -296,9 +296,8 @@
     margin: 0 auto;
     padding: 20px 28px 22px;
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 10px 20px;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
   }
   .page-hero__id {
     display: flex;
@@ -321,17 +320,7 @@
     color: var(--fg-2);
   }
   .page-hero__logo { height: 19px; width: auto; display: block; }
-  .page-hero__partner {
-    font-size: 11.5px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: var(--fg-3);
-    text-align: right;
-    line-height: 1.5;
-  }
   .page-hero__sub {
-    grid-column: 1 / -1;
     font-size: 16.5px;
     color: var(--fg-2);
     margin: 0;
@@ -349,7 +338,6 @@
       grid-template-columns: minmax(0, 1fr);
     }
     .page-hero__name { font-size: 24px; }
-    .page-hero__partner { text-align: left; }
     .page-hero__sub { font-size: 15px; }
   }
 
@@ -372,6 +360,54 @@
   }
   @media (max-width: 640px) {
     .page-body { padding: 20px var(--gutter) 48px; }
+  }
+
+  /* ============================================================
+     Site footer — the partner credit lives here now. Both halves are
+     links, styled to read as text rather than as calls to action.
+     ============================================================ */
+  .site-footer {
+    border-top: 1.5px solid var(--border-subtle);
+    background: var(--color-brand-ice);
+  }
+  .site-footer__inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 22px 28px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 24px;
+    flex-wrap: wrap;
+  }
+  .site-footer__credit {
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--fg-3);
+    line-height: 1.6;
+  }
+  .site-footer__credit a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color var(--t-fast), border-color var(--t-fast);
+  }
+  .site-footer__credit a:hover,
+  .site-footer__credit a:focus-visible {
+    color: var(--color-brand-blue);
+    border-bottom-color: var(--color-brand-blue);
+  }
+  .site-footer__credit a:focus-visible { outline: none; }
+  .site-footer__x {
+    color: var(--color-brand-slate);
+    font-weight: 700;
+    margin: 0 5px;
+  }
+  .site-footer__note { font-size: 11.5px; color: var(--fg-3); }
+  @media (max-width: 640px) {
+    .site-footer__inner { padding: 18px var(--gutter) 22px; }
   }
 
   .page-grid__loading {
@@ -414,7 +450,6 @@
         <img class="page-hero__logo" src="assets/90-logo-black.png" alt="Ninety" />
       </span>
     </div>
-    <span class="page-hero__partner">Rollout Book &times; Ninety Professional Services</span>
     <p class="page-hero__sub">
       <em>Rollout is a journey, not an event.</em>
       Work the four phases with your team &mdash; from leadership readiness to 80%+ Strong.
@@ -429,6 +464,17 @@
   </div>
 </main>
 
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span class="site-footer__credit">
+      <a href="https://www.rolloutbook.com/" target="_blank" rel="noopener">Rollout Book</a>
+      <span class="site-footer__x" aria-hidden="true">&times;</span>
+      <a href="https://www.ninety.io/professional-services" target="_blank" rel="noopener">Ninety Professional Services</a>
+    </span>
+    <span class="site-footer__note">Rollout is a journey, not an event.</span>
+  </div>
+</footer>
+
 <script>
   window.__resources = { ninetyLogo: "assets/90-logo-black.png" };
 </script>
@@ -439,6 +485,7 @@
 
 <script src="js/phase-data.js"></script>
 <script type="text/babel" data-presets="react" src="js/readiness.jsx"></script>
+<script type="text/babel" data-presets="react" src="js/planning.jsx"></script>
 <script type="text/babel" data-presets="react" src="js/phase-detail.jsx"></script>
 <script type="text/babel" data-presets="react" src="js/side-rail.jsx"></script>
 <script type="text/babel" data-presets="react" src="js/app.jsx"></script>
