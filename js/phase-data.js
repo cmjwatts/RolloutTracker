@@ -314,7 +314,6 @@ window.PHASES = [
     sequence: [
       { task: "Assess your readiness together: have you mastered the five Foundational Tools, and which are you ready to share?" },
       { task: "Create your Rollout Plan — timeline, roles, communication." },
-      { task: "Brief your mid-managers — before the all-company launch, not after." },
     ],
     video: {
       title: "What is the Rollout Roadmap?",
@@ -383,6 +382,7 @@ window.PHASES = [
     ],
     sequence: [
       { task: "Practice the all-company announcement with the Leadership Team — don't wing it." },
+      { task: "Brief your mid-managers — before the all-company launch, not after." },
       { task: "Hold the all-company launch — V/TO® and Accountability Chart walkthrough, why EOS, what's coming." },
       { task: "Make it visible: swag, displays, Ninety shared along with resources like the Rollout Plan, and What the Heck is EOS?" },
       { task: "Schedule the following quarter's State of the Company meetings." },
