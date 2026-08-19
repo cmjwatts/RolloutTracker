@@ -126,8 +126,6 @@ window.READINESS = {
         "Does every leader understand and believe in every word of the V/TO?",
         "Can you imagine the impact the V/TO will have when everyone knows where the company is going and how you're going to get there?",
       ],
-      share:
-        "Are we ready to share the entire V/TO, or should we introduce it section by section over time?",
     },
     {
       id: "accountability-chart",
@@ -140,8 +138,6 @@ window.READINESS = {
         "Are you committed to devoting the time necessary to lead and manage your people?",
         "Can you imagine the impact The Accountability Chart will have on the rest of the team when everyone is clear on who is accountable for what?",
       ],
-      share:
-        "Is The Accountability Chart ready to be distributed, or are there still some sensitive conversations that need to happen first?",
     },
     {
       id: "rocks",
@@ -154,8 +150,6 @@ window.READINESS = {
         "Are you learning from both completed and incomplete Rocks?",
         "Can you imagine the impact that Rocks will have when everyone is getting 80 percent or more done every quarter?",
       ],
-      share:
-        "Are Rocks something we want to roll out immediately, or would it be better to wait a quarter or two until we've demonstrated more consistency and proficiency?",
     },
     {
       id: "meeting-pulse",
@@ -168,8 +162,6 @@ window.READINESS = {
         "Are you actually solving issues using IDS, not just talking about them?",
         "Are To-dos from meetings getting completed before the next meeting?",
       ],
-      share:
-        "Would certain teams benefit from having Level 10 Meetings immediately, while other teams might need more preparation?",
     },
     {
       id: "scorecard",
@@ -183,8 +175,6 @@ window.READINESS = {
         "Are you willing to adjust Measurables that aren't adding value?",
         "Does each leadership team member own their numbers and take responsibility for results?",
       ],
-      share:
-        "Are Scorecards really important right out of the gate, or do we need to make sure our data reporting is accurate at the leadership team level first?",
     },
   ],
 };

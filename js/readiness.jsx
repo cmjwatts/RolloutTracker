@@ -84,23 +84,8 @@ function ToolRow({ tool, state, setState, scale, open, onToggleOpen }) {
 
       {open && (
         <div className="rd-row__detail">
-          <div className="rd-detail__col">
-            <h6 className="rd-detail__label">Have we mastered it? <span className="rd-detail__pg">{tool.page}</span></h6>
-            <CheckList items={tool.mastered} checks={checks} onToggle={toggleCheck} />
-          </div>
-          <div className="rd-detail__col">
-            <h6 className="rd-detail__label">Are we ready to share it? <span className="rd-detail__pg">pp. 67–68</span></h6>
-            <p className="rd-detail__share">{tool.share}</p>
-            <label className="rd-detail__note">
-              <span>What we'll share, and what we'll hold</span>
-              <textarea
-                rows={3}
-                value={st.note || ""}
-                placeholder="e.g. Share the Accountability Chart now; teach what a Scorecard is but hold ours until Q2."
-                onChange={(e) => set("note")(e.target.value)}
-              />
-            </label>
-          </div>
+          <h6 className="rd-detail__label">Have we mastered it? <span className="rd-detail__pg">{tool.page}</span></h6>
+          <CheckList items={tool.mastered} checks={checks} onToggle={toggleCheck} />
         </div>
       )}
     </div>
@@ -375,14 +360,13 @@ function Readiness({ readiness, setReadiness }) {
         .rd-rate__btn:focus-visible { outline: 2px solid var(--color-brand-blue); outline-offset: 1px; }
 
         .rd-row__detail {
-          display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 26px;
-          padding: 6px 16px 20px;
+          display: flex; flex-direction: column; gap: 8px;
+          padding: 12px 16px 18px;
           border-top: 1px dashed var(--border-subtle);
           margin-top: 2px;
         }
-        .rd-detail__col { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
         .rd-detail__label {
-          margin: 12px 0 0; font-size: var(--fs-meta); font-weight: 700;
+          margin: 0; font-size: var(--fs-meta); font-weight: 700;
           letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-2);
           display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
         }
@@ -390,20 +374,6 @@ function Readiness({ readiness, setReadiness }) {
           font-weight: 500; letter-spacing: 0.02em; text-transform: none;
           color: var(--fg-3); font-size: 11px;
         }
-        .rd-detail__share {
-          margin: 0; font-size: var(--fs-body-sm); color: var(--fg-1);
-          line-height: 1.55; font-style: italic;
-        }
-        .rd-detail__note { display: flex; flex-direction: column; gap: 5px; margin-top: 6px; }
-        .rd-detail__note > span { font-size: var(--fs-meta); font-weight: 600; color: var(--fg-2); }
-        .rd-detail__note textarea {
-          max-width: 100%;
-          font-family: var(--font-body); font-size: var(--fs-body-sm);
-          padding: 9px 11px; border: 1.5px solid var(--border-subtle);
-          border-radius: var(--radius-sm); resize: vertical; color: var(--fg-1);
-          background: var(--color-white);
-        }
-        .rd-detail__note textarea:focus { outline: none; border-color: var(--color-brand-blue); }
 
         /* ---- checklists ---- */
         .rd-checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
@@ -446,7 +416,6 @@ function Readiness({ readiness, setReadiness }) {
           .rd-grid__head { display: none; }
           .rd-row__main { grid-template-columns: minmax(0, 1fr); gap: 0; padding-bottom: 6px; }
           .rd-rate { padding: 2px 14px 6px; }
-          .rd-row__detail { grid-template-columns: minmax(0, 1fr); gap: 4px; }
           .rd-summary { grid-template-columns: minmax(0, 1fr); }
         }
       `}</style>
