@@ -133,7 +133,7 @@ function ResourceItem({ item, accent }) {
           and a long label lands in the max-content column and blows the layout out. */}
       {item.url ? (
         <a className="lp-rlink" href={item.url} target="_blank" rel="noopener">
-          Open
+          {item.cta || (accent ? "How-to" : "Open")}
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
             <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
           </svg>
@@ -180,6 +180,12 @@ function Step({ step, num, readiness, setReadiness }) {
           <span className="lp-step__eyebrow hand">Step {num}</span>
           <h3 className="lp-step__title">{step.title}</h3>
           <p className="lp-step__explain">{step.explain}</p>
+          {step.suggested && (
+            <p className="lp-step__suggested">
+              <span className="lp-step__suggested-tag">Suggested</span>
+              {step.suggested}
+            </p>
+          )}
         </div>
       </header>
       {step.readinessTool && (
@@ -269,27 +275,6 @@ function PhaseResources({ phase }) {
   );
 }
 
-function Sequence({ phase }) {
-  const seq = phase.sequence || [];
-  if (!seq.length) return null;
-  return (
-    <section className="lp-seq">
-      <header className="lp-seq__head">
-        <span className="lp-seq__eyebrow">A common order</span>
-        <span className="lp-seq__note">Every rollout is different — adapt it to your circumstances.</span>
-      </header>
-      <ol className="lp-seq__list">
-        {seq.map((s, i) => (
-          <li key={i}>
-            <span className="lp-seq__dot" aria-hidden="true" />
-            <span className="lp-seq__task">{s.task}</span>
-          </li>
-        ))}
-      </ol>
-    </section>
-  );
-}
-
 function ProServeCallout({ phase }) {
   return (
     <section className="lp-ps">
@@ -342,10 +327,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
     <article className="lp">
       <header className="lp__head">
         <span className="eyebrow hand lp__eyebrow">Phase {phase.num}</span>
-        <div className="lp__title-row">
-          <h2 className="lp__title">{phase.headline}</h2>
-          <Sequence phase={phase} />
-        </div>
+        <h2 className="lp__title">{phase.headline}</h2>
       </header>
 
       <div className="lp-row lp-row--hero">
@@ -358,6 +340,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
       <section className="lp-steps">
         <header className="lp-steps__head">
           <span className="eyebrow hand">The work in this phase</span>
+          <span className="lp-steps__note">Every rollout is different — adapt this to your circumstances.</span>
         </header>
         <div className="lp-steps__list">
           {steps.map((s, i) => (
@@ -376,52 +359,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
 
       <style>{`
         .lp { display: flex; flex-direction: column; gap: 28px; }
-
-        /* ---- suggested order (deliberately not a schedule) ---- */
-        .lp-seq {
-          margin-top: 14px;
-          display: flex; flex-direction: column; gap: 9px;
-        }
-        .lp-seq__head {
-          display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap;
-        }
-        .lp-seq__eyebrow {
-          font-size: var(--fs-meta); font-weight: 700;
-          letter-spacing: 0.12em; text-transform: uppercase;
-          color: var(--color-brand-blue);
-        }
-        .lp-seq__note { font-size: 13.5px; color: var(--fg-3); }
-
-        .lp-seq__list {
-          list-style: none; margin: 0; padding: 0;
-          display: flex; flex-direction: column; gap: 0;
-          position: relative;
-        }
-        .lp-seq__list li {
-          display: grid; grid-template-columns: 16px minmax(0, 1fr);
-          gap: 12px; align-items: start;
-          padding: 4px 0;
-          position: relative;
-        }
-        /* hairline connecting the dots into a path */
-        .lp-seq__list li:not(:last-child)::before {
-          content: "";
-          position: absolute;
-          left: 7px; top: 17px; bottom: -3px;
-          border-left: 1.5px solid var(--color-brand-stone);
-        }
-        .lp-seq__dot {
-          width: 9px; height: 9px; border-radius: 50%;
-          background: var(--color-white);
-          border: 2px solid var(--color-brand-blue);
-          margin: 7px 0 0 3px;
-          position: relative; z-index: 1;
-        }
-        .lp-seq__task {
-          font-size: var(--fs-body-sm);
-          color: var(--fg-2);
-          line-height: 1.55;
-        }
 
         /* ---- phase resources ---- */
         /* Three equal cards across: the book, then one per hub resource. */
@@ -686,6 +623,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
 
         .lp-steps__head { margin-bottom: 16px; }
         .lp-steps__head .eyebrow { color: var(--color-brand-blue); display: block; margin-bottom: 4px; font-size: 14px; }
+        .lp-steps__note { font-size: var(--fs-body-sm); color: var(--fg-2); }
         .lp-steps__list { display: flex; flex-direction: column; gap: 18px; }
 
         .lp-step {
@@ -722,6 +660,20 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           line-height: 1.55;
           color: var(--fg-1);
         }
+        .lp-step__suggested {
+          margin: 10px 0 0;
+          padding: 10px 14px;
+          border-left: 3px solid var(--color-brand-blue);
+          background: var(--color-brand-blue-08);
+          border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+          font-size: var(--fs-body-sm); color: var(--fg-2); line-height: 1.55;
+        }
+        .lp-step__suggested-tag {
+          display: inline-block; margin-right: 8px;
+          font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+          color: var(--color-brand-blue);
+        }
+
         .lp-step__lists {
           margin-top: 18px;
           padding-top: 16px;

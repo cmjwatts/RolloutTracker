@@ -8,8 +8,12 @@
    - "resources" = { hub: [...], book: {...}, links: [...] } — one button to the
      ROLLOUT member hub plus a list of what to look for there, rather than a
      dozen links to the same destination.
-   - "sequence" = a SUGGESTED order, deliberately not a schedule and deliberately
-     unlabelled. Marisa asked us not to sound prescriptive about timing.
+   - No "common order" list per phase — one "every rollout is different" line
+     under the steps heading instead. Marisa asked us not to sound prescriptive
+     about timing.
+   - "suggested" on a STEP — an optional, recommended aspect, shown as a callout.
+   - "url" on a NINETY item — the help-center how-to for that action; renders
+     as a "How-to" link at the row's far right.
    - "readinessTool" flag on a STEP — renders the readiness assessment inside it.
    - No percentages anywhere. The percentage belongs to the Organizational
      Checkup (80%+), not to this tracker. Progress is shown as counts only.
@@ -270,10 +274,6 @@ window.PHASES = [
       "Readiness assessed together — and agreement on which tools you're sharing first",
       "Written Rollout Plan exists and agreement across Leadership Team to it",
     ],
-    sequence: [
-      { task: "Assess your readiness together: have you mastered the five Foundational Tools, and which are you ready to share?" },
-      { task: "Create your Rollout Plan — timeline, roles, communication." },
-    ],
     video: {
       title: "What is the Rollout Roadmap?",
       presenter: "Marisa Smith",
@@ -338,12 +338,6 @@ window.PHASES = [
       "Rollout is visible — branding, displays, digital",
       "Plan to repeat the message often is in place",
     ],
-    sequence: [
-      { task: "Practice the all-company announcement with the Leadership Team — don't wing it." },
-      { task: "Brief your mid-managers — before the all-company launch, not after." },
-      { task: "Hold the all-company launch — V/TO® and Accountability Chart walkthrough, why EOS, what's coming." },
-      { task: "Schedule the following quarter's State of the Company meetings." },
-    ],
     video: {
       title: "Five Best Practices for a Great Launch",
       presenter: "Beth Fahey",
@@ -406,12 +400,6 @@ window.PHASES = [
       "Core Processes documented and Followed by All",
       "Every seat has at least one number on a Scorecard",
     ],
-    sequence: [
-      { task: "Department by department: set up Scorecard, Rocks, and Level 10 Meeting Agenda with each leader." },
-      { task: "Facilitate the first L10 of each department — make sure it sticks." },
-      { task: "Build Departmental V/TOs and the quarterly planning cadence." },
-      { task: "Document Core Processes; run People Analyzer® across the org." },
-    ],
     video: {
       title: "Rolling Out to Departments",
       presenter: "Marisa Smith",
@@ -424,59 +412,38 @@ window.PHASES = [
         "Rollout Troubleshooting Guide",
         "Tips for Checking for Understanding",
       ],
-      links: [
-        { kind: "Books",     label: "Issues! · Process! · Data! · How to Be a Great Boss · Meetings Kinda Suck", url: "https://www.eosworldwide.com/" },
-        { kind: "Workshops", label: "EOS Worldwide Great Boss Workshop · Issues Gym", url: "https://www.eosworldwide.com/" },
-        { kind: "Guide",     label: "Quarterly Conversation guide · EOS Worldwide library", url: "https://www.eosworldwide.com/" },
-      ],
     },
     steps: [
       {
         title: "Set up each department's Level 10",
         explain: "Department by department: build the Scorecard, Rocks, and Level 10 Meeting Agenda with each leader. Treat each department like a mini-rollout of its own.",
+        suggested: "Facilitate — or at least sit in on — each department's first and second Level 10. That's where you catch what's wobbling while it's still easy to fix. Ninety Professional Services typically does this as part of a Rollout Engagement.",
         ninety: [
-          { kind: "Meetings",  label: "Stand up each department's Level 10 in Meetings" },
-          { kind: "Scorecard", label: "Build a Departmental Scorecard per leader; share measurables across teams" },
-          { kind: "Rocks",     label: "Set Departmental Rocks each quarter; share Rocks across teams" },
-        ],
-        resources: [
-          { kind: "Video",    label: "Department L10 setup — walkthrough" },
-          { kind: "Workshop", label: "Issues Gym" },
-          { kind: "Book",     label: "Issues! · Data! · Meetings Kinda Suck" },
+          { kind: "Meetings",  label: "Stand up each department's Level 10 in Meetings", url: "https://help.eos.ninety.io/en/articles/13639370-level-10-meetings-powered-by-ninety" },
+          { kind: "Scorecard", label: "Build a Departmental Scorecard per leader; share measurables across teams", url: "https://help.eos.ninety.io/en/articles/13642363-creating-and-updating-measurables" },
+          { kind: "Rocks",     label: "Set Departmental Rocks each quarter; share Rocks across teams", url: "https://help.eos.ninety.io/en/articles/13639806-creating-and-setting-up-rocks" },
         ],
       },
       {
         title: "Build Departmental V/TOs and the quarterly cadence",
         explain: "Each department's V/TO connects their work to the company V/TO. The quarterly planning cadence keeps it honest.",
         ninety: [
-          { kind: "V/TO", label: "Build a Departmental V/TO for each team" },
-        ],
-        resources: [
-          { kind: "Video", label: "Departmental V/TO — walkthrough" },
+          { kind: "V/TO", label: "Build a Departmental V/TO for each team", url: "https://help.eos.ninety.io/en/articles/13639337-documenting-your-company-or-team-vision" },
         ],
       },
       {
         title: "Document Core Processes",
         explain: "Core Processes Documented, Simplified, and Followed by All. Capture the way the work actually gets done.",
         ninety: [
-          { kind: "Knowledge Portal", label: "Document Core Processes in Knowledge Portal" },
-        ],
-        resources: [
-          { kind: "Video", label: "Document Core Processes — walkthrough" },
-          { kind: "Book",  label: "Process!" },
+          { kind: "Knowledge Portal", label: "Document Core Processes in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/13653878-documenting-your-processes-with-the-knowledge-portal" },
         ],
       },
       {
         title: "Roll out the People tools — People Analyzer®, Quarterly Conversations, LMA™",
         explain: "Managers learn to lead and manage. They use the People Analyzer® to make Right Person / Right Seat calls, and run Quarterly Conversations consistently with every direct report.",
         ninety: [
-          { kind: "1-on-1s", label: "Each manager becomes familiar with the People Analyzer® to hire, fire, and promote based on it" },
-          { kind: "1-on-1s", label: "Each manager sets up their Quarterly Conversations and is ready to run those consistently" },
-        ],
-        resources: [
-          { kind: "Video",    label: "People tools — walkthrough" },
-          { kind: "Book",     label: "How to Be a Great Boss" },
-          { kind: "Workshop", label: "Great Boss Workshops" },
+          { kind: "1-on-1s", label: "Each manager becomes familiar with the People Analyzer® to hire, fire, and promote based on it", url: "https://help.eos.ninety.io/en/articles/13653795-the-people-analyzer" },
+          { kind: "1-on-1s", label: "Each manager sets up their Quarterly Conversations and is ready to run those consistently", url: "https://help.eos.ninety.io/en/articles/13653770-quarterly-and-annual-reviews" },
         ],
       },
     ],
@@ -509,11 +476,6 @@ window.PHASES = [
       "Completing 80%+ of Goals every year, and 80%+ Rocks every quarter",
       "Completing 90%+ of weekly To-Dos",
     ],
-    sequence: [
-      { task: "Run Weekly, Quarterly, and Annual pulse across all teams in the company." },
-      { task: "Run the Organizational Checkup® with the Leadership Team to measure 80%+ strong across the 6 Key Components™." },
-      { task: "Introduce EOS + Ninety as new employees join the company." },
-    ],
     video: {
       title: "Running on EOS… Forever",
       presenter: "Beth Fahey",
@@ -525,10 +487,6 @@ window.PHASES = [
       hub: [
         "Rollout Reflection Guide",
         "Rollout Troubleshooting Guide",
-      ],
-      links: [
-        { kind: "Assessment", label: "Organizational Checkup®", url: "https://www.organizationalcheckup.com/" },
-        { kind: "Guide",      label: "Ninety: Stages of Development guide" },
       ],
     },
     steps: [
