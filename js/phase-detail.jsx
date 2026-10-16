@@ -197,9 +197,10 @@ function Step({ step, num, readiness, setReadiness }) {
 }
 
 function PhaseResources({ phase }) {
-  // One button to the ROLLOUT member hub plus a list of what to look for there,
-  // rather than a dozen separate links to the same destination. The hub is
-  // deliberate: new resources are added regularly and the authors notify members.
+  // One card per reference — the book first, then each hub resource — so the
+  // row reads as three equal boxes instead of a card beside a bullet list.
+  // Every hub card points at the same member hub: it's deliberate, because new
+  // resources are added there regularly and the authors notify members.
   const r = phase.resources || {};
   const links = r.links || [];
   const hub = r.hub || [];
@@ -214,40 +215,56 @@ function PhaseResources({ phase }) {
 
       <div className="lp-pres__grid">
         {r.book && (
-          <a className="lp-bookcard" href={window.ROLLOUT_LINKS.book} target="_blank" rel="noopener">
-            <img className="lp-bookcard__cover" src="assets/rollout-book-cover.webp" alt="" aria-hidden="true" />
-            <span>
-              <span className="lp-bookcard__label">In the book</span>
-              <span className="lp-bookcard__ch">{r.book.label}</span>
-              {r.book.note && <span className="lp-bookcard__note">{r.book.note}</span>}
+          <a className="lp-rescard" href={window.ROLLOUT_LINKS.book} target="_blank" rel="noopener">
+            <img className="lp-rescard__cover" src="assets/rollout-book-cover.webp" alt="" aria-hidden="true" />
+            <span className="lp-rescard__body">
+              <span className="lp-rescard__label">In the book</span>
+              <span className="lp-rescard__title">{r.book.label}</span>
+              {r.book.note && <span className="lp-rescard__note">{r.book.note}</span>}
             </span>
           </a>
         )}
 
-        <div className="lp-pres__col">
-          {hub.length > 0 && (
-            <div className="lp-hub">
-              <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
-                ROLLOUT resource hub
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        {hub.map((h, i) => (
+          <a key={i} className="lp-rescard" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
+            <span className="lp-rescard__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M11.5 2.5H5.5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V6.5l-4-4Z"
+                      stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                <path d="M11.5 2.5V6.5h4M7.5 10.5h5M7.5 13.5h5"
+                      stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              </svg>
+            </span>
+            <span className="lp-rescard__body">
+              <span className="lp-rescard__label">
+                On the hub
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                   <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
                 </svg>
-              </a>
-              <span className="lp-hub__note">Free account. New resources are added regularly.</span>
-              <span className="lp-hub__lead">Look for:</span>
-              <ul className="lp-hub__list">
-                {hub.map((h, i) => <li key={i}>{h}</li>)}
-              </ul>
-            </div>
-          )}
-
-          {links.length > 0 && (
-            <ul className="lp-rlist lp-pres__links">
-              {links.map((it, i) => <ResourceItem key={i} item={it} />)}
-            </ul>
-          )}
-        </div>
+              </span>
+              <span className="lp-rescard__title">{h}</span>
+            </span>
+          </a>
+        ))}
       </div>
+
+      {hub.length > 0 && (
+        <div className="lp-pres__foot">
+          <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
+            ROLLOUT resource hub
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+            </svg>
+          </a>
+          <span className="lp-hub__note">Free account. New resources are added regularly.</span>
+        </div>
+      )}
+
+      {links.length > 0 && (
+        <ul className="lp-rlist lp-pres__links">
+          {links.map((it, i) => <ResourceItem key={i} item={it} />)}
+        </ul>
+      )}
     </section>
   );
 }
@@ -407,58 +424,60 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         }
 
         /* ---- phase resources ---- */
+        /* Three equal cards across: the book, then one per hub resource. */
         .lp-pres__grid {
-          display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 30px;
-          align-items: start;
+          display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+          align-items: stretch;
         }
-        .lp-pres__col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-        @media (max-width: 860px) {
-          .lp-pres__grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+        @media (max-width: 1100px) {
+          .lp-pres__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 720px) {
+          .lp-pres__grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
         }
 
-        .lp-bookcard {
+        .lp-rescard {
           display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px;
           align-items: start; text-decoration: none;
           border: 1.5px solid var(--border-subtle);
           border-radius: var(--radius-md);
-          padding: 14px 16px;
-          transition: border-color var(--t-fast);
+          padding: 16px;
+          background: var(--bg-card);
+          transition: border-color var(--t-fast), box-shadow var(--t-fast);
         }
-        .lp-bookcard:hover { border-color: var(--color-brand-blue); }
-        .lp-bookcard__cover {
+        .lp-rescard:hover {
+          border-color: var(--color-brand-blue);
+          box-shadow: var(--shadow-xs);
+        }
+        .lp-rescard__cover {
           width: 46px; height: auto; border-radius: 2px;
           box-shadow: var(--shadow-sm);
         }
-        .lp-bookcard > span { display: flex; flex-direction: column; gap: 2px; }
-        .lp-bookcard__label {
+        .lp-rescard__icon {
+          display: flex; align-items: center; justify-content: center;
+          width: 46px; height: 46px; border-radius: var(--radius-sm);
+          background: var(--color-brand-blue-08);
+          color: var(--color-brand-blue);
+        }
+        .lp-rescard__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .lp-rescard__label {
+          display: inline-flex; align-items: center; gap: 5px;
           font-size: var(--fs-meta); font-weight: 700;
           letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-3);
         }
-        .lp-bookcard__ch { font-size: var(--fs-body); font-weight: 600; color: var(--fg-1); }
-        .lp-bookcard__note { font-size: var(--fs-body-sm); color: var(--fg-2); }
+        .lp-rescard__title {
+          font-size: var(--fs-body); font-weight: 600; color: var(--fg-1);
+          line-height: 1.3;
+        }
+        .lp-rescard__note { font-size: var(--fs-body-sm); color: var(--fg-2); }
 
-        .lp-hub { display: flex; flex-direction: column; gap: 7px; align-items: flex-start; }
+        .lp-pres__foot {
+          display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+          margin-top: 16px;
+        }
         .lp-hub__btn { text-decoration: none; }
         .lp-hub__note { font-size: var(--fs-meta); color: var(--fg-3); }
-        .lp-hub__lead {
-          margin-top: 4px;
-          font-size: var(--fs-meta); font-weight: 700;
-          letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-2);
-        }
-        .lp-hub__list {
-          list-style: none; margin: 0; padding: 0;
-          display: flex; flex-direction: column; gap: 4px;
-        }
-        .lp-hub__list li {
-          font-size: var(--fs-body-sm); color: var(--fg-2);
-          padding-left: 15px; position: relative; line-height: 1.5;
-        }
-        .lp-hub__list li::before {
-          content: ""; position: absolute; left: 2px; top: 9px;
-          width: 5px; height: 5px; border-radius: 50%;
-          background: var(--color-brand-slate);
-        }
-        .lp-pres__links { margin-top: 2px; }
+        .lp-pres__links { margin-top: 16px; }
 
         .lp__head { max-width: 920px; }
         .lp__eyebrow { color: var(--color-brand-blue); margin-bottom: 4px; }

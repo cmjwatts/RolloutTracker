@@ -285,7 +285,6 @@ window.PHASES = [
       hub: [
         "Rollout Reflection Guide",
         "Rollout Troubleshooting Guide",
-        "Rollout Tracker (printable)",
       ],
       links: [],
     },
