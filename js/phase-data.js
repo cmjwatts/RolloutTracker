@@ -294,8 +294,8 @@ window.PHASES = [
         readinessTool: true,
         explain: "Five questions decide whether you begin now or shore up the foundation first — and they're the book's, not ours. Work them as a Leadership Team; the disagreements are the useful part.",
         ninety: [
-          { kind: "V/TO",      label: "Open the V/TO® and Accountability Chart and review them together — they need to be current before you decide what to share" },
-          { kind: "Scorecard", label: "Review your Leadership Team Scorecard — confirm every leader owns their numbers and you'd trust the data in front of the company" },
+          { kind: "V/TO",      label: "Open the V/TO® and Accountability Chart and review them together — they need to be current before you decide what to share", url: "https://help.eos.ninety.io/en/articles/13639334-introduction-to-the-v-to" },
+          { kind: "Scorecard", label: "Review your Leadership Team Scorecard — confirm every leader owns their numbers and you'd trust the data in front of the company", url: "https://help.eos.ninety.io/en/articles/13642369-navigating-the-scorecard-tool" },
         ],
         resources: [],
       },
@@ -304,7 +304,7 @@ window.PHASES = [
         planningTool: true,
         explain: "Every Rollout Plan is unique — this isn't a template to follow, it's an approach built for your circumstances, your culture, and your capacity for change. Four areas decide whether it creates lasting change or becomes another forgotten initiative.",
         ninety: [
-          { kind: "Rocks", label: "Add your Rollout Plan as a Company Rock so it stays alive" },
+          { kind: "Rocks", label: "Add your Rollout Plan as a Company Rock so it stays alive", url: "https://help.eos.ninety.io/en/articles/14442772-types-of-rocks-company-departmental-and-individual" },
         ],
         resources: [],
       },
@@ -360,8 +360,8 @@ window.PHASES = [
         title: "Hold the all-company launch",
         explain: "Don't wing it — walk the Leadership Team through who's saying what first. Then run the all-company moment: V/TO® and Accountability Chart walkthrough, why EOS, what's coming next. Mid-managers get briefed before the all-company moment, not after. Make it visible: swag, displays, Ninety shared along with resources like the Rollout Plan and What the Heck is EOS?",
         ninety: [
-          { kind: "V/TO",      label: "Add your team to Ninety as Observers so they can view the V/TO® and Accountability Chart" },
-          { kind: "Knowledge Portal", label: "Share launch content and the Rollout Plan in Knowledge Portal" },
+          { kind: "V/TO",      label: "Add your team to Ninety as Observers so they can view the V/TO® and Accountability Chart", url: "https://help.eos.ninety.io/en/articles/13719367-ninety-s-observer-role-explained" },
+          { kind: "Knowledge Portal", label: "Share launch content and the Rollout Plan in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/13653880-creating-and-editing-content-in-the-knowledge-portal" },
         ],
         resources: [],
       },
@@ -494,9 +494,9 @@ window.PHASES = [
         title: "Run the weekly, quarterly, and annual pulse across all teams",
         explain: "The meeting pulse is the heartbeat. Once it's running every week, every quarter, every year — across every team — the rollout is done and the discipline begins.",
         ninety: [
-          { kind: "Meetings",         label: "Run the weekly, quarterly, annual meeting pulse in Meetings" },
+          { kind: "Meetings",         label: "Run the weekly, quarterly, annual meeting pulse in Meetings", url: "https://help.eos.ninety.io/en/articles/13639439-introduction-to-meetings" },
           { kind: "State of the Co.", label: "Run the Quarterly State of the Company with the State brief" },
-          { kind: "Insights",         label: "Track Goals + Rocks + To-Do performance reports" },
+          { kind: "Insights",         label: "Track Goals + Rocks + To-Do performance reports", url: "https://help.eos.ninety.io/en/articles/13719148-introduction-to-insights" },
         ],
         resources: [],
       },
@@ -504,7 +504,7 @@ window.PHASES = [
         title: "Run the Organizational Checkup® with the Leadership Team",
         explain: "Re-score quarterly with the Leadership Team. Aim for 80%+ Strong across the 6 Key Components™. This is where the percentage lives — not on this tracker.",
         ninety: [
-          { kind: "Assessment", label: "Take the Organizational Checkup® on a quarterly schedule" },
+          { kind: "Assessment", label: "Take the Organizational Checkup® on a quarterly schedule", url: "https://help.eos.ninety.io/en/articles/14062622-measuring-your-six-key-components-with-the-org-assessment" },
         ],
         resources: [],
       },
@@ -512,7 +512,7 @@ window.PHASES = [
         title: "Introduce EOS + Ninety to new employees",
         explain: "Every new hire gets the same context the original team got. Keep What the Heck is EOS? and your V/TO® on the onboarding shelf.",
         ninety: [
-          { kind: "Knowledge Portal", label: "Create new-hire onboarding that reviews EOS + Ninety and assign it in Knowledge Portal" },
+          { kind: "Knowledge Portal", label: "Create new-hire onboarding that reviews EOS + Ninety and assign it in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/14669888-onboarding-new-team-members-with-the-eos-powered-by-ninety-guide" },
         ],
         resources: [],
       },
