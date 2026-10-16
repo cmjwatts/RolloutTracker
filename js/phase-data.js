@@ -294,8 +294,8 @@ window.PHASES = [
         readinessTool: true,
         explain: "Five questions decide whether you begin now or shore up the foundation first — and they're the book's, not ours. Work them as a Leadership Team; the disagreements are the useful part.",
         ninety: [
-          { kind: "V/TO",      label: "Open the V/TO® and Accountability Chart and review them together — they need to be current before you decide what to share", url: "https://help.eos.ninety.io/en/articles/13639334-introduction-to-the-v-to" },
-          { kind: "Scorecard", label: "Review your Leadership Team Scorecard — confirm every leader owns their numbers and you'd trust the data in front of the company", url: "https://help.eos.ninety.io/en/articles/13642369-navigating-the-scorecard-tool" },
+          { kind: "V/TO",      label: "Open the V/TO® and Accountability Chart and review them together — they need to be current before you decide what to share" },
+          { kind: "Scorecard", label: "Review your Leadership Team Scorecard — confirm every leader owns their numbers and you'd trust the data in front of the company" },
         ],
         resources: [],
       },
@@ -304,7 +304,7 @@ window.PHASES = [
         planningTool: true,
         explain: "Every Rollout Plan is unique — this isn't a template to follow, it's an approach built for your circumstances, your culture, and your capacity for change. Four areas decide whether it creates lasting change or becomes another forgotten initiative.",
         ninety: [
-          { kind: "Rocks", label: "Add your Rollout Plan as a Company Rock so it stays alive", url: "https://help.eos.ninety.io/en/articles/14442772-types-of-rocks-company-departmental-and-individual" },
+          { kind: "Rocks", label: "Add your Rollout Plan as a Company Rock so it stays alive" },
         ],
         resources: [],
       },
@@ -417,7 +417,7 @@ window.PHASES = [
       {
         title: "Set up each department's Level 10",
         explain: "Department by department: build the Scorecard, Rocks, and Level 10 Meeting Agenda with each leader. Treat each department like a mini-rollout of its own.",
-        suggested: "Facilitate — or at least sit in on — each department's first and second Level 10. That's where you catch what's wobbling while it's still easy to fix. Ninety Professional Services typically does this as part of a Rollout Engagement.",
+        suggested: "Facilitate — or at least sit in on — each department's first and second Level 10. That's where you catch what's wobbling while it's still easy to fix.",
         ninety: [
           { kind: "Meetings",  label: "Stand up each department's Level 10 in Meetings", url: "https://help.eos.ninety.io/en/articles/13639370-level-10-meetings-powered-by-ninety" },
           { kind: "Scorecard", label: "Build a Departmental Scorecard per leader; share measurables across teams", url: "https://help.eos.ninety.io/en/articles/13642363-creating-and-updating-measurables" },
@@ -456,7 +456,6 @@ window.PHASES = [
         "Team by team: a sit-in on the first Level 10 so the habits stick",
         "Wrap-up: closing check-in with the Champion on what's running, what needs attention, and what the team owns from here",
       ],
-      stuckSignal: "The vision was shared once, and people still can't tell you what it is — or new hires have never heard of EOS.",
     },
   },
   {

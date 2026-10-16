@@ -257,7 +257,7 @@ function PhaseResources({ phase }) {
       {hub.length > 0 && (
         <div className="lp-pres__foot">
           <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
-            ROLLOUT resource hub
+            Rollout Resources Hub
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
             </svg>
@@ -279,10 +279,13 @@ function ProServeCallout({ phase }) {
   return (
     <section className="lp-ps">
       <div className="lp-ps__body">
-        <span className="eyebrow hand lp-ps__eyebrow">Stuck here?</span>
-        <h3 className="lp-ps__title">Professional Services can help.</h3>
+        <span className="eyebrow hand lp-ps__eyebrow">Want a hand with this phase?</span>
+        <h3 className="lp-ps__title">You can run this rollout yourself. You don't have to.</h3>
         <p className="lp-ps__stuck">
-          <strong>Signs you're stuck:</strong> {phase.proServe.stuckSignal}
+          Anyone can roll out EOS on their own. What usually gets in the way is time and expertise.
+          If you'd rather lean on people who do this every week, Ninety Professional Services works
+          with you — and does the heavy lifting for you — so Integrate gets done right while you keep
+          running the business.
         </p>
         <div className="lp-ps__offer">
           <div className="lp-ps__offer-title">{phase.proServe.title}</div>
