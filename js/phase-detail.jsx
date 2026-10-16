@@ -282,10 +282,9 @@ function ProServeCallout({ phase }) {
         <span className="eyebrow hand lp-ps__eyebrow">Want a hand with this phase?</span>
         <h3 className="lp-ps__title">You can run this rollout yourself. You don't have to.</h3>
         <p className="lp-ps__stuck">
-          Anyone can roll out EOS on their own. What usually gets in the way is time and expertise.
-          If you'd rather lean on people who do this every week, Ninety Professional Services works
-          with you — and does the heavy lifting for you — so Integrate gets done right while you keep
-          running the business.
+          Everyone can roll out EOS. What usually gets in the way is time and expertise. If you'd
+          rather lean on people who do this every week, Ninety Professional Services works with you
+          to develop and execute your plan.
         </p>
         <div className="lp-ps__offer">
           <div className="lp-ps__offer-title">{phase.proServe.title}</div>
