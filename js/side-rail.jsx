@@ -22,13 +22,13 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
     <aside className="rail">
       <div className="rail__progress">
         <div className="rail__progress-row">
-          <span className="eyebrow">Your rollout</span>
+          <span className="eyebrow">Your Rollout</span>
         </div>
         <div className="rail__bar">
           <span style={{ width: allFrac + "%" }} />
         </div>
         <div className="rail__progress-meta">
-          Rollout is a journey, not an event — this is a map, not a score.
+          This tracker will help you track your progress on the journey.
         </div>
       </div>
 

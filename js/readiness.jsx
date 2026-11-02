@@ -3,9 +3,9 @@
 
    Structure mirrors p. 52: the five key readiness questions, worded as the book
    words them, each opening to its detail. Questions 1 and 2 run over the same
-   five Foundational Tools from two angles — have we mastered it, are we ready
-   to share it — so they share one row and open a single grid. That pairing is
-   also Marisa's "context vs. content" framing.
+   five Foundational Tools from two angles — have we mastered it (Q1), are we
+   ready to share it (Q2) — so each opens the tool grid from its own angle and
+   they share one saved state. Marisa asked for them as two separate questions.
 
    Deliberately does NOT score, grade, total, or gate. Readiness is not a
    percentage — see ROLLOUT p. 83. */
@@ -53,7 +53,7 @@ function CheckList({ items, checks, onToggle, className }) {
   );
 }
 
-function ToolRow({ tool, state, setState, scale, open, onToggleOpen }) {
+function ToolRow({ tool, state, setState, scale, open, onToggleOpen, mode }) {
   const st = state[tool.id] || {};
   const set = (field) => (val) =>
     setState({ ...state, [tool.id]: { ...st, [field]: val } });
@@ -67,22 +67,31 @@ function ToolRow({ tool, state, setState, scale, open, onToggleOpen }) {
   return (
     <div className={"rd-row" + (open ? " is-open" : "")}>
       <div className="rd-row__main">
-        <button type="button" className="rd-row__name" aria-expanded={open} onClick={onToggleOpen}>
-          <svg className="rd-row__chev" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M4 2 L8 6 L4 10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <span>{tool.name}</span>
-          {checkedCount > 0 && (
-            <span className="rd-row__count">{checkedCount}/{tool.mastered.length}</span>
-          )}
-        </button>
-        <RatingPicker value={st.mastered} onChange={set("mastered")} scale={scale}
-          label={tool.name + " — mastered?"} />
-        <RatingPicker value={st.share} onChange={set("share")} scale={scale}
-          label={tool.name + " — ready to share?"} />
+        {mode === "mastered" ? (
+          <button type="button" className="rd-row__name" aria-expanded={open} onClick={onToggleOpen}>
+            <svg className="rd-row__chev" width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M4 2 L8 6 L4 10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span>{tool.name}</span>
+            {checkedCount > 0 && (
+              <span className="rd-row__count">{checkedCount}/{tool.mastered.length}</span>
+            )}
+          </button>
+        ) : (
+          <span className="rd-row__name rd-row__name--static">
+            <span>{tool.name}</span>
+          </span>
+        )}
+        {mode === "mastered" ? (
+          <RatingPicker value={st.mastered} onChange={set("mastered")} scale={scale}
+            label={tool.name + " — mastered?"} />
+        ) : (
+          <RatingPicker value={st.share} onChange={set("share")} scale={scale}
+            label={tool.name + " — ready to share?"} />
+        )}
       </div>
 
-      {open && (
+      {open && mode === "mastered" && (
         <div className="rd-row__detail">
           <h6 className="rd-detail__label">Have we mastered it? <span className="rd-detail__pg">{tool.page}</span></h6>
           <CheckList items={tool.mastered} checks={checks} onToggle={toggleCheck} />
@@ -92,8 +101,9 @@ function ToolRow({ tool, state, setState, scale, open, onToggleOpen }) {
   );
 }
 
-function ToolGrid({ readiness, setReadiness }) {
+function ToolGrid({ readiness, setReadiness, mode }) {
   const R = window.READINESS;
+  const isShare = mode === "share";
   const [openTool, setOpenTool] = React.useState(null);
   const tools = readiness.tools || {};
   const setTools = (next) => setReadiness({ ...readiness, tools: next });
@@ -103,13 +113,12 @@ function ToolGrid({ readiness, setReadiness }) {
 
   return (
     <React.Fragment>
-      <p className="rd__grid-lead">{R.gridLead}</p>
+      <p className="rd__grid-lead">{isShare ? R.gridLeadShare : R.gridLeadMastered}</p>
 
       <div className="rd-grid">
         <div className="rd-grid__head" aria-hidden="true">
           <span>Tool</span>
-          <span>{R.colMastered}</span>
-          <span>{R.colShare}</span>
+          <span>{isShare ? R.colShare : R.colMastered}</span>
         </div>
         {R.tools.map((t) => (
           <ToolRow
@@ -120,11 +129,12 @@ function ToolGrid({ readiness, setReadiness }) {
             scale={R.scale}
             open={openTool === t.id}
             onToggleOpen={() => setOpenTool(openTool === t.id ? null : t.id)}
+            mode={mode}
           />
         ))}
       </div>
 
-      {(sharing.length > 0 || holding.length > 0) && (
+      {isShare && (sharing.length > 0 || holding.length > 0) && (
         <div className="rd-summary">
           <div>
             <span className="rd-summary__label">Launching with</span>
@@ -141,10 +151,12 @@ function ToolGrid({ readiness, setReadiness }) {
         </div>
       )}
 
-      <blockquote className="rd__note">
-        <p>{R.holdNote}</p>
-        <cite>— {R.holdNoteCite}</cite>
-      </blockquote>
+      {isShare && (
+        <blockquote className="rd__note">
+          <p>{R.holdNote}</p>
+          <cite>— {R.holdNoteCite}</cite>
+        </blockquote>
+      )}
     </React.Fragment>
   );
 }
@@ -180,7 +192,7 @@ function QuestionRow({ item, open, onToggleOpen, readiness, setReadiness }) {
       {open && (
         <div className="rd-q__body">
           {item.kind === "grid"
-            ? <ToolGrid readiness={readiness} setReadiness={setReadiness} />
+            ? <ToolGrid readiness={readiness} setReadiness={setReadiness} mode={item.mode} />
             : <CheckList items={item.items} checks={checks} onToggle={toggle} className="rd-checks--wide" />}
         </div>
       )}
@@ -294,7 +306,7 @@ function Readiness({ readiness, setReadiness }) {
           font-size: var(--fs-meta); color: var(--fg-3); font-weight: 600;
         }
 
-        /* ---- tool grid (questions 1 and 2) ---- */
+        /* ---- tool grid (question 1: mastered?  question 2: ready to share?) ---- */
         .rd-grid {
           border: 1.5px solid var(--border-subtle);
           border-radius: var(--radius-md);
@@ -303,7 +315,7 @@ function Readiness({ readiness, setReadiness }) {
         }
         .rd-grid__head, .rd-row__main {
           display: grid;
-          grid-template-columns: minmax(160px, 1fr) 176px 176px;
+          grid-template-columns: minmax(160px, 1fr) 176px;
           align-items: center;
         }
         .rd-grid__head {
@@ -328,6 +340,8 @@ function Readiness({ readiness, setReadiness }) {
           font-weight: 600; color: var(--fg-1); width: 100%;
         }
         .rd-row__name:hover { color: var(--color-brand-blue); }
+        .rd-row__name--static { cursor: default; }
+        .rd-row__name--static:hover { color: var(--fg-1); }
         .rd-row__chev { transition: transform var(--t-fast); flex: 0 0 auto; color: var(--fg-3); }
         .rd-row.is-open .rd-row__chev { transform: rotate(90deg); }
         .rd-row__count {

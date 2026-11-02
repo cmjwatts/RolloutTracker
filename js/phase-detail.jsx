@@ -1,24 +1,15 @@
-/* Phase detail panel — picture of done, why, video, steps, pro serve callout. */
+/* Phase detail panel — intro (Phase 1 only), picture of done, why, video,
+   the work in this phase, resources, pro serve callout.
 
-function StepChip({ children }) {
+   The work cards are deliberately NOT numbered or called "steps" — Marisa:
+   they don't have to be done in this order, they just all have to happen. */
+
+function WorkMark() {
   return (
-    <span
-      style={{
-        fontFamily: "var(--font-body)",
-        fontSize: 18,
-        fontWeight: 700,
-        color: "var(--color-white)",
-        background: "var(--color-brand-blue)",
-        width: 40,
-        height: 40,
-        borderRadius: "50%",
-        display: "grid",
-        placeItems: "center",
-        letterSpacing: "-0.02em",
-        lineHeight: 1,
-        justifySelf: "start",
-      }}>
-      {children}
+    <span className="lp-step__mark" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8.5 L7 12 L13 4.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
     </span>
   );
 }
@@ -82,7 +73,7 @@ function Why({ phase }) {
   );
 }
 
-function VideoCard({ phase }) {
+function VideoCard({ video, backLabel }) {
   const [playing, setPlaying] = React.useState(false);
   return (
     <section className="lp-video">
@@ -90,7 +81,7 @@ function VideoCard({ phase }) {
         <button
           className="lp-video__poster"
           onClick={() => setPlaying(true)}
-          aria-label={`Play video: ${phase.video.title}`}
+          aria-label={`Play video: ${video.title}`}
           type="button"
         >
           <span className="lp-video__bg" aria-hidden="true" />
@@ -100,26 +91,95 @@ function VideoCard({ phase }) {
             </svg>
           </span>
           <span className="lp-video__cap">
-            <span className="lp-video__eyebrow hand">Watch · {phase.video.duration}</span>
-            <span className="lp-video__title">{phase.video.title}</span>
-            <span className="lp-video__cue">{phase.video.cue}</span>
+            <span className="lp-video__eyebrow hand">
+              {video.duration ? `Watch · ${video.duration}` : "Watch"}
+            </span>
+            <span className="lp-video__title">{video.title}</span>
+            {video.cue && <span className="lp-video__cue">{video.cue}</span>}
           </span>
         </button>
       ) : (
         <div className="lp-video__playing">
           <div>
             <div className="lp-video__playing-eyebrow">Now playing</div>
-            <div className="lp-video__playing-title">{phase.video.title}</div>
+            <div className="lp-video__playing-title">{video.title}</div>
             <button
               className="btn btn--sm"
               style={{ background: "rgba(255,255,255,0.18)" }}
               onClick={() => setPlaying(false)}
               type="button"
-            >← Back to phase</button>
+            >← {backLabel || "Back"}</button>
           </div>
         </div>
       )}
     </section>
+  );
+}
+
+/* Introduction — the intro from the top of the printed Tracker, plus the two
+   planned intro videos. Shown above Phase 1 only. */
+function Intro() {
+  const I = window.INTRO;
+  if (!I) return null;
+  return (
+    <section className="lp-intro">
+      <div className="lp-intro__text">
+        <span className="eyebrow hand lp__eyebrow">Introduction</span>
+        <p className="lp-intro__lead">{I.lead}</p>
+        <h4 className="lp-intro__how">{I.howToTitle}</h4>
+        <ol className="lp-intro__list">
+          {I.howTo.map((h, i) => (
+            <li key={i}>
+              <strong>{h.t}:</strong> {h.d}
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div className="lp-intro__videos">
+        {I.videos.map((v, i) => (
+          <VideoCard key={i} video={v} backLabel="Back" />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* "Read this" — pointer to a chapter of ROLLOUT (with the cover) or another book. */
+function ReadThis({ items }) {
+  if (!items || items.length === 0) return null;
+  return (
+    <div className="lp-read">
+      <h5 className="lp-read__label">Read this</h5>
+      <ul className="lp-read__list">
+        {items.map((it, i) => {
+          const isRollout = it.book === "rollout";
+          const body = (
+            <React.Fragment>
+              {isRollout ? (
+                <img className="lp-read__cover" src="assets/rollout-book-cover.webp" alt="" aria-hidden="true" />
+              ) : (
+                <span className="lp-read__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                    <path d="M4 3.5h5.5a2 2 0 0 1 2 2V17a1.5 1.5 0 0 0-1.5-1.5H4V3.5Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                    <path d="M16 3.5h-5.5a2 2 0 0 0-2 2V17a1.5 1.5 0 0 1 1.5-1.5H16V3.5Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              )}
+              <span className="lp-read__text">{it.text}</span>
+            </React.Fragment>
+          );
+          return (
+            <li key={i}>
+              {isRollout ? (
+                <a className="lp-read__item" href={window.ROLLOUT_LINKS.book} target="_blank" rel="noopener">{body}</a>
+              ) : (
+                <span className="lp-read__item">{body}</span>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
@@ -166,7 +226,7 @@ function ResourceSubList({ label, accent, items }) {
   );
 }
 
-function Step({ step, num, readiness, setReadiness }) {
+function Step({ step, readiness, setReadiness }) {
   const hasNinety = step.ninety && step.ninety.length > 0;
   const hasResources = step.resources && step.resources.length > 0;
   const hasBoth = hasNinety && hasResources;
@@ -175,11 +235,15 @@ function Step({ step, num, readiness, setReadiness }) {
   return (
     <article className="lp-step">
       <header className="lp-step__head">
-        <StepChip>{num}</StepChip>
+        <WorkMark />
         <div>
-          <span className="lp-step__eyebrow hand">Step {num}</span>
           <h3 className="lp-step__title">{step.title}</h3>
-          <p className="lp-step__explain">{step.explain}</p>
+          {step.explain && <p className="lp-step__explain">{step.explain}</p>}
+          {step.explainList && step.explainList.length > 0 && (
+            <ul className="lp-step__list">
+              {step.explainList.map((t, i) => <li key={i}>{t}</li>)}
+            </ul>
+          )}
           {step.suggested && (
             <p className="lp-step__suggested">
               <span className="lp-step__suggested-tag">Suggested</span>
@@ -198,6 +262,7 @@ function Step({ step, num, readiness, setReadiness }) {
           <ResourceSubList label="Resources" items={step.resources} />
         </div>
       )}
+      <ReadThis items={step.readThis} />
     </article>
   );
 }
@@ -209,13 +274,30 @@ function PhaseResources({ phase }) {
   // resources are added there regularly and the authors notify members.
   const r = phase.resources || {};
   const links = r.links || [];
-  const hub = r.hub || [];
+  // Hub items are strings (on the Rollout hub) or { title, source, url }.
+  const hub = (r.hub || []).map((h) => (typeof h === "string" ? { title: h } : h));
   if (!r.book && !hub.length && !links.length) return null;
+
+  const docIcon = (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M11.5 2.5H5.5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V6.5l-4-4Z"
+            stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M11.5 2.5V6.5h4M7.5 10.5h5M7.5 13.5h5"
+            stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+  const extIcon = (
+    <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+    </svg>
+  );
 
   return (
     <section className="lp-pres">
       <header className="lp-pres__head">
-        <h4 className="hand lp-pres__title">{phase.name} resources</h4>
+        <h4 className="hand lp-pres__title">
+          Rollout Resources for Phase {parseInt(phase.num, 10)}: {phase.name}
+        </h4>
         <span className="lp-pres__kicker">References for the whole {phase.name} phase</span>
       </header>
 
@@ -231,27 +313,27 @@ function PhaseResources({ phase }) {
           </a>
         )}
 
-        {hub.map((h, i) => (
-          <a key={i} className="lp-rescard" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
-            <span className="lp-rescard__icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M11.5 2.5H5.5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V6.5l-4-4Z"
-                      stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-                <path d="M11.5 2.5V6.5h4M7.5 10.5h5M7.5 13.5h5"
-                      stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-              </svg>
-            </span>
-            <span className="lp-rescard__body">
-              <span className="lp-rescard__label">
-                On the hub
-                <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-                </svg>
+        {hub.map((h, i) => {
+          const onHub = !h.source;
+          const href = h.url || (onHub ? window.ROLLOUT_LINKS.hub : null);
+          const inner = (
+            <React.Fragment>
+              <span className="lp-rescard__icon" aria-hidden="true">{docIcon}</span>
+              <span className="lp-rescard__body">
+                <span className="lp-rescard__label">
+                  {onHub ? "On the hub" : h.source}
+                  {href && extIcon}
+                </span>
+                <span className="lp-rescard__title">{h.title}</span>
               </span>
-              <span className="lp-rescard__title">{h}</span>
-            </span>
-          </a>
-        ))}
+            </React.Fragment>
+          );
+          return href ? (
+            <a key={i} className="lp-rescard" href={href} target="_blank" rel="noopener">{inner}</a>
+          ) : (
+            <span key={i} className="lp-rescard lp-rescard--static">{inner}</span>
+          );
+        })}
       </div>
 
       {hub.length > 0 && (
@@ -280,7 +362,7 @@ function ProServeCallout({ phase }) {
     <section className="lp-ps">
       <div className="lp-ps__body">
         <span className="eyebrow hand lp-ps__eyebrow">Want a hand with this phase?</span>
-        <h3 className="lp-ps__title">You can run this rollout yourself. You don't have to.</h3>
+        <h3 className="lp-ps__title">You can run this Rollout yourself. You don't have to.</h3>
         <p className="lp-ps__stuck">
           Everyone can roll out EOS. What usually gets in the way is time and expertise. If you'd
           rather lean on people who do this every week, Ninety Professional Services works with you
@@ -327,13 +409,17 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
 
   return (
     <article className="lp">
+      {phase.id === "prepare" && <Intro />}
+
       <header className="lp__head">
-        <span className="eyebrow hand lp__eyebrow">Phase {phase.num}</span>
+        <span className="eyebrow hand lp__eyebrow">
+          Phase {phase.num}: <span className="lp__eyebrow-name">{phase.name}</span>
+        </span>
         <h2 className="lp__title">{phase.headline}</h2>
       </header>
 
       <div className="lp-row lp-row--hero">
-        <VideoCard key={phase.id} phase={phase} />
+        <VideoCard key={phase.id} video={phase.video} backLabel="Back to phase" />
         <PictureOfDone phase={phase} checked={checked} onToggle={(i) => onToggleCheck(phase.id, i)} />
       </div>
 
@@ -342,11 +428,11 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
       <section className="lp-steps">
         <header className="lp-steps__head">
           <span className="eyebrow hand">The work in this phase</span>
-          <span className="lp-steps__note">Every rollout is different — adapt this to your circumstances.</span>
+          <span className="lp-steps__note">{phase.stepsNote || window.STEPS_NOTE_DEFAULT}</span>
         </header>
         <div className="lp-steps__list">
           {steps.map((s, i) => (
-            <Step key={i} step={s} num={i + 1} readiness={readiness} setReadiness={setReadiness} />
+            <Step key={i} step={s} readiness={readiness} setReadiness={setReadiness} />
           ))}
         </div>
       </section>
@@ -409,6 +495,8 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           line-height: 1.3;
         }
         .lp-rescard__note { font-size: var(--fs-body-sm); color: var(--fg-2); }
+        .lp-rescard--static { cursor: default; }
+        .lp-rescard--static:hover { border-color: var(--border-subtle); box-shadow: none; }
 
         .lp-pres__foot {
           display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
@@ -420,6 +508,67 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
 
         .lp__head { max-width: 920px; }
         .lp__eyebrow { color: var(--color-brand-blue); margin-bottom: 4px; }
+        .lp__eyebrow-name { text-transform: uppercase; }
+
+        /* ---- introduction (Phase 1 only) ---- */
+        .lp-intro {
+          display: grid;
+          grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+          gap: 22px;
+          padding: 22px 24px;
+          background: var(--bg-card);
+          border: 1.5px solid var(--border-subtle);
+          border-radius: var(--radius-md);
+          box-shadow: var(--shadow-xs);
+        }
+        .lp-intro__text { display: flex; flex-direction: column; }
+        .lp-intro__lead { margin: 0 0 14px; font-size: 15px; line-height: 1.55; color: var(--fg-1); }
+        .lp-intro__how {
+          margin: 0 0 8px; font-family: var(--font-hand);
+          font-size: 15px; font-weight: 700; color: var(--fg-1);
+        }
+        .lp-intro__list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+        .lp-intro__list li { font-size: 14.5px; line-height: 1.5; color: var(--fg-1); }
+        .lp-intro__list strong { font-weight: 600; }
+        .lp-intro__videos { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-content: start; }
+        .lp-intro .lp-video__disc { width: 56px; height: 56px; top: 38%; }
+        .lp-intro .lp-video__cap { left: 16px; right: 16px; bottom: 14px; }
+        .lp-intro .lp-video__title { font-size: 16px; }
+        @media (max-width: 1180px) {
+          .lp-intro { grid-template-columns: minmax(0, 1fr); }
+          .lp-intro__videos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 640px) { .lp-intro__videos { grid-template-columns: minmax(0, 1fr); } }
+
+        /* ---- "Read this" callout ---- */
+        .lp-read {
+          margin-top: 18px; padding-top: 16px;
+          border-top: 1px solid var(--border-subtle);
+        }
+        .lp-read__label {
+          margin: 0 0 10px;
+          font-family: var(--font-hand);
+          font-size: 16px; font-weight: 700; color: var(--fg-2);
+        }
+        .lp-read__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+        .lp-read__item {
+          display: inline-flex; align-items: center; gap: 12px;
+          padding: 10px 14px 10px 10px;
+          border: 1.5px solid var(--border-subtle);
+          border-radius: var(--radius-sm);
+          background: var(--bg-alt);
+          text-decoration: none;
+          color: var(--fg-1);
+          transition: border-color var(--t-fast), box-shadow var(--t-fast);
+        }
+        a.lp-read__item:hover { border-color: var(--color-brand-blue); box-shadow: var(--shadow-xs); }
+        .lp-read__cover { width: 34px; height: auto; border-radius: 2px; box-shadow: var(--shadow-sm); flex: 0 0 auto; }
+        .lp-read__icon {
+          display: flex; align-items: center; justify-content: center; flex: 0 0 auto;
+          width: 34px; height: 46px; border-radius: 3px;
+          background: var(--color-brand-blue-08); color: var(--color-brand-blue);
+        }
+        .lp-read__text { font-size: 14px; line-height: 1.45; font-weight: 500; }
         .lp__title-row {
           display: flex; flex-direction: column; gap: 4px;
         }
@@ -641,13 +790,13 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           gap: 18px;
           align-items: start;
         }
-        .lp-step__eyebrow {
-          display: inline-block;
-          font-size: 14px;
+        .lp-step__mark {
+          width: 40px; height: 40px; border-radius: 50%;
+          background: var(--color-brand-blue-15);
           color: var(--color-brand-blue);
-          margin-bottom: 4px;
-          font-weight: 700;
-          white-space: nowrap;
+          display: grid; place-items: center;
+          justify-self: start;
+          margin-top: 2px;
         }
         .lp-step__title {
           margin: 0 0 8px;
@@ -661,6 +810,12 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           font-size: 15px;
           line-height: 1.55;
           color: var(--fg-1);
+        }
+        .lp-step__explain + .lp-step__list { margin-top: 8px; }
+        .lp-step__list {
+          margin: 0; padding-left: 20px;
+          display: flex; flex-direction: column; gap: 5px;
+          font-size: 15px; line-height: 1.5; color: var(--fg-1);
         }
         .lp-step__suggested {
           margin: 10px 0 0;
@@ -844,7 +999,10 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           .lp-quote p { font-size: 15px; }
 
           .lp-step { padding: 18px 16px 16px; }
-          .lp-step__head { gap: 14px; }
+          .lp-step__head { gap: 14px; grid-template-columns: 32px 1fr; }
+          .lp-step__mark { width: 32px; height: 32px; }
+          .lp-intro { padding: 16px 16px; gap: 16px; }
+          .lp-read__item { width: 100%; }
           .lp-step__title { font-size: 18px; }
           .lp-step__explain { font-size: 14.5px; }
           .lp-step__lists { margin-top: 14px; padding-top: 12px; gap: 16px; }

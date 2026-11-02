@@ -1,6 +1,7 @@
-/* Shared phase data for the Rollout Journey. v3
-   Revised against Marisa Smith + Beth Fahey feedback (call of 14 Aug 2026) and
-   ROLLOUT Ch. 4 ("Getting Ready for Rollout", pp. 52-84).
+/* Shared phase data for the Rollout Journey. v4
+   Revised against Marisa Smith + Beth Fahey feedback (call of 14 Aug 2026),
+   ROLLOUT Ch. 4 ("Getting Ready for Rollout", pp. 52-84), and Marisa's
+   Markup.io review of all four phases (Oct 2026).
 
    Conventions:
    - Ninety actions live on the STEP they belong to (steps[].ninety), not at
@@ -8,9 +9,14 @@
    - "resources" = { hub: [...], book: {...}, links: [...] } — one button to the
      ROLLOUT member hub plus a list of what to look for there, rather than a
      dozen links to the same destination.
-   - No "common order" list per phase — one "every rollout is different" line
-     under the steps heading instead. Marisa asked us not to sound prescriptive
-     about timing.
+   - No "common order" list per phase — one "every Rollout is unique" line
+     under the work heading instead (stepsNote, or STEPS_NOTE_DEFAULT). Marisa
+     asked us not to sound prescriptive about timing, and not to call the
+     cards "steps": they all have to happen, not in a fixed order.
+   - "explainList" on a STEP — bullet points under (or instead of) explain.
+   - "readThis" on a STEP — "Read this" callouts at the end of the card.
+   - resources.hub items are strings (Rollout hub) or { title, source, url }
+     for things that live elsewhere (EOS Worldwide).
    - "suggested" on a STEP — an optional, recommended aspect, shown as a callout.
    - "url" on a NINETY item — the help-center how-to for that action; renders
      as a "How-to" link at the row's far right.
@@ -52,9 +58,10 @@ window.READINESS = {
     { id: "yes", label: "Yes" },
   ],
 
-  gridLead:
-    "Two questions per tool: have we mastered it, and are we ready to share it? You don't have " +
-    "to be ready to share everything — you just have to agree on what you are sharing.",
+  gridLeadMastered:
+    "Tool by tool: have we mastered it? Open a tool to work through the book's questions for it.",
+  gridLeadShare:
+    "You don't have to be ready to share everything — you just have to agree on what you are sharing.",
   colMastered: "Mastered?",
   colShare: "Ready to share?",
 
@@ -65,16 +72,24 @@ window.READINESS = {
   holdNoteCite: "ROLLOUT, p. 67",
 
   /* The five key questions, worded as they appear on p. 52. Questions 1 and 2
-     run over the same five tools from two angles, so they share one row and
-     open a single grid. */
+     each run over the same five tools — mastered? / ready to share? — so each
+     opens the tool grid from its own angle (Marisa: keep them as two questions). */
   questions: [
     {
-      id: "tools",
-      num: "1 · 2",
+      id: "tools-mastered",
+      num: "1",
       kind: "grid",
+      mode: "mastered",
       page: "pp. 55–68",
       q: "Has the leadership team mastered the five EOS Foundational Tools (V/TO, The Accountability Chart, Rocks, The Meeting Pulse, Scorecard)?",
-      q2: "Are you ready to share your EOS tools with the organization?",
+    },
+    {
+      id: "tools-share",
+      num: "2",
+      kind: "grid",
+      mode: "share",
+      page: "pp. 55–68",
+      q: "Are you ready to share your EOS tools with the organization?",
     },
     {
       id: "united-front",
@@ -256,35 +271,64 @@ window.PLANNING = {
   },
 };
 
+/* ------------------------------------------------------------------
+   Introduction — shown above Phase 1. Text is the intro from the top of the
+   printed Rollout Tracker (Marisa). Two videos are planned; no URLs yet.
+------------------------------------------------------------------ */
+window.INTRO = {
+  lead:
+    "Rollout equips your entire team with the tools they need to help you achieve your vision. " +
+    "Fully implementing EOS requires leadership team mastery, a clear plan, and commitment to " +
+    "make it stick. Every organization is different, so develop a Rollout plan that's right for you.",
+  howToTitle: "How to use this tracker",
+  howTo: [
+    { t: "Establish Your Baseline", d: "Complete this assessment before beginning your Rollout to see where you are today" },
+    { t: "Update Regularly",        d: "Return to it periodically to measure progress" },
+    { t: "Identify Next Steps",     d: "Use your “NO” answers to identify what needs attention next" },
+  ],
+  videos: [
+    { title: "What the Heck is EOS Rollout?", presenter: "Marisa Smith", cue: "The idea behind Rollout, in five minutes" },
+    { title: "Why Rollout is Hard",           presenter: "Beth Fahey",   cue: "What gets in the way — and what to do about it" },
+  ],
+};
+
+/* Default line under "The work in this phase". Phases can override (stepsNote).
+   These are not steps in a fixed order — they all have to happen eventually. */
+window.STEPS_NOTE_DEFAULT =
+  "Every Rollout is unique — you know your team best, so adapt these suggestions as needed.";
+
+/* "Read this" callouts (readThis on a STEP): { text, book }.
+   book: "rollout" shows the ROLLOUT cover and links to the book site;
+   anything else shows a generic book mark and no link (no URL to give). */
+
 window.PHASES = [
   {
     id: "prepare",
     num: "01",
-    name: "Prepare",
-    headline: "Get the leadership team ready",
-    tagline: "The Leadership Team is ready for rollout.",
-    why: "Before you teach anyone else EOS, the Leadership Team has to become teachers themselves. Most rollouts stall here because leaders haven't shifted from student to teacher, haven't agreed on a plan, or aren't ready to present a united front.",
+    name: "Preparation",
+    headline: "The Leadership Team is Ready for Rollout",
+    tagline: "The Leadership Team is ready for Rollout.",
+    why: "A successful Rollout starts long before anyone beyond the leadership team hears the word “EOS.” This phase is about getting the leadership team aligned, clear on the Vision, and ready to model the behaviors they’ll be asking of everyone else. Skip it or rush it, and you’ll be asking your people to sing a song the leaders haven’t learned yet.",
     quote: {
       text: "Readiness doesn't require perfection; it requires commitment, consistency, and the courage to begin.",
       who: "ROLLOUT, p. 83",
     },
     pictureOfDone: [
-      "Leadership Team committed to being open and honest",
-      "Leadership Team shifted from student to teacher",
-      "Readiness assessed together — and agreement on which tools you're sharing first",
-      "Written Rollout Plan exists and agreement across Leadership Team to it",
+      "Leadership team is aligned and ready to communicate the 5 EOS Foundational Tools™ (V/TO®, The Accountability Chart®, Rocks, The Meeting Pulse®, and Scorecard)",
+      "Rollout Plan created (Timeline, Roles & Responsibilities, Communication, etc.)",
     ],
+    stepsNote: "Every Rollout is unique — you know your team best, so create a plan that works for you.",
     video: {
       title: "What is the Rollout Roadmap?",
       presenter: "Marisa Smith",
       duration: "~5 min",
-      cue: "The four phases · why Prepare is non-negotiable",
+      cue: "The four phases · why Preparation is non-negotiable",
     },
     resources: {
-      book: { label: "ROLLOUT — Ch. 1–5", note: "Ch. 4 is readiness; Ch. 5 is building the plan" },
+      book: { label: "ROLLOUT — Chapters 4–5" },
       hub: [
         "Rollout Reflection Guide",
-        "Rollout Troubleshooting Guide",
+        "Tips for Managing Change",
       ],
       links: [],
     },
@@ -292,10 +336,13 @@ window.PHASES = [
       {
         title: "Assess your readiness",
         readinessTool: true,
-        explain: "Five questions decide whether you begin now or shore up the foundation first — and they're the book's, not ours. Work them as a Leadership Team; the disagreements are the useful part.",
+        explain: "Five questions decide whether you begin now or shore up the foundation first — and they're the book's, not ours. Work through them as a leadership team; the conversations are the useful part.",
         ninety: [
           { kind: "V/TO",      label: "Open the V/TO® and Accountability Chart and review them together — they need to be current before you decide what to share" },
           { kind: "Scorecard", label: "Review your Leadership Team Scorecard — confirm every leader owns their numbers and you'd trust the data in front of the company" },
+        ],
+        readThis: [
+          { text: "Learn more about Getting Ready for Rollout in Chapter 4 of ROLLOUT.", book: "rollout" },
         ],
         resources: [],
       },
@@ -305,6 +352,9 @@ window.PHASES = [
         explain: "Every Rollout Plan is unique — this isn't a template to follow, it's an approach built for your circumstances, your culture, and your capacity for change. Four areas decide whether it creates lasting change or becomes another forgotten initiative.",
         ninety: [
           { kind: "Rocks", label: "Add your Rollout Plan as a Company Rock so it stays alive" },
+        ],
+        readThis: [
+          { text: "Learn more about Planning Your Rollout in Chapter 5 of ROLLOUT.", book: "rollout" },
         ],
         resources: [],
       },
@@ -325,18 +375,17 @@ window.PHASES = [
     id: "launch",
     num: "02",
     name: "Launch",
-    headline: "Introduce EOS to the whole company",
+    headline: "The Leadership Team has introduced the vision and EOS to everyone",
     tagline: "Every employee has heard the why, seen the V/TO®, and knows the plan.",
-    why: "Launch is one moment in time — but it sets the tone for everything after. Without context, employees see L10s as another meeting. With context, they see the operating system they're now part of building.",
+    why: "The Launch is your company’s first real look at EOS, and first impressions shape how people feel about everything that follows. When you share the context of why you’re running on EOS and what it means for each person, you turn uncertainty into curiosity and give people a reason to lean in rather than wait it out.",
     quote: {
-      text: "Context + Content = Clarity and Comprehension.",
-      who: "Marisa Smith",
+      text: "Content without context will create confusion, and confusion kills momentum.",
+      who: "ROLLOUT, p. 109",
     },
     pictureOfDone: [
-      "Entire leadership team involved in the launch",
-      "Mid-managers were briefed first — not after",
-      "Rollout is visible — branding, displays, digital",
-      "Plan to repeat the message often is in place",
+      "EOS Foundational Tools (context + content) introduced to everyone",
+      "Copies of What the Heck is EOS? handed out",
+      "Next Quarterly State of the Company planned/scheduled",
     ],
     video: {
       title: "Five Best Practices for a Great Launch",
@@ -345,19 +394,19 @@ window.PHASES = [
       cue: "The launch-day checklist",
     },
     resources: {
-      book: { label: "ROLLOUT — Launch chapters", note: "Chapter numbers to confirm against the book" },
+      book: { label: "ROLLOUT — Chapter 6" },
       hub: [
         "Tips for Launching Your Rollout",
         "Tips for Sharing the Context of EOS®",
-        "Tips for Bringing Your Vision to Life",
-        "Tips for Checking for Understanding",
-        "Rollout Troubleshooting Guide",
+        "Glossary of EOS Acronyms",
+        "EOS Basics for Employees (Handout + Postcard)",
+        { title: "20+ EOS Terms Your Employees Need to Know", source: "EOS Worldwide" },
       ],
       links: [],
     },
     steps: [
       {
-        title: "Hold the all-company launch",
+        title: "Introduce your vision and EOS to the entire organization",
         explain: "Don't wing it — walk the Leadership Team through who's saying what first. Then run the all-company moment: V/TO® and Accountability Chart walkthrough, why EOS, what's coming next. Mid-managers get briefed before the all-company moment, not after. Make it visible: swag, displays, Ninety shared along with resources like the Rollout Plan and What the Heck is EOS?",
         ninety: [
           { kind: "V/TO",      label: "Add your team to Ninety as Observers so they can view the V/TO® and Accountability Chart", url: "https://help.eos.ninety.io/en/articles/13719367-ninety-s-observer-role-explained" },
@@ -366,9 +415,18 @@ window.PHASES = [
         resources: [],
       },
       {
-        title: "Schedule the State of the Company cadence",
-        explain: "Lock the next quarter's State of the Company on the calendar before you leave the launch moment. Repetition is how the message lands.",
+        title: "Hand out a copy of What the Heck is EOS? to everyone",
+        explain: "What the Heck is EOS? was written specifically for employees, so it gives everyone a simple, shared understanding of the basics in plain language before you dive into your own tools. When people understand the “why” behind EOS ahead of time, they’re more receptive to learning it, and your launch conversations can go deeper, faster.",
         ninety: [],
+        resources: [],
+      },
+      {
+        title: "Schedule your next State of the Company",
+        explain: "Put your first quarterly State of the Company on the calendar so your team knows the vision isn’t a one-time announcement. These short meetings, typically under 45 minutes, cover where you’ve been, where you are, and where you’re going. They give you a built-in cadence for repeating the vision, celebrating progress, and keeping everyone aligned every 90 days.",
+        ninety: [],
+        readThis: [
+          { text: "Learn more about launching your Vision and EOS to the company in Chapter 6 of ROLLOUT.", book: "rollout" },
+        ],
         resources: [],
       },
     ],
@@ -386,19 +444,20 @@ window.PHASES = [
   {
     id: "integrate",
     num: "03",
-    name: "Integrate",
-    headline: "Roll EOS into every department",
+    name: "Integration",
+    headline: "EOS Tools & Disciplines are Fully Integrated Company-wide",
     tagline: "Every department runs a Meeting Pulse®, uses Core Values, and is accountable to numbers.",
-    why: "This is where most companies stall. Launch was a moment — Integration is a grind. Departments need their own L10s, Scorecards, Rocks, and managers who understand LMA™. Skip this, and EOS becomes leadership-team theater.",
+    why: "Launch creates awareness, and Integration creates mastery. This is where the EOS Tools take root in every department, and your vision starts guiding everyday decisions.",
     quote: {
-      text: "Vision without Traction is hallucination.",
-      who: "Gino Wickman, quoted in ROLLOUT, p. 63",
+      text: "You’re not just implementing tools. You’re transforming the way your organization operates. Keep going.",
+      who: "ROLLOUT, p. 206",
     },
     pictureOfDone: [
-      "Every department runs a Meeting Pulse® (Level 10 Meeting™ / Quarterly / Annual)",
-      "Managers have run Quarterly Conversations, and use Core Values to Hire / Fire / Review / Reward / Recognize",
-      "Core Processes documented and Followed by All",
-      "Every seat has at least one number on a Scorecard",
+      "Every department has its own Meeting Pulse (Level 10 Meeting / Quarterly / Annual)",
+      "Leaders and Managers use Core Values to hire, fire, review, reward, and recognize",
+      "Leaders and Managers have read How to Be a Great Boss, have mastered LMA, and are having Quarterly Conversations with direct reports",
+      "Core Processes are Documented and FBA",
+      "Everyone has at least one number they're accountable for keeping on track",
     ],
     video: {
       title: "Rolling Out to Departments",
@@ -407,43 +466,70 @@ window.PHASES = [
       cue: "Departmental Meeting Pulse® and accountability",
     },
     resources: {
-      book: { label: "ROLLOUT — Integrate chapters", note: "Chapter numbers to confirm against the book" },
+      book: { label: "ROLLOUT — Chapters 7–9" },
       hub: [
-        "Rollout Troubleshooting Guide",
+        "Tips for Sharing the Context of EOS®",
+        "Tips for Bringing Your Vision to Life",
         "Tips for Checking for Understanding",
+        "Tips for Managing Change",
+        "Rollout Troubleshooting Guide",
+        { title: "How to Run World-Class Meetings (ebook)", source: "EOS Worldwide" },
+        { title: "How to Be a Great Boss Book & Toolkit", source: "EOS Worldwide" },
       ],
     },
     steps: [
       {
-        title: "Set up each department's Level 10",
-        explain: "Department by department: build the Scorecard, Rocks, and Level 10 Meeting Agenda with each leader. Treat each department like a mini-rollout of its own.",
-        suggested: "Facilitate — or at least sit in on — each department's first and second Level 10. That's where you catch what's wobbling while it's still easy to fix.",
+        title: "Every department has a Meeting Pulse",
+        explainList: [
+          "Meet regularly using the Level 10 Meeting Agenda",
+          "Meet quarterly to review the Company V/TO and Departmental Plan, set Departmental and Individual Rocks, and solve issues",
+          "Meet annually to review the Company V/TO, update the Departmental Plan (Goals and Rocks), and solve issues",
+        ],
         ninety: [
-          { kind: "Meetings",  label: "Stand up each department's Level 10 in Meetings", url: "https://help.eos.ninety.io/en/articles/13639370-level-10-meetings-powered-by-ninety" },
-          { kind: "Scorecard", label: "Build a Departmental Scorecard per leader; share measurables across teams", url: "https://help.eos.ninety.io/en/articles/13642363-creating-and-updating-measurables" },
-          { kind: "Rocks",     label: "Set Departmental Rocks each quarter; share Rocks across teams", url: "https://help.eos.ninety.io/en/articles/13639806-creating-and-setting-up-rocks" },
+          { kind: "Meetings", label: "Stand up each department's Level 10 in Meetings", url: "https://help.eos.ninety.io/en/articles/13639370-level-10-meetings-powered-by-ninety" },
+          { kind: "Rocks",    label: "Set Departmental Rocks each quarter; share Rocks across teams", url: "https://help.eos.ninety.io/en/articles/13639806-creating-and-setting-up-rocks" },
+          { kind: "V/TO",     label: "Build a Departmental V/TO for each team", url: "https://help.eos.ninety.io/en/articles/13639337-documenting-your-company-or-team-vision" },
+        ],
+        readThis: [
+          { text: "Learn more about Rolling Out to Departments in Chapter 7 of ROLLOUT.", book: "rollout" },
+          { text: "Issues, by Sue Hawkes & Jill Young", book: "other" },
         ],
       },
       {
-        title: "Build Departmental V/TOs and the quarterly cadence",
-        explain: "Each department's V/TO connects their work to the company V/TO. The quarterly planning cadence keeps it honest.",
-        ninety: [
-          { kind: "V/TO", label: "Build a Departmental V/TO for each team", url: "https://help.eos.ninety.io/en/articles/13639337-documenting-your-company-or-team-vision" },
+        title: "Leaders and Managers Have Created an Environment of Accountability",
+        explain: "Leaders and Managers:",
+        explainList: [
+          "Use Core Values to hire, fire, review, reward, and recognize",
+          "Have read How to Be a Great Boss and understand LMA",
+          "Are answering YES to the Leadership & Management Self-Assessments",
+          "Are holding Quarterly Conversations with direct reports",
         ],
-      },
-      {
-        title: "Document Core Processes",
-        explain: "Core Processes Documented, Simplified, and Followed by All. Capture the way the work actually gets done.",
-        ninety: [
-          { kind: "Knowledge Portal", label: "Document Core Processes in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/13653878-documenting-your-processes-with-the-knowledge-portal" },
-        ],
-      },
-      {
-        title: "Roll out the People tools — People Analyzer®, Quarterly Conversations, LMA™",
-        explain: "Managers learn to lead and manage. They use the People Analyzer® to make Right Person / Right Seat calls, and run Quarterly Conversations consistently with every direct report.",
         ninety: [
           { kind: "1-on-1s", label: "Each manager becomes familiar with the People Analyzer® to hire, fire, and promote based on it", url: "https://help.eos.ninety.io/en/articles/13653795-the-people-analyzer" },
           { kind: "1-on-1s", label: "Each manager sets up their Quarterly Conversations and is ready to run those consistently", url: "https://help.eos.ninety.io/en/articles/13653770-quarterly-and-annual-reviews" },
+        ],
+        readThis: [
+          { text: "Learn more about Creating an Environment of Accountability in Chapter 9 of ROLLOUT.", book: "rollout" },
+        ],
+      },
+      {
+        title: "Core Processes are Documented, Simplified and Followed by All (FBA)",
+        explain: "Capture the way the work actually gets done.",
+        ninety: [
+          { kind: "Knowledge Portal", label: "Document Core Processes in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/13653878-documenting-your-processes-with-the-knowledge-portal" },
+        ],
+        readThis: [
+          { text: "Process!, by Mike Paton and Lisa Gonzalez", book: "other" },
+        ],
+      },
+      {
+        title: "Everyone has a Number",
+        explain: "When everyone in the company owns at least one number, they know exactly what’s expected in their role and can see how their performance contributes to the company’s success.",
+        ninety: [
+          { kind: "Scorecard", label: "Build a Departmental Scorecard per leader; share measurables across teams", url: "https://help.eos.ninety.io/en/articles/13642363-creating-and-updating-measurables" },
+        ],
+        readThis: [
+          { text: "Data, by Mark Stanley & Angela Kalemis", book: "other" },
         ],
       },
     ],
@@ -461,19 +547,20 @@ window.PHASES = [
   {
     id: "sustain",
     num: "04",
-    name: "Sustain",
-    headline: "Run on EOS… forever",
+    name: "Sustainability",
+    headline: "The Leadership Team is Committed to Running on EOS…Forever.",
     tagline: "The org is 80%+ strong and stays there.",
-    why: "EOS is a discipline, not a project. Sustain is the cadence that keeps the company healthy: quarterly drumbeat, an annual health check, and the metrics that prove it's working.",
+    why: "The companies that get the most out of EOS treat it as a lifelong commitment, not a one-time project. Sustainability is about staying disciplined so you don’t drift back into old habits: keeping the tools sharp, checking for understanding, and bringing new team members up to speed. That way, running on EOS becomes your permanent operating system rather than a phase you went through.",
     quote: {
-      text: "Rollout is a journey, not an event.",
-      who: "Marisa Smith",
+      text: "EOS is a process. And like any process, it only works when it’s followed by all.",
+      who: "ROLLOUT, p. 215",
     },
     pictureOfDone: [
-      "Quarterly State of the Company is on the calendar forever",
-      "Organizational Checkup® stays at 80%+",
-      "Completing 80%+ of Goals every year, and 80%+ Rocks every quarter",
-      "Completing 90%+ of weekly To-Dos",
+      "Deliver a State of the Company every quarter",
+      "Achieve and maintain 80%+ on the Organizational Checkup®",
+      "Complete 80%+ of Goals every year",
+      "Complete 80%+ of Rocks every quarter",
+      "Complete 90%+ of To-Dos weekly",
     ],
     video: {
       title: "Running on EOS… Forever",
@@ -482,36 +569,43 @@ window.PHASES = [
       cue: "The sustain cadence",
     },
     resources: {
-      book: { label: "ROLLOUT — Sustain chapters", note: "Chapter numbers to confirm against the book" },
+      book: { label: "ROLLOUT — Chapter 10" },
       hub: [
-        "Rollout Reflection Guide",
         "Rollout Troubleshooting Guide",
+        { title: "OrganizationalCheckup.com", source: "EOS Worldwide", url: "https://www.organizationalcheckup.com/" },
       ],
     },
     steps: [
       {
-        title: "Run the weekly, quarterly, and annual pulse across all teams",
-        explain: "The meeting pulse is the heartbeat. Once it's running every week, every quarter, every year — across every team — the rollout is done and the discipline begins.",
+        title: "Deliver a State of the Company, every quarter…forever",
+        explain: "A quarterly State of the Company keeps your vision front and center, so it doesn’t fade into the background once the excitement of launch wears off. Every 90 days, it gives you a chance to celebrate progress, report honestly on where you stand, and reconnect everyone to where you’re going, which keeps the whole company aligned for the long haul.",
         ninety: [
-          { kind: "Meetings",         label: "Run the weekly, quarterly, annual meeting pulse in Meetings", url: "https://help.eos.ninety.io/en/articles/13639439-introduction-to-meetings" },
           { kind: "State of the Co.", label: "Run the Quarterly State of the Company with the State brief" },
-          { kind: "Insights",         label: "Track Goals + Rocks + To-Do performance reports", url: "https://help.eos.ninety.io/en/articles/13719148-introduction-to-insights" },
+          { kind: "Meetings",         label: "Run the weekly, quarterly, annual meeting pulse in Meetings", url: "https://help.eos.ninety.io/en/articles/13639439-introduction-to-meetings" },
         ],
         resources: [],
       },
       {
-        title: "Run the Organizational Checkup® with the Leadership Team",
-        explain: "Re-score quarterly with the Leadership Team. Aim for 80%+ Strong across the 6 Key Components™. This is where the percentage lives — not on this tracker.",
+        title: "Achieve and maintain 80%+ on the Organizational Checkup®",
+        explain: "Reaching 80%+ strong is where you’ll feel the “organizational flow” that makes running your business easier, and maintaining it is how you know EOS hasn’t started to drift. Taking the Checkup both as a leadership team and as an entire organization shows you whether the rest of the company sees things the same way you do. Any gaps between the scores reveal exactly where your Rollout needs more attention.",
         ninety: [
           { kind: "Assessment", label: "Take the Organizational Checkup® on a quarterly schedule", url: "https://help.eos.ninety.io/en/articles/14062622-measuring-your-six-key-components-with-the-org-assessment" },
         ],
         resources: [],
       },
       {
-        title: "Introduce EOS + Ninety to new employees",
-        explain: "Every new hire gets the same context the original team got. Keep What the Heck is EOS? and your V/TO® on the onboarding shelf.",
+        title: "Sustain your results",
+        explain: "When you hit these numbers consistently, you build momentum that compounds, and every week, quarter, and year moves you closer to your vision:",
+        explainList: [
+          "Complete 80%+ of Goals every year",
+          "Complete 80%+ of Rocks every quarter",
+          "Complete 90%+ of To-Dos weekly",
+        ],
         ninety: [
-          { kind: "Knowledge Portal", label: "Create new-hire onboarding that reviews EOS + Ninety and assign it in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/14669888-onboarding-new-team-members-with-the-eos-powered-by-ninety-guide" },
+          { kind: "Insights", label: "Track Goals + Rocks + To-Do performance reports", url: "https://help.eos.ninety.io/en/articles/13719148-introduction-to-insights" },
+        ],
+        readThis: [
+          { text: "Learn more about Running on EOS Forever in Chapter 10 of ROLLOUT.", book: "rollout" },
         ],
         resources: [],
       },
