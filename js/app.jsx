@@ -3,6 +3,7 @@
 
 const TRACKER_KEY   = "ninety.rolloutTracker.v1";
 const READINESS_KEY = "ninety.rolloutReadiness.v1";
+const VIEW_KEY      = "ninety.rolloutView.v1";
 
 function loadJSON(key) {
   try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; }
@@ -28,7 +29,12 @@ function reconcileChecks(saved, phases) {
 function App() {
   const phases = window.PHASES;
 
-  const [activeId, setActiveId] = React.useState(phases[0].id);
+  // First visit lands on the introduction; after that, wherever you left off.
+  const [activeId, setActiveId] = React.useState(() => {
+    const saved = loadJSON(VIEW_KEY);
+    if (saved === "intro" || phases.some((p) => p.id === saved)) return saved;
+    return "intro";
+  });
   const [checkedMap, setCheckedMap] = React.useState(() =>
     reconcileChecks(loadJSON(TRACKER_KEY), phases)
   );
@@ -59,6 +65,7 @@ function App() {
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    try { localStorage.setItem(VIEW_KEY, JSON.stringify(activeId)); } catch (e) {}
   }, [activeId]);
 
   const phase = phases.find((p) => p.id === activeId);
@@ -73,13 +80,17 @@ function App() {
         onReset={onResetTracker}
       />
 
-      <PhaseDetail
-        phase={phase}
-        checkedMap={checkedMap}
-        onToggleCheck={onToggleCheck}
-        readiness={readiness}
-        setReadiness={setReadiness}
-      />
+      {phase ? (
+        <PhaseDetail
+          phase={phase}
+          checkedMap={checkedMap}
+          onToggleCheck={onToggleCheck}
+          readiness={readiness}
+          setReadiness={setReadiness}
+        />
+      ) : (
+        <IntroPage onBegin={() => setActiveId(phases[0].id)} />
+      )}
     </React.Fragment>
   );
 }

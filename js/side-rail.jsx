@@ -33,6 +33,21 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
       </div>
 
       <nav className="rail__nav" aria-label="Rollout phases">
+        <button
+          className={"rail__item rail__item--intro " + (activeId === "intro" ? "is-active " : "")}
+          onClick={() => setActiveId("intro")}
+          aria-current={activeId === "intro" ? "page" : undefined}
+        >
+          <span className="rail__node">
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true">
+              <path d="M5 3.5 L12 8 L5 12.5 Z" fill="currentColor" />
+            </svg>
+          </span>
+          <span className="rail__body">
+            <span className="rail__name">Start here</span>
+            <span className="rail__count">Introduction</span>
+          </span>
+        </button>
         {phases.map((p) => {
           const checks = checkedMap[p.id] || [];
           const done = checks.filter(Boolean).length;
@@ -218,6 +233,8 @@ function SideRail({ phases, activeId, setActiveId, checkedMap, onReset }) {
           border-color: var(--color-brand-blue);
         }
         .rail__item.is-active .rail__node-num { color: var(--color-white); }
+        .rail__item--intro .rail__node { color: var(--fg-2); }
+        .rail__item--intro.is-active .rail__node { color: var(--color-white); }
         .rail__item.is-progress:not(.is-active) .rail__node {
           border-color: var(--color-brand-blue);
         }

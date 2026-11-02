@@ -73,6 +73,90 @@ function Why({ phase }) {
   );
 }
 
+/* Styles shared by the phase pages and the intro page: the page head and the
+   video card. Rendered once by whichever page is mounted. */
+const SHARED_CSS = `
+        .lp__head { max-width: 920px; }
+        .lp__eyebrow { color: var(--color-brand-blue); margin-bottom: 4px; }
+        .lp__eyebrow-name { text-transform: uppercase; }
+        .lp__title { margin: 0 0 8px; font-size: 38px; letter-spacing: -0.015em; }
+        .lp-video {
+          aspect-ratio: 16 / 9;
+          border-radius: var(--radius-md);
+          overflow: hidden;
+          border: 1.5px solid var(--border-subtle);
+          background: #0f1316;
+          position: relative;
+        }
+        .lp-video__poster {
+          appearance: none;
+          position: absolute; inset: 0;
+          background: transparent;
+          border: 0; cursor: pointer; padding: 0;
+          color: var(--color-white);
+          text-align: left;
+          width: 100%; height: 100%;
+        }
+        .lp-video__bg {
+          position: absolute; inset: 0;
+          background: radial-gradient(120% 80% at 30% 25%, #3a4a55 0%, #1a1f24 70%, #0f1316 100%);
+        }
+        .lp-video__disc {
+          position: absolute;
+          left: 50%; top: 50%;
+          transform: translate(-50%, -50%);
+          width: 76px; height: 76px;
+          border-radius: 50%;
+          background: var(--color-white);
+          color: var(--color-brand-blue);
+          display: grid; place-items: center;
+          box-shadow: 0 14px 32px rgba(0,0,0,0.4);
+          padding-left: 4px;
+          transition: transform var(--t-base) var(--ease-out);
+        }
+        .lp-video__poster:hover .lp-video__disc { transform: translate(-50%, -50%) scale(1.06); }
+        .lp-video__cap {
+          position: absolute;
+          left: 22px; right: 22px; bottom: 20px;
+          display: flex; flex-direction: column; gap: 4px;
+        }
+        .lp-video__eyebrow { font-size: 14px; color: rgba(255,255,255,0.85); }
+        .lp-video__title {
+          font-size: 18px; font-weight: 600;
+          color: var(--color-white);
+          line-height: 1.25;
+          text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .lp-video__cue { font-size: 13px; color: rgba(255,255,255,0.75); }
+        .lp-video__playing {
+          position: absolute; inset: 0;
+          background: #0f1316;
+          display: grid; place-items: center;
+          text-align: center;
+          color: #fff;
+        }
+        .lp-video__playing-eyebrow {
+          font-family: var(--font-hand);
+          font-size: 13px; letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.6);
+          margin-bottom: 8px;
+        }
+        .lp-video__playing-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+
+        @media (max-width: 640px) {
+          .lp__title { font-size: 26px; }
+          .lp-video__cap { left: 14px; right: 14px; bottom: 12px; }
+          .lp-video__title { font-size: 15px; }
+          .lp-video__cue { font-size: 12px; }
+          .lp-video__disc { width: 56px; height: 56px; }
+        }
+`;
+
+function SharedStyles() {
+  return <style>{SHARED_CSS}</style>;
+}
+
 function VideoCard({ video, backLabel }) {
   const [playing, setPlaying] = React.useState(false);
   return (
@@ -116,31 +200,83 @@ function VideoCard({ video, backLabel }) {
   );
 }
 
-/* Introduction — the intro from the top of the printed Tracker, plus the two
-   planned intro videos. Shown above Phase 1 only. */
-function Intro() {
+/* Introduction — its own page, reached from "Start here" in the rail. The text
+   is the intro from the top of the printed Tracker; the two intro videos sit
+   side by side under it. */
+function IntroPage({ onBegin }) {
   const I = window.INTRO;
   if (!I) return null;
   return (
-    <section className="lp-intro">
-      <div className="lp-intro__text">
-        <span className="eyebrow hand lp__eyebrow">Introduction</span>
-        <p className="lp-intro__lead">{I.lead}</p>
-        <h4 className="lp-intro__how">{I.howToTitle}</h4>
-        <ol className="lp-intro__list">
-          {I.howTo.map((h, i) => (
-            <li key={i}>
-              <strong>{h.t}:</strong> {h.d}
-            </li>
-          ))}
-        </ol>
-      </div>
+    <article className="lp lp--intro">
+      <SharedStyles />
+      <header className="lp__head">
+        <span className="eyebrow hand lp__eyebrow">Start here</span>
+        <h2 className="lp__title">Welcome to the Rollout Tracker</h2>
+      </header>
+
       <div className="lp-intro__videos">
         {I.videos.map((v, i) => (
           <VideoCard key={i} video={v} backLabel="Back" />
         ))}
       </div>
-    </section>
+
+      <section className="lp-intro">
+        <div className="lp-intro__text">
+          <p className="lp-intro__lead">{I.lead}</p>
+        </div>
+        <div className="lp-intro__text">
+          <h4 className="lp-intro__how">{I.howToTitle}</h4>
+          <ol className="lp-intro__list">
+            {I.howTo.map((h, i) => (
+              <li key={i}>
+                <strong>{h.t}:</strong> {h.d}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <div className="lp-intro__foot">
+        <button className="btn btn--pill" type="button" onClick={onBegin}>
+          Begin with Phase 1: Preparation →
+        </button>
+      </div>
+
+      <style>{`
+        .lp--intro { display: flex; flex-direction: column; gap: 28px; }
+        .lp-intro__videos {
+          display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px;
+        }
+        @media (max-width: 720px) { .lp-intro__videos { grid-template-columns: minmax(0, 1fr); } }
+
+        .lp-intro {
+          display: grid;
+          grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+          gap: 28px;
+          padding: 22px 24px;
+          background: var(--bg-card);
+          border: 1.5px solid var(--border-subtle);
+          border-radius: var(--radius-md);
+          box-shadow: var(--shadow-xs);
+        }
+        @media (max-width: 880px) { .lp-intro { grid-template-columns: minmax(0, 1fr); gap: 18px; } }
+        .lp-intro__text { display: flex; flex-direction: column; }
+        .lp-intro__lead { margin: 0; font-size: 16px; line-height: 1.6; color: var(--fg-1); }
+        .lp-intro__how {
+          margin: 0 0 8px; font-family: var(--font-hand);
+          font-size: 15px; font-weight: 700; color: var(--fg-1);
+        }
+        .lp-intro__list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+        .lp-intro__list li { font-size: 14.5px; line-height: 1.5; color: var(--fg-1); }
+        .lp-intro__list strong { font-weight: 600; }
+        .lp-intro__foot { display: flex; }
+        @media (max-width: 640px) {
+          .lp--intro { gap: 20px; }
+          .lp-intro { padding: 16px 16px; }
+          .lp-intro__foot .btn { width: 100%; justify-content: center; }
+        }
+      `}</style>
+    </article>
   );
 }
 
@@ -409,8 +545,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
 
   return (
     <article className="lp">
-      {phase.id === "prepare" && <Intro />}
-
+      <SharedStyles />
       <header className="lp__head">
         <span className="eyebrow hand lp__eyebrow">
           Phase {phase.num}: <span className="lp__eyebrow-name">{phase.name}</span>
@@ -506,39 +641,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         .lp-hub__note { font-size: var(--fs-meta); color: var(--fg-3); }
         .lp-pres__links { margin-top: 16px; }
 
-        .lp__head { max-width: 920px; }
-        .lp__eyebrow { color: var(--color-brand-blue); margin-bottom: 4px; }
-        .lp__eyebrow-name { text-transform: uppercase; }
-
-        /* ---- introduction (Phase 1 only) ---- */
-        .lp-intro {
-          display: grid;
-          grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-          gap: 22px;
-          padding: 22px 24px;
-          background: var(--bg-card);
-          border: 1.5px solid var(--border-subtle);
-          border-radius: var(--radius-md);
-          box-shadow: var(--shadow-xs);
-        }
-        .lp-intro__text { display: flex; flex-direction: column; }
-        .lp-intro__lead { margin: 0 0 14px; font-size: 15px; line-height: 1.55; color: var(--fg-1); }
-        .lp-intro__how {
-          margin: 0 0 8px; font-family: var(--font-hand);
-          font-size: 15px; font-weight: 700; color: var(--fg-1);
-        }
-        .lp-intro__list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
-        .lp-intro__list li { font-size: 14.5px; line-height: 1.5; color: var(--fg-1); }
-        .lp-intro__list strong { font-weight: 600; }
-        .lp-intro__videos { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-content: start; }
-        .lp-intro .lp-video__disc { width: 56px; height: 56px; top: 38%; }
-        .lp-intro .lp-video__cap { left: 16px; right: 16px; bottom: 14px; }
-        .lp-intro .lp-video__title { font-size: 16px; }
-        @media (max-width: 1180px) {
-          .lp-intro { grid-template-columns: minmax(0, 1fr); }
-          .lp-intro__videos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        }
-        @media (max-width: 640px) { .lp-intro__videos { grid-template-columns: minmax(0, 1fr); } }
 
         /* ---- "Read this" callout ---- */
         .lp-read {
@@ -572,7 +674,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         .lp__title-row {
           display: flex; flex-direction: column; gap: 4px;
         }
-        .lp__title { margin: 0 0 8px; font-size: 38px; letter-spacing: -0.015em; }
 
         .lp-card {
           background: var(--bg-card);
@@ -610,70 +711,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           align-items: start;
         }
         @media (max-width: 880px) { .lp-row { grid-template-columns: minmax(0, 1fr); } }
-
-        .lp-video {
-          aspect-ratio: 16 / 9;
-          border-radius: var(--radius-md);
-          overflow: hidden;
-          border: 1.5px solid var(--border-subtle);
-          background: #0f1316;
-          position: relative;
-        }
-        .lp-video__poster {
-          appearance: none;
-          position: absolute; inset: 0;
-          background: transparent;
-          border: 0; cursor: pointer; padding: 0;
-          color: var(--color-white);
-          text-align: left;
-          width: 100%; height: 100%;
-        }
-        .lp-video__bg {
-          position: absolute; inset: 0;
-          background: radial-gradient(120% 80% at 30% 25%, #3a4a55 0%, #1a1f24 70%, #0f1316 100%);
-        }
-        .lp-video__disc {
-          position: absolute;
-          left: 50%; top: 50%;
-          transform: translate(-50%, -50%);
-          width: 76px; height: 76px;
-          border-radius: 50%;
-          background: var(--color-white);
-          color: var(--color-brand-blue);
-          display: grid; place-items: center;
-          box-shadow: 0 14px 32px rgba(0,0,0,0.4);
-          padding-left: 4px;
-          transition: transform var(--t-base) var(--ease-out);
-        }
-        .lp-video__poster:hover .lp-video__disc { transform: translate(-50%, -50%) scale(1.06); }
-        .lp-video__cap {
-          position: absolute;
-          left: 22px; right: 22px; bottom: 20px;
-          display: flex; flex-direction: column; gap: 4px;
-        }
-        .lp-video__eyebrow { font-size: 14px; color: rgba(255,255,255,0.85); }
-        .lp-video__title {
-          font-size: 18px; font-weight: 600;
-          color: var(--color-white);
-          line-height: 1.25;
-          text-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
-        .lp-video__cue { font-size: 13px; color: rgba(255,255,255,0.75); }
-        .lp-video__playing {
-          position: absolute; inset: 0;
-          background: #0f1316;
-          display: grid; place-items: center;
-          text-align: center;
-          color: #fff;
-        }
-        .lp-video__playing-eyebrow {
-          font-family: var(--font-hand);
-          font-size: 13px; letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.6);
-          margin-bottom: 8px;
-        }
-        .lp-video__playing-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
 
         .lp-pod__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
         .lp-pod__row {
@@ -989,7 +1026,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         /* ── Mobile (<= 640px) ── */
         @media (max-width: 640px) {
           .lp { gap: 20px; }
-          .lp__title { font-size: 26px; }
 
           .lp-card { padding: 16px 16px; }
           .lp-card__head { margin-bottom: 10px; }
@@ -1001,7 +1037,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           .lp-step { padding: 18px 16px 16px; }
           .lp-step__head { gap: 14px; grid-template-columns: 32px 1fr; }
           .lp-step__mark { width: 32px; height: 32px; }
-          .lp-intro { padding: 16px 16px; gap: 16px; }
           .lp-read__item { width: 100%; }
           .lp-step__title { font-size: 18px; }
           .lp-step__explain { font-size: 14.5px; }
@@ -1024,10 +1059,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
 
           .lp-pres { padding: 14px 16px; }
 
-          .lp-video__cap { left: 14px; right: 14px; bottom: 12px; }
-          .lp-video__title { font-size: 15px; }
-          .lp-video__cue { font-size: 12px; }
-          .lp-video__disc { width: 56px; height: 56px; }
         }
       `}</style>
     </article>
@@ -1035,3 +1066,4 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
 }
 
 window.PhaseDetail = PhaseDetail;
+window.IntroPage = IntroPage;
