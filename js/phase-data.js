@@ -582,9 +582,7 @@ window.PHASES = [
       hub: [
         "Rollout Troubleshooting Guide",
       ],
-      more: [
-        { title: "OrganizationalCheckup.com", source: "EOS Worldwide", url: "https://www.organizationalcheckup.com/" },
-      ],
+      more: [],
     },
     steps: [
       {
