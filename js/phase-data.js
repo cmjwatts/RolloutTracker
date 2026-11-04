@@ -581,7 +581,7 @@ window.PHASES = [
         title: "Deliver a State of the Company, every quarter…forever",
         explain: "A quarterly State of the Company keeps your vision front and center, so it doesn’t fade into the background once the excitement of launch wears off. Every 90 days, it gives you a chance to celebrate progress, report honestly on where you stand, and reconnect everyone to where you’re going, which keeps the whole company aligned for the long haul.",
         ninety: [
-          { kind: "State of the Co.", label: "Run the Quarterly State of the Company with the State brief" },
+          { kind: "State of the Co.", label: "Run the Quarterly State of the Company with your data", url: "https://youtu.be/4OIwDANO3wc", cta: "Watch" },
           { kind: "Meetings",         label: "Run the weekly, quarterly, annual meeting pulse in Meetings", url: "https://help.eos.ninety.io/en/articles/13639439-introduction-to-meetings" },
         ],
         resources: [],
