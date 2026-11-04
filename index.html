@@ -27,6 +27,10 @@
     --color-brand-blue-08: rgba(47, 139, 170, 0.08);
     --color-text-muted:  #6A6A6A;
 
+    /* ROLLOUT book brand — used wherever the page points at the book/hub. */
+    --rollout-navy:   #0E2B4D;
+    --rollout-orange: #E8702D;
+
     --paper:      #F7F4ED;
     --paper-2:    #EDE7D7;
     --line-soft:  #D8D5C9;
@@ -197,7 +201,7 @@
      ============================================================ */
   .book-banner {
     display: block;
-    background: #0E2B4D;
+    background: var(--rollout-navy);
     color: var(--color-white);
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
@@ -224,7 +228,7 @@
     color: var(--color-white);
   }
   .book-banner__text strong {
-    color: #E8702D;
+    color: var(--rollout-orange);
     font-weight: 800;
     letter-spacing: 0.04em;
   }
@@ -251,7 +255,7 @@
   }
   .book-banner__link:hover {
     color: var(--color-white);
-    border-bottom-color: #E8702D;
+    border-bottom-color: var(--rollout-orange);
   }
   .book-banner__cta {
     flex: 0 0 auto;

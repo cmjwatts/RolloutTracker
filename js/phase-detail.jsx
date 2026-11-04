@@ -418,6 +418,15 @@ function PhaseResources({ phase }) {
   const hub = (r.hub || []).map((h) => (typeof h === "string" ? { title: h } : h));
   if (!hub.length) return null;
 
+  const docIcon = (
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M11.5 2.5H5.5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V6.5l-4-4Z"
+            stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M11.5 2.5V6.5h4M7.5 10.5h5M7.5 13.5h5"
+            stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+
   return (
     <section className="lp-pres">
       <header className="lp-pres__head">
@@ -425,23 +434,24 @@ function PhaseResources({ phase }) {
           <h4 className="hand lp-pres__title">
             Rollout Resources for Phase {parseInt(phase.num, 10)}: {phase.name}
           </h4>
-          <span className="lp-pres__kicker">Everything here is on the Rollout Resources Hub.</span>
+          <span className="lp-pres__kicker">Free account. New resources are added regularly.</span>
         </div>
-        <div className="lp-pres__action">
-          <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
-            Open the Rollout Resources Hub
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-            </svg>
-          </a>
-          <span className="lp-hub__note">Free account. New resources are added regularly.</span>
-        </div>
+        <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
+          Open the Rollout Resources Hub
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+          </svg>
+        </a>
       </header>
 
       <ul className="lp-hub__list">
         {hub.map((h, i) => (
           <li key={i} className={h.thumb ? "has-thumb" : ""}>
-            {h.thumb && <img className="lp-hub__thumb" src={h.thumb} alt="" aria-hidden="true" loading="lazy" />}
+            {h.thumb ? (
+              <img className="lp-hub__thumb" src={h.thumb} alt="" aria-hidden="true" loading="lazy" />
+            ) : (
+              <span className="lp-hub__icon" aria-hidden="true">{docIcon}</span>
+            )}
             <span>{h.title}</span>
           </li>
         ))}
@@ -540,14 +550,25 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
       <style>{`
         .lp { display: flex; flex-direction: column; gap: 28px; }
 
-        /* ---- phase resources: one card, one link ---- */
+        /* ---- phase resources: one card, one link ----
+           This card points at the ROLLOUT book's hub, so it borrows the book's
+           colours (navy + orange) to read as "theirs" next to Ninety-blue. */
+        .lp-pres { border-top: 3px solid var(--rollout-orange); }
         .lp-pres__head {
           display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
           gap: 12px 24px; margin-bottom: 14px;
         }
-        .lp-pres__action { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-        .lp-hub__btn { text-decoration: none; }
-        .lp-hub__note { font-size: var(--fs-meta); color: var(--fg-3); }
+        .lp-hub__btn {
+          text-decoration: none;
+          background: var(--rollout-orange);
+          border-color: var(--rollout-orange);
+          color: var(--color-white);
+        }
+        .lp-hub__btn:hover {
+          background: var(--rollout-navy);
+          border-color: var(--rollout-navy);
+          color: var(--color-white);
+        }
         .lp-hub__list {
           list-style: none; margin: 0; padding: 14px 0 0;
           border-top: 1px solid var(--border-subtle);
@@ -556,17 +577,11 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         }
         @media (max-width: 720px) { .lp-hub__list { grid-template-columns: minmax(0, 1fr); } }
         .lp-hub__list li {
-          display: flex; align-items: flex-start; gap: 10px;
+          display: flex; align-items: flex-start; gap: 9px;
           font-size: 14px; line-height: 1.45; color: var(--fg-1);
-          padding-left: 14px; position: relative;
         }
-        .lp-hub__list li::before {
-          content: ""; position: absolute; left: 0; top: 8px;
-          width: 5px; height: 5px; border-radius: 50%;
-          background: var(--color-brand-blue);
-        }
-        .lp-hub__list li.has-thumb { align-items: center; padding-left: 0; }
-        .lp-hub__list li.has-thumb::before { display: none; }
+        .lp-hub__icon { color: var(--rollout-orange); flex: 0 0 auto; margin-top: 2px; display: flex; }
+        .lp-hub__list li.has-thumb { align-items: center; }
         .lp-hub__thumb {
           flex: 0 0 auto; width: 44px; height: 56px; object-fit: contain;
           border-radius: 3px; background: var(--color-white);
@@ -953,7 +968,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           .lp-step { padding: 18px 16px 16px; }
           .lp-step__head { gap: 14px; grid-template-columns: 32px 1fr; }
           .lp-step__mark { width: 32px; height: 32px; }
-          .lp-pres__action { align-items: flex-start; }
+          .lp-pres { padding: 14px 16px; }
           .lp-step__title { font-size: 18px; }
           .lp-step__explain { font-size: 14.5px; }
           .lp-step__lists { margin-top: 14px; padding-top: 12px; gap: 16px; }
