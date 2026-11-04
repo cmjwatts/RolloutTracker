@@ -40,7 +40,7 @@ function PlanningEssentials() {
     <section className="pl">
       <header className="pl__head">
         <h4 className="pl__title">{P.title}</h4>
-        <p className="pl__lead">{P.lead}</p>
+        {P.lead && <p className="pl__lead">{P.lead}</p>}
       </header>
 
       <div className="pl__list">

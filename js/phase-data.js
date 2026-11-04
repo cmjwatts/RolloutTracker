@@ -214,9 +214,7 @@ window.READINESS = {
 ------------------------------------------------------------------ */
 window.PLANNING = {
   title: "The four planning essentials",
-  lead:
-    "Four areas determine whether your Rollout creates lasting change or becomes another " +
-    "forgotten initiative.",
+  lead: "",
   cite: "ROLLOUT, p. 88",
   essentials: [
     {
@@ -288,7 +286,7 @@ window.INTRO = {
     "make it stick. Every organization is different, so develop a Rollout plan that's right for you.",
   howToTitle: "How to use this tracker",
   howTo: [
-    { t: "Establish Your Baseline", d: "Complete this assessment before beginning your Rollout to see where you are today" },
+    { t: "Establish Your Baseline", d: "Complete the readiness questions in Preparation before beginning your Rollout to see where you are today" },
     { t: "Update Regularly",        d: "Return to it periodically to measure progress" },
     { t: "Identify Next Steps",     d: "Use your “NO” answers to identify what needs attention next" },
   ],
@@ -341,7 +339,7 @@ window.PHASES = [
       {
         title: "Assess your readiness",
         readinessTool: true,
-        explain: "Five questions decide whether you begin now or shore up the foundation first — and they're the book's, not ours. Work through them as a leadership team; the conversations are the useful part.",
+        explain: "Discuss these five questions from ROLLOUT as a leadership team to decide where you’re ready and what needs more preparation.",
         ninety: [
           { kind: "V/TO",      label: "Open the V/TO® and Accountability Chart and review them together — they need to be current before you decide what to share" },
           { kind: "Scorecard", label: "Review your Leadership Team Scorecard — confirm every leader owns their numbers and you'd trust the data in front of the company" },
@@ -354,7 +352,7 @@ window.PHASES = [
       {
         title: "Create your Rollout Plan",
         planningTool: true,
-        explain: "Every Rollout Plan is unique — this isn't a template to follow, it's an approach built for your circumstances, your culture, and your capacity for change. Four areas decide whether it creates lasting change or becomes another forgotten initiative.",
+        explain: "Build a plan around your company’s needs and capacity for change. Consider the four areas below.",
         ninety: [
           { kind: "Rocks", label: "Add your Rollout Plan as a Company Rock so it stays alive" },
         ],
@@ -411,7 +409,7 @@ window.PHASES = [
     steps: [
       {
         title: "Introduce your vision and EOS to the entire organization",
-        explain: "Don't wing it — walk the Leadership Team through who's saying what first. Then run the all-company moment: V/TO® and Accountability Chart walkthrough, why EOS, what's coming next. Mid-managers get briefed before the all-company moment, not after. Make it visible: swag, displays, Ninety shared along with resources like the Rollout Plan and What the Heck is EOS?",
+        explain: "Don't wing it. Agree on who will present each part of the launch with the Leadership Team, and brief mid-managers. Then go to the company for your launch event: V/TO® and Accountability Chart walkthrough, why EOS, and what's coming next. Make it visible: swag, displays, Ninety shared along with resources like the Rollout Plan and What the Heck is EOS?",
         ninety: [
           { kind: "V/TO",      label: "Add your team to Ninety as Observers so they can view the V/TO® and Accountability Chart", url: "https://help.eos.ninety.io/en/articles/13719367-ninety-s-observer-role-explained" },
           { kind: "Knowledge Portal", label: "Share launch content and the Rollout Plan in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/13653880-creating-and-editing-content-in-the-knowledge-portal" },
@@ -516,7 +514,7 @@ window.PHASES = [
         ],
       },
       {
-        title: "Core Processes are Documented, Simplified and Followed by All (FBA)",
+        title: "Core Processes are Documented, Simplified, and Followed by All (FBA)",
         explain: "Capture the way the work actually gets done.",
         ninety: [
           { kind: "Knowledge Portal", label: "Document Core Processes in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/13653878-documenting-your-processes-with-the-knowledge-portal" },
@@ -603,7 +601,7 @@ window.PHASES = [
           "Complete 90%+ of To-Dos weekly",
         ],
         ninety: [
-          { kind: "Insights", label: "Track Goals + Rocks + To-Do performance reports", url: "https://help.eos.ninety.io/en/articles/13719148-introduction-to-insights" },
+          { kind: "Insights", label: "Track data and reporting across teams to see progress", url: "https://help.eos.ninety.io/en/articles/13719148-introduction-to-insights" },
         ],
         readThis: [
           { text: "Learn more about Running on EOS Forever in Chapter 10 of ROLLOUT.", book: "rollout" },
