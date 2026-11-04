@@ -463,6 +463,12 @@ function PhaseResources({ phase }) {
 function ProServeCallout({ phase }) {
   return (
     <section className="lp-ps">
+      <img
+        className="lp-ps__mark"
+        src={(window.__resources && window.__resources.ninetyLogoIce) || "assets/90-logo-ice.png"}
+        alt=""
+        aria-hidden="true"
+      />
       <div className="lp-ps__body">
         <span className="eyebrow hand lp-ps__eyebrow">Want a hand with this phase?</span>
         <h3 className="lp-ps__title">You can run this Rollout yourself. You don't have to.</h3>
@@ -488,7 +494,7 @@ function ProServeCallout({ phase }) {
       </div>
       <div className="lp-ps__cta">
         <button className="btn btn--pill" type="button">Talk to our team</button>
-        <span className="lp-ps__meta hand">Scoped to your team count</span>
+        <span className="lp-ps__meta hand">Scoped to you</span>
       </div>
     </section>
   );
@@ -887,7 +893,20 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           grid-template-columns: 1fr auto;
           gap: 28px;
           align-items: center;
+          position: relative;
+          overflow: hidden;
         }
+        /* A big, faded 90 mark behind the call to action — a quiet signature
+           on the one Ninety-branded block, so the text has something to sit on. */
+        .lp-ps__mark {
+          position: absolute;
+          right: -40px; bottom: -70px;
+          width: 420px; height: auto;
+          opacity: 0.09;
+          pointer-events: none;
+          user-select: none;
+        }
+        .lp-ps__body, .lp-ps__cta { position: relative; z-index: 1; }
         @media (max-width: 880px) { .lp-ps { grid-template-columns: 1fr; } }
         .lp-ps__body { display: flex; flex-direction: column; gap: 10px; }
         .lp-ps__eyebrow {
@@ -980,6 +999,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           .lp-rlink { grid-column: 2; align-self: start; }
 
           .lp-ps { padding: 20px 18px; gap: 16px; }
+          .lp-ps__mark { width: 260px; right: -60px; bottom: -50px; }
           .lp-ps__title { font-size: 20px; }
           .lp-ps__cta { align-items: stretch; }
           .lp-ps__cta .btn--pill { justify-content: center; }

@@ -366,7 +366,7 @@ window.PHASES = [
     ],
     proServe: {
       title: "Rollout Diagnostic + Leadership Alignment",
-      blurb: "Scoped to your team count — see below",
+      blurb: "Scoped to you — see below",
       bullets: [
         "Leadership alignment: confirm what's rolling out, to whom, in what order",
         "Facilitated readiness and alignment sessions",
@@ -436,7 +436,7 @@ window.PHASES = [
     ],
     proServe: {
       title: "Launch Day Prep",
-      blurb: "Scoped to your team count — see below",
+      blurb: "Scoped to you — see below",
       bullets: [
         "Build your all-company agenda with a Ninety Pro Serve guide",
         "Dry-run the V/TO® presentation",
