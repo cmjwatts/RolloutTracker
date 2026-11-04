@@ -287,16 +287,23 @@ function ReadThis({ items }) {
   if (!items || items.length === 0) return null;
   return (
     <div className="lp-read">
-      {items.map((it, i) => (
-        <a key={i} className="lp-read__line" href={window.ROLLOUT_LINKS.book} target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 3.5h5.5a2 2 0 0 1 2 2V17a1.5 1.5 0 0 0-1.5-1.5H4V3.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-            <path d="M16 3.5h-5.5a2 2 0 0 0-2 2V17a1.5 1.5 0 0 1 1.5-1.5H16V3.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-          </svg>
-          <span className="lp-read__label">Read this:</span>
-          <span className="lp-read__text">{it.text}</span>
-        </a>
-      ))}
+      {items.map((it, i) => {
+        const inner = (
+          <React.Fragment>
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M4 3.5h5.5a2 2 0 0 1 2 2V17a1.5 1.5 0 0 0-1.5-1.5H4V3.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+              <path d="M16 3.5h-5.5a2 2 0 0 0-2 2V17a1.5 1.5 0 0 1 1.5-1.5H16V3.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+            </svg>
+            <span className="lp-read__label">Read this:</span>
+            <span className="lp-read__text">{it.text}</span>
+          </React.Fragment>
+        );
+        return it.book === "rollout" ? (
+          <a key={i} className="lp-read__line" href={window.ROLLOUT_LINKS.book} target="_blank" rel="noopener">{inner}</a>
+        ) : (
+          <span key={i} className="lp-read__line">{inner}</span>
+        );
+      })}
     </div>
   );
 }
@@ -712,7 +719,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         }
         .lp-read__line svg { color: var(--color-brand-blue); flex: 0 0 auto; align-self: center; }
         .lp-read__label { font-weight: 700; color: var(--color-brand-blue); white-space: nowrap; }
-        .lp-read__line:hover .lp-read__text { color: var(--fg-1); text-decoration: underline; text-underline-offset: 2px; }
+        a.lp-read__line:hover .lp-read__text { color: var(--fg-1); text-decoration: underline; text-underline-offset: 2px; }
 
         .lp-card {
           background: var(--bg-card);

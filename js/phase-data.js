@@ -14,8 +14,8 @@
      asked us not to sound prescriptive about timing, and not to call the
      cards "steps": they all have to happen, not in a fixed order.
    - "explainList" on a STEP — bullet points under (or instead of) explain.
-   - "readThis" on a STEP — a one-line pointer to the ROLLOUT chapter, at the
-     end of the card. Other books belong in resources.more, not here.
+   - "readThis" on a STEP — one-line pointers at the end of the card: the
+     ROLLOUT chapter, plus the EOS library book for that section if there is one.
    - resources = { book, hub: [...], more: [{ title, source, note?, url? }] }.
      hub items are a title string or { title, thumb } (thumb = a page/cover
      image in assets/); they render as one group behind the single hub
@@ -302,9 +302,9 @@ window.INTRO = {
 window.STEPS_NOTE_DEFAULT =
   "Every Rollout is unique — you know your team best, so adapt these suggestions as needed.";
 
-/* "Read this" (readThis on a STEP): [{ text, book: "rollout" }] — one short
-   line linking to the book site. Kept to the ROLLOUT chapter so the cards
-   don't repeat themselves; other books live in resources.more. */
+/* "Read this" (readThis on a STEP): [{ text, book }] — short lines at the
+   foot of a card. book: "rollout" links to the book site; "other" (the EOS
+   library titles Marisa named for Integration) is plain text. */
 
 window.PHASES = [
   {
@@ -482,11 +482,8 @@ window.PHASES = [
         "Rollout Troubleshooting Guide",
       ],
       more: [
-        { title: "Issues",   note: "Sue Hawkes & Jill Young",       source: "EOS Library" },
-        { title: "Process!", note: "Mike Paton & Lisa Gonzalez",    source: "EOS Library" },
-        { title: "Data",     note: "Mark Stanley & Angela Kalemis", source: "EOS Library" },
-        { title: "How to Run World-Class Meetings (ebook)", source: "EOS Worldwide" },
-        { title: "How to Be a Great Boss Book & Toolkit",   source: "EOS Worldwide" },
+        { title: "How to Run World-Class Meetings (ebook)", source: "EOS Worldwide", url: "https://www.eosworldwide.com/free-ebook-world-class-meetings" },
+        { title: "How to Be a Great Boss Book & Toolkit",   source: "EOS Worldwide", url: "https://www.eosworldwide.com/great-boss-toolkit" },
       ],
     },
     steps: [
@@ -504,6 +501,7 @@ window.PHASES = [
         ],
         readThis: [
           { text: "Learn more about Rolling Out to Departments in Chapter 7 of ROLLOUT.", book: "rollout" },
+          { text: "Issues, by Sue Hawkes & Jill Young", book: "other" },
         ],
       },
       {
@@ -529,12 +527,18 @@ window.PHASES = [
         ninety: [
           { kind: "Knowledge Portal", label: "Document Core Processes in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/13653878-documenting-your-processes-with-the-knowledge-portal" },
         ],
+        readThis: [
+          { text: "Process!, by Mike Paton & Lisa Gonzalez", book: "other" },
+        ],
       },
       {
         title: "Everyone has a Number",
         explain: "When everyone in the company owns at least one number, they know exactly what’s expected in their role and can see how their performance contributes to the company’s success.",
         ninety: [
           { kind: "Scorecard", label: "Build a Departmental Scorecard per leader; share measurables across teams", url: "https://help.eos.ninety.io/en/articles/13642363-creating-and-updating-measurables" },
+        ],
+        readThis: [
+          { text: "Data, by Mark Stanley & Angela Kalemis", book: "other" },
         ],
       },
     ],
