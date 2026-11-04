@@ -454,6 +454,7 @@ function PhaseResources({ phase }) {
     cards.push({
       key: "more-" + i,
       href: m.url || null,
+      thumb: m.thumb || null,
       icon: m.source === "EOS Library" ? bookIcon : docIcon,
       label: m.source,
       title: m.title,
@@ -502,6 +503,8 @@ function PhaseResources({ phase }) {
               <React.Fragment>
                 {c.cover ? (
                   <img className="lp-rescard__cover" src="assets/rollout-book-cover.webp" alt="" aria-hidden="true" />
+                ) : c.thumb ? (
+                  <img className="lp-rescard__thumb" src={c.thumb} alt="" aria-hidden="true" loading="lazy" />
                 ) : (
                   <span className="lp-rescard__icon" aria-hidden="true">{c.icon}</span>
                 )}
@@ -645,6 +648,11 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         }
         .lp-rescard__cover {
           width: 46px; height: auto; border-radius: 2px;
+          box-shadow: var(--shadow-sm);
+        }
+        .lp-rescard__thumb {
+          width: 46px; height: 58px; object-fit: contain; object-position: top;
+          border-radius: 3px; background: var(--color-white);
           box-shadow: var(--shadow-sm);
         }
         .lp-rescard__icon {
