@@ -462,7 +462,7 @@ window.PHASES = [
     pictureOfDone: [
       "Every department has its own Meeting Pulse (Level 10 Meeting / Quarterly / Annual)",
       "Leaders and Managers use Core Values to hire, fire, review, reward, and recognize",
-      "Leaders and Managers have read How to Be a Great Boss, have mastered LMA, and are having Quarterly Conversations with direct reports",
+      "Leaders and Managers have read How to Be a Great Boss, have mastered LMA™, and are having Quarterly Conversations",
       "Core Processes are Documented and FBA",
       "Everyone has at least one number they're accountable for keeping on track",
     ],
@@ -511,7 +511,7 @@ window.PHASES = [
         explain: "Leaders and Managers:",
         explainList: [
           "Use Core Values to hire, fire, review, reward, and recognize",
-          "Have read How to Be a Great Boss and understand LMA",
+          "Have read How to Be a Great Boss and understand LMA™",
           "Are answering YES to the Leadership & Management Self-Assessments",
           "Are holding Quarterly Conversations with direct reports",
         ],
