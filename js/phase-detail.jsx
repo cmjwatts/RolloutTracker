@@ -410,59 +410,42 @@ function Step({ step, readiness, setReadiness }) {
 }
 
 function PhaseResources({ phase }) {
-  // One group, one link. Everything a phase points at lives on the Rollout
-  // Resources Hub (the EOS Worldwide pieces included), so the list is what to
-  // look for there and the button is the only way out. Phase 1 shows cover
-  // thumbnails; the rest use the icon.
+  // One card, one link. Everything a phase points at lives on the Rollout
+  // Resources Hub (the EOS Worldwide pieces included), so this is a title,
+  // the button, and the list of what to look for there. Phase 1 shows cover
+  // thumbnails; the other phases list plain titles.
   const r = phase.resources || {};
   const hub = (r.hub || []).map((h) => (typeof h === "string" ? { title: h } : h));
   if (!hub.length) return null;
 
-  const extIcon = (
-    <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-      <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    </svg>
-  );
-  const docIcon = (
-    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path d="M11.5 2.5H5.5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V6.5l-4-4Z"
-            stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-      <path d="M11.5 2.5V6.5h4M7.5 10.5h5M7.5 13.5h5"
-            stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-    </svg>
-  );
-
   return (
     <section className="lp-pres">
       <header className="lp-pres__head">
-        <h4 className="hand lp-pres__title">
-          Rollout Resources for Phase {parseInt(phase.num, 10)}: {phase.name}
-        </h4>
-        <span className="lp-pres__kicker">References for the whole {phase.name} phase</span>
-      </header>
-
-      <div className="lp-hub">
-        <div className="lp-hub__head">
-          <span className="lp-hub__label">On the Rollout Resources Hub</span>
+        <div>
+          <h4 className="hand lp-pres__title">
+            Rollout Resources for Phase {parseInt(phase.num, 10)}: {phase.name}
+          </h4>
+          <span className="lp-pres__kicker">Everything here is on the Rollout Resources Hub.</span>
+        </div>
+        <div className="lp-pres__action">
+          <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
+            Open the Rollout Resources Hub
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+            </svg>
+          </a>
           <span className="lp-hub__note">Free account. New resources are added regularly.</span>
         </div>
-        <ul className="lp-hub__list">
-          {hub.map((h, i) => (
-            <li key={i} className={h.thumb ? "has-thumb" : ""}>
-              {h.thumb ? (
-                <img className="lp-hub__thumb" src={h.thumb} alt="" aria-hidden="true" loading="lazy" />
-              ) : (
-                <span className="lp-hub__icon" aria-hidden="true">{docIcon}</span>
-              )}
-              <span>{h.title}</span>
-            </li>
-          ))}
-        </ul>
-        <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
-          Open the Rollout Resources Hub
-          {extIcon}
-        </a>
-      </div>
+      </header>
+
+      <ul className="lp-hub__list">
+        {hub.map((h, i) => (
+          <li key={i} className={h.thumb ? "has-thumb" : ""}>
+            {h.thumb && <img className="lp-hub__thumb" src={h.thumb} alt="" aria-hidden="true" loading="lazy" />}
+            <span>{h.title}</span>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
@@ -557,35 +540,33 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
       <style>{`
         .lp { display: flex; flex-direction: column; gap: 28px; }
 
-        /* ---- phase resources ---- */
-        /* The hub group: one bordered panel, the items as a compact list, one button. */
-        .lp-hub {
-          border: 1.5px solid var(--color-brand-blue);
-          border-radius: var(--radius-md);
-          padding: 14px 16px 16px;
-          background: var(--color-brand-blue-08);
+        /* ---- phase resources: one card, one link ---- */
+        .lp-pres__head {
+          display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
+          gap: 12px 24px; margin-bottom: 14px;
         }
-        .lp-hub__head {
-          display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
-          gap: 6px 14px; margin-bottom: 10px;
-        }
-        .lp-hub__label {
-          font-size: var(--fs-meta); font-weight: 700;
-          letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-brand-blue);
-        }
+        .lp-pres__action { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+        .lp-hub__btn { text-decoration: none; }
         .lp-hub__note { font-size: var(--fs-meta); color: var(--fg-3); }
         .lp-hub__list {
-          list-style: none; margin: 0 0 14px; padding: 0;
+          list-style: none; margin: 0; padding: 14px 0 0;
+          border-top: 1px solid var(--border-subtle);
           display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 6px 18px;
+          gap: 8px 24px;
         }
         @media (max-width: 720px) { .lp-hub__list { grid-template-columns: minmax(0, 1fr); } }
         .lp-hub__list li {
-          display: flex; align-items: flex-start; gap: 8px;
-          font-size: 14px; line-height: 1.45; color: var(--fg-1); font-weight: 500;
+          display: flex; align-items: flex-start; gap: 10px;
+          font-size: 14px; line-height: 1.45; color: var(--fg-1);
+          padding-left: 14px; position: relative;
         }
-        .lp-hub__icon { color: var(--color-brand-blue); flex: 0 0 auto; margin-top: 2px; display: flex; }
-        .lp-hub__list li.has-thumb { align-items: center; }
+        .lp-hub__list li::before {
+          content: ""; position: absolute; left: 0; top: 8px;
+          width: 5px; height: 5px; border-radius: 50%;
+          background: var(--color-brand-blue);
+        }
+        .lp-hub__list li.has-thumb { align-items: center; padding-left: 0; }
+        .lp-hub__list li.has-thumb::before { display: none; }
         .lp-hub__thumb {
           flex: 0 0 auto; width: 44px; height: 56px; object-fit: contain;
           border-radius: 3px; background: var(--color-white);
@@ -878,7 +859,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           padding: 18px 22px;
           box-shadow: var(--shadow-xs);
         }
-        .lp-pres__head { margin-bottom: 12px; }
         .lp-pres__title { margin: 0 0 2px; font-size: 16px; font-weight: 700; }
         .lp-pres__kicker { font-family: var(--font-hand); font-size: 13px; color: var(--fg-2); }
 
@@ -973,7 +953,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           .lp-step { padding: 18px 16px 16px; }
           .lp-step__head { gap: 14px; grid-template-columns: 32px 1fr; }
           .lp-step__mark { width: 32px; height: 32px; }
-          .lp-hub { padding: 12px 14px 14px; }
+          .lp-pres__action { align-items: flex-start; }
           .lp-step__title { font-size: 18px; }
           .lp-step__explain { font-size: 14.5px; }
           .lp-step__lists { margin-top: 14px; padding-top: 12px; gap: 16px; }
