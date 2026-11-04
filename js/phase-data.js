@@ -600,7 +600,7 @@ window.PHASES = [
         title: "Achieve and maintain 80%+ on the Organizational Checkup®",
         explain: "Reaching 80%+ strong is where you’ll feel the “organizational flow” that makes running your business easier, and maintaining it is how you know EOS hasn’t started to drift. Taking the Checkup both as a leadership team and as an entire organization shows you whether the rest of the company sees things the same way you do. Any gaps between the scores reveal exactly where your Rollout needs more attention.",
         ninety: [
-          { kind: "Assessment", label: "Take the Organizational Checkup® on a quarterly schedule", url: "https://help.eos.ninety.io/en/articles/14062622-measuring-your-six-key-components-with-the-org-assessment" },
+          { kind: "Assessment", label: "Take the Organizational Checkup® on an annual schedule", url: "https://help.eos.ninety.io/en/articles/14062622-measuring-your-six-key-components-with-the-org-assessment" },
         ],
         resources: [],
       },
