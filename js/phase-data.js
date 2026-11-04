@@ -6,9 +6,10 @@
    Conventions:
    - Ninety actions live on the STEP they belong to (steps[].ninety), not at
      phase level — one place, next to the work they support.
-   - "resources" = { hub: [...], more: [...] } — one button to the ROLLOUT
-     member hub plus a list of what to look for there, rather than a dozen
-     links to the same destination.
+   - "resources" = { hub: [...] } — one button to the ROLLOUT member hub plus
+     a list of what to look for there, rather than a dozen links to the same
+     destination. The hub also carries the EOS Worldwide pieces, so those are
+     listed there too.
    - No "common order" list per phase — one "every Rollout is unique" line
      under the work heading instead (stepsNote, or STEPS_NOTE_DEFAULT). Marisa
      asked us not to sound prescriptive about timing, and not to call the
@@ -16,12 +17,11 @@
    - "explainList" on a STEP — bullet points under (or instead of) explain.
    - "readThis" on a STEP — one-line pointers at the end of the card: the
      ROLLOUT chapter, plus the EOS library book for that section if there is one.
-   - resources = { hub: [...], more: [{ title, source, url?, thumb?, note? }] }.
-     hub items are a title string or { title, thumb } (thumb = a page/cover
-     image in assets/); they render as one group behind the single hub
-     button. "more" renders as cards labeled by source (EOS Worldwide). The
-     book itself is not listed here — the Read-this lines on each card
-     already point at the chapter.
+   - resources = { hub: [...] }: a title string, or { title, thumb } (a cover
+     image in assets/). Everything renders as one group behind the single hub
+     button. Only Phase 1 uses thumbnails — the other phases use the icon, so
+     the difference is visible side by side. The book itself is not listed
+     here — the Read-this lines on each card already point at the chapter.
    - explain / explainList text may contain [label](url) — rendered as a link.
    - "suggested" on a STEP — an optional, recommended aspect, shown as a callout.
    - "url" on a NINETY item — the help-center how-to for that action; renders
@@ -404,9 +404,7 @@ window.PHASES = [
         "Tips for Sharing the Context of EOS®",
         "Glossary of EOS Acronyms",
         "EOS Basics for Employees (Handout + Postcard)",
-      ],
-      more: [
-        { title: "20+ EOS Terms Your Employees Need to Know", source: "EOS Worldwide", url: "https://www.eosworldwide.com/20-eos-terms", thumb: "assets/eosw-20-eos-terms.webp" },
+        "20+ EOS Terms Your Employees Need to Know",
       ],
       links: [],
     },
@@ -476,12 +474,10 @@ window.PHASES = [
         "Tips for Sharing the Context of EOS®",
         "Tips for Bringing Your Vision to Life",
         "Tips for Checking for Understanding",
-        { title: "Tips for Managing Change", thumb: "assets/hub-tips-managing-change.webp" },
+        "Tips for Managing Change",
         "Rollout Troubleshooting Guide",
-      ],
-      more: [
-        { title: "How to Lead World-Class Meetings (ebook)", source: "EOS Worldwide", url: "https://www.eosworldwide.com/free-ebook-world-class-meetings", thumb: "assets/eosw-world-class-meetings.webp" },
-        { title: "How to Be a Great Boss Toolkit",          source: "EOS Worldwide", url: "https://www.eosworldwide.com/great-boss-toolkit",              thumb: "assets/eosw-great-boss-toolkit.webp" },
+        "How to Lead World-Class Meetings (ebook)",
+        "How to Be a Great Boss Toolkit",
       ],
     },
     steps: [
@@ -579,7 +575,6 @@ window.PHASES = [
       hub: [
         "Rollout Troubleshooting Guide",
       ],
-      more: [],
     },
     steps: [
       {

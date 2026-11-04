@@ -410,14 +410,13 @@ function Step({ step, readiness, setReadiness }) {
 }
 
 function PhaseResources({ phase }) {
-  // Two groups. Everything on the Rollout Resources Hub sits together behind
-  // the one hub button (the authors add to it regularly). Anything from
-  // somewhere else — the ROLLOUT book, the EOS library, EOS Worldwide — is its
-  // own card, labeled with where it comes from.
+  // One group, one link. Everything a phase points at lives on the Rollout
+  // Resources Hub (the EOS Worldwide pieces included), so the list is what to
+  // look for there and the button is the only way out. Phase 1 shows cover
+  // thumbnails; the rest use the icon.
   const r = phase.resources || {};
   const hub = (r.hub || []).map((h) => (typeof h === "string" ? { title: h } : h));
-  const more = r.more || [];
-  if (!r.book && !hub.length && !more.length) return null;
+  if (!hub.length) return null;
 
   const extIcon = (
     <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -432,35 +431,6 @@ function PhaseResources({ phase }) {
             stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
     </svg>
   );
-  const bookIcon = (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path d="M4 3.5h5.5a2 2 0 0 1 2 2V17a1.5 1.5 0 0 0-1.5-1.5H4V3.5Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-      <path d="M16 3.5h-5.5a2 2 0 0 0-2 2V17a1.5 1.5 0 0 1 1.5-1.5H16V3.5Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-    </svg>
-  );
-
-  const cards = [];
-  if (r.book) {
-    cards.push({
-      key: "book",
-      href: window.ROLLOUT_LINKS.book,
-      cover: true,
-      label: "In the book",
-      title: r.book.label,
-      note: r.book.note,
-    });
-  }
-  more.forEach((m, i) => {
-    cards.push({
-      key: "more-" + i,
-      href: m.url || null,
-      thumb: m.thumb || null,
-      icon: m.source === "EOS Library" ? bookIcon : docIcon,
-      label: m.source,
-      title: m.title,
-      note: m.note,
-    });
-  });
 
   return (
     <section className="lp-pres">
@@ -471,61 +441,28 @@ function PhaseResources({ phase }) {
         <span className="lp-pres__kicker">References for the whole {phase.name} phase</span>
       </header>
 
-      {hub.length > 0 && (
-        <div className="lp-hub">
-          <div className="lp-hub__head">
-            <span className="lp-hub__label">On the Rollout Resources Hub</span>
-            <span className="lp-hub__note">Free account. New resources are added regularly.</span>
-          </div>
-          <ul className="lp-hub__list">
-            {hub.map((h, i) => (
-              <li key={i} className={h.thumb ? "has-thumb" : ""}>
-                {h.thumb ? (
-                  <img className="lp-hub__thumb" src={h.thumb} alt="" aria-hidden="true" loading="lazy" />
-                ) : (
-                  <span className="lp-hub__icon" aria-hidden="true">{docIcon}</span>
-                )}
-                <span>{h.title}</span>
-              </li>
-            ))}
-          </ul>
-          <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
-            Open the Rollout Resources Hub
-            {extIcon}
-          </a>
+      <div className="lp-hub">
+        <div className="lp-hub__head">
+          <span className="lp-hub__label">On the Rollout Resources Hub</span>
+          <span className="lp-hub__note">Free account. New resources are added regularly.</span>
         </div>
-      )}
-
-      {cards.length > 0 && (
-        <div className="lp-pres__grid">
-          {cards.map((c) => {
-            const inner = (
-              <React.Fragment>
-                {c.cover ? (
-                  <img className="lp-rescard__cover" src="assets/rollout-book-cover.webp" alt="" aria-hidden="true" />
-                ) : c.thumb ? (
-                  <img className="lp-rescard__thumb" src={c.thumb} alt="" aria-hidden="true" loading="lazy" />
-                ) : (
-                  <span className="lp-rescard__icon" aria-hidden="true">{c.icon}</span>
-                )}
-                <span className="lp-rescard__body">
-                  <span className="lp-rescard__label">
-                    {c.label}
-                    {c.href && extIcon}
-                  </span>
-                  <span className="lp-rescard__title">{c.title}</span>
-                  {c.note && <span className="lp-rescard__note">{c.note}</span>}
-                </span>
-              </React.Fragment>
-            );
-            return c.href ? (
-              <a key={c.key} className="lp-rescard" href={c.href} target="_blank" rel="noopener">{inner}</a>
-            ) : (
-              <span key={c.key} className="lp-rescard lp-rescard--static">{inner}</span>
-            );
-          })}
-        </div>
-      )}
+        <ul className="lp-hub__list">
+          {hub.map((h, i) => (
+            <li key={i} className={h.thumb ? "has-thumb" : ""}>
+              {h.thumb ? (
+                <img className="lp-hub__thumb" src={h.thumb} alt="" aria-hidden="true" loading="lazy" />
+              ) : (
+                <span className="lp-hub__icon" aria-hidden="true">{docIcon}</span>
+              )}
+              <span>{h.title}</span>
+            </li>
+          ))}
+        </ul>
+        <a className="btn btn--sm lp-hub__btn" href={window.ROLLOUT_LINKS.hub} target="_blank" rel="noopener">
+          Open the Rollout Resources Hub
+          {extIcon}
+        </a>
+      </div>
     </section>
   );
 }
@@ -621,66 +558,11 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         .lp { display: flex; flex-direction: column; gap: 28px; }
 
         /* ---- phase resources ---- */
-        /* Three equal cards across: the book, then one per hub resource. */
-        .lp-pres__grid {
-          display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
-          align-items: stretch;
-        }
-        @media (max-width: 1100px) {
-          .lp-pres__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        }
-        @media (max-width: 720px) {
-          .lp-pres__grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
-        }
-
-        .lp-rescard {
-          display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px;
-          align-items: start; text-decoration: none;
-          border: 1.5px solid var(--border-subtle);
-          border-radius: var(--radius-md);
-          padding: 16px;
-          background: var(--bg-card);
-          transition: border-color var(--t-fast), box-shadow var(--t-fast);
-        }
-        .lp-rescard:hover {
-          border-color: var(--color-brand-blue);
-          box-shadow: var(--shadow-xs);
-        }
-        .lp-rescard__cover {
-          width: 46px; height: auto; border-radius: 2px;
-          box-shadow: var(--shadow-sm);
-        }
-        .lp-rescard__thumb {
-          width: 46px; height: 58px; object-fit: contain; object-position: top;
-          border-radius: 3px; background: var(--color-white);
-          box-shadow: var(--shadow-sm);
-        }
-        .lp-rescard__icon {
-          display: flex; align-items: center; justify-content: center;
-          width: 46px; height: 46px; border-radius: var(--radius-sm);
-          background: var(--color-brand-blue-08);
-          color: var(--color-brand-blue);
-        }
-        .lp-rescard__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-        .lp-rescard__label {
-          display: inline-flex; align-items: center; gap: 5px;
-          font-size: var(--fs-meta); font-weight: 700;
-          letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-3);
-        }
-        .lp-rescard__title {
-          font-size: var(--fs-body); font-weight: 600; color: var(--fg-1);
-          line-height: 1.3;
-        }
-        .lp-rescard__note { font-size: var(--fs-body-sm); color: var(--fg-2); }
-        .lp-rescard--static { cursor: default; }
-        .lp-rescard--static:hover { border-color: var(--border-subtle); box-shadow: none; }
-
         /* The hub group: one bordered panel, the items as a compact list, one button. */
         .lp-hub {
           border: 1.5px solid var(--color-brand-blue);
           border-radius: var(--radius-md);
           padding: 14px 16px 16px;
-          margin-bottom: 16px;
           background: var(--color-brand-blue-08);
         }
         .lp-hub__head {
