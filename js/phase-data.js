@@ -16,10 +16,12 @@
    - "explainList" on a STEP — bullet points under (or instead of) explain.
    - "readThis" on a STEP — a one-line pointer to the ROLLOUT chapter, at the
      end of the card. Other books belong in resources.more, not here.
-   - resources = { book, hub: [titles on the Rollout Resources Hub],
-     more: [{ title, source, note?, url? }] } — hub titles render as one
-     group behind the single hub button; "more" renders as cards labeled by
-     source (EOS Library, EOS Worldwide).
+   - resources = { book, hub: [...], more: [{ title, source, note?, url? }] }.
+     hub items are a title string or { title, thumb } (thumb = a page/cover
+     image in assets/); they render as one group behind the single hub
+     button. "more" renders as cards labeled by source (EOS Library,
+     EOS Worldwide).
+   - explain / explainList text may contain [label](url) — rendered as a link.
    - "suggested" on a STEP — an optional, recommended aspect, shown as a callout.
    - "url" on a NINETY item — the help-center how-to for that action; renders
      as a "How-to" link at the row's far right.
@@ -330,8 +332,8 @@ window.PHASES = [
     resources: {
       book: { label: "ROLLOUT — Chapters 4–5" },
       hub: [
-        "Rollout Reflection Guide",
-        "Tips for Managing Change",
+        { title: "Rollout Reflection Guide", thumb: "assets/hub-reflection-guide.webp" },
+        { title: "Tips for Managing Change",  thumb: "assets/hub-tips-managing-change.webp" },
       ],
       links: [],
     },
@@ -405,7 +407,7 @@ window.PHASES = [
         "EOS Basics for Employees (Handout + Postcard)",
       ],
       more: [
-        { title: "20+ EOS Terms Your Employees Need to Know", source: "EOS Worldwide" },
+        { title: "20+ EOS Terms Your Employees Need to Know", source: "EOS Worldwide", url: "https://www.eosworldwide.com/20-eos-terms" },
       ],
       links: [],
     },
@@ -421,7 +423,7 @@ window.PHASES = [
       },
       {
         title: "Hand out a copy of What the Heck is EOS? to everyone",
-        explain: "What the Heck is EOS? was written specifically for employees, so it gives everyone a simple, shared understanding of the basics in plain language before you dive into your own tools. When people understand the “why” behind EOS ahead of time, they’re more receptive to learning it, and your launch conversations can go deeper, faster.",
+        explain: "[What the Heck is EOS?](https://www.eosworldwide.com/what-the-heck-is-eos) was written specifically for employees, so it gives everyone a simple, shared understanding of the basics in plain language before you dive into your own tools. When people understand the “why” behind EOS ahead of time, they’re more receptive to learning it, and your launch conversations can go deeper, faster.",
         ninety: [],
         resources: [],
       },
@@ -476,7 +478,7 @@ window.PHASES = [
         "Tips for Sharing the Context of EOS®",
         "Tips for Bringing Your Vision to Life",
         "Tips for Checking for Understanding",
-        "Tips for Managing Change",
+        { title: "Tips for Managing Change", thumb: "assets/hub-tips-managing-change.webp" },
         "Rollout Troubleshooting Guide",
       ],
       more: [

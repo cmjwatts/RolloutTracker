@@ -344,6 +344,23 @@ function ResourceSubList({ label, accent, items }) {
   );
 }
 
+/* Copy in phase-data may contain [label](url); render those as links. */
+function Inline({ text }) {
+  if (!text) return null;
+  const parts = [];
+  const re = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g;
+  let last = 0, m;
+  while ((m = re.exec(text))) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    parts.push(
+      <a key={m.index} className="lp-inline-link" href={m[2]} target="_blank" rel="noopener">{m[1]}</a>
+    );
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return <React.Fragment>{parts}</React.Fragment>;
+}
+
 function Step({ step, readiness, setReadiness }) {
   const hasNinety = step.ninety && step.ninety.length > 0;
   const hasResources = step.resources && step.resources.length > 0;
@@ -356,10 +373,10 @@ function Step({ step, readiness, setReadiness }) {
         <WorkMark />
         <div>
           <h3 className="lp-step__title">{step.title}</h3>
-          {step.explain && <p className="lp-step__explain">{step.explain}</p>}
+          {step.explain && <p className="lp-step__explain"><Inline text={step.explain} /></p>}
           {step.explainList && step.explainList.length > 0 && (
             <ul className="lp-step__list">
-              {step.explainList.map((t, i) => <li key={i}>{t}</li>)}
+              {step.explainList.map((t, i) => <li key={i}><Inline text={t} /></li>)}
             </ul>
           )}
           {step.suggested && (
@@ -391,7 +408,7 @@ function PhaseResources({ phase }) {
   // somewhere else — the ROLLOUT book, the EOS library, EOS Worldwide — is its
   // own card, labeled with where it comes from.
   const r = phase.resources || {};
-  const hub = r.hub || [];
+  const hub = (r.hub || []).map((h) => (typeof h === "string" ? { title: h } : h));
   const more = r.more || [];
   if (!r.book && !hub.length && !more.length) return null;
 
@@ -454,9 +471,13 @@ function PhaseResources({ phase }) {
           </div>
           <ul className="lp-hub__list">
             {hub.map((h, i) => (
-              <li key={i}>
-                <span className="lp-hub__icon" aria-hidden="true">{docIcon}</span>
-                <span>{h}</span>
+              <li key={i} className={h.thumb ? "has-thumb" : ""}>
+                {h.thumb ? (
+                  <img className="lp-hub__thumb" src={h.thumb} alt="" aria-hidden="true" loading="lazy" />
+                ) : (
+                  <span className="lp-hub__icon" aria-hidden="true">{docIcon}</span>
+                )}
+                <span>{h.title}</span>
               </li>
             ))}
           </ul>
@@ -667,6 +688,14 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           font-size: 14px; line-height: 1.45; color: var(--fg-1); font-weight: 500;
         }
         .lp-hub__icon { color: var(--color-brand-blue); flex: 0 0 auto; margin-top: 2px; display: flex; }
+        .lp-hub__list li.has-thumb { align-items: center; }
+        .lp-hub__thumb {
+          flex: 0 0 auto; width: 44px; height: 56px; object-fit: contain;
+          border-radius: 3px; background: var(--color-white);
+          box-shadow: var(--shadow-sm);
+        }
+        .lp-inline-link { color: var(--color-brand-blue); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+        .lp-inline-link:hover { color: var(--color-brand-black); }
         .lp-hub__btn { text-decoration: none; }
 
 
