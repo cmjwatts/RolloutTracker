@@ -17,11 +17,10 @@
    - "explainList" on a STEP — bullet points under (or instead of) explain.
    - "readThis" on a STEP — one-line pointers at the end of the card: the
      ROLLOUT chapter, plus the EOS library book for that section if there is one.
-   - resources = { hub: [...] }: a title string, or { title, thumb } (a cover
-     image in assets/). Everything renders as one group behind the single hub
-     button. Only Phase 1 uses thumbnails — the other phases use the icon, so
-     the difference is visible side by side. The book itself is not listed
-     here — the Read-this lines on each card already point at the chapter.
+   - resources = { hub: [titles] }. Everything renders as one list behind the
+     single hub button, each with the document icon (Marisa: icons, so there
+     is nothing to update when a handout gets a new version). The book itself
+     is not listed here — the Read-this lines on each card point at it.
    - explain / explainList text may contain [label](url) — rendered as a link.
    - "suggested" on a STEP — an optional, recommended aspect, shown as a callout.
    - "url" on a NINETY item — the help-center how-to for that action; renders
@@ -301,9 +300,10 @@ window.INTRO = {
 window.STEPS_NOTE_DEFAULT =
   "Every Rollout is unique — you know your team best, so adapt these suggestions as needed.";
 
-/* "Read this" (readThis on a STEP): [{ text, book }] — short lines at the
-   foot of a card. book: "rollout" links to the book site; "other" (the EOS
-   library titles Marisa named for Integration) is plain text. */
+/* "Read this" (readThis on a STEP): [{ text, book, cover? }] — short lines
+   at the foot of a card, each with a small cover. book: "rollout" uses the
+   ROLLOUT cover and links to the book site; "other" (the EOS library titles
+   Marisa named for Integration) shows its own cover and no link. */
 
 window.PHASES = [
   {
@@ -330,8 +330,8 @@ window.PHASES = [
     },
     resources: {
       hub: [
-        { title: "Rollout Reflection Guide", thumb: "assets/hub-reflection-guide.webp" },
-        { title: "Tips for Managing Change",  thumb: "assets/hub-tips-managing-change.webp" },
+        "Rollout Reflection Guide",
+        "Tips for Managing Change",
       ],
       links: [],
     },
@@ -493,7 +493,7 @@ window.PHASES = [
         ],
         readThis: [
           { text: "Learn more about Rolling Out to Departments in Chapter 7 of ROLLOUT.", book: "rollout" },
-          { text: "Issues, by Sue Hawkes & Jill Young", book: "other" },
+          { text: "Issues, by Mark O’Donnell, Sue Hawkes & Jill Young", book: "other", cover: "assets/book-issues.webp" },
         ],
       },
       {
@@ -520,7 +520,7 @@ window.PHASES = [
           { kind: "Knowledge Portal", label: "Document Core Processes in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/13653878-documenting-your-processes-with-the-knowledge-portal" },
         ],
         readThis: [
-          { text: "Process!, by Mike Paton & Lisa Gonzalez", book: "other" },
+          { text: "Process!, by Mike Paton & Lisa González", book: "other", cover: "assets/book-process.webp" },
         ],
       },
       {
@@ -530,7 +530,7 @@ window.PHASES = [
           { kind: "Scorecard", label: "Build a Departmental Scorecard per leader; share measurables across teams", url: "https://help.eos.ninety.io/en/articles/13642363-creating-and-updating-measurables" },
         ],
         readThis: [
-          { text: "Data, by Mark Stanley & Angela Kalemis", book: "other" },
+          { text: "Data, by Mark O’Donnell, Angela Kalemis & Mark Stanley", book: "other", cover: "assets/book-data.webp" },
         ],
       },
     ],

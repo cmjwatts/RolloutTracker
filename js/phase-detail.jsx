@@ -288,14 +288,21 @@ function ReadThis({ items }) {
   return (
     <div className="lp-read">
       {items.map((it, i) => {
+        const cover = it.book === "rollout" ? "assets/rollout-book-cover.webp" : it.cover;
         const inner = (
           <React.Fragment>
-            <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path d="M4 3.5h5.5a2 2 0 0 1 2 2V17a1.5 1.5 0 0 0-1.5-1.5H4V3.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-              <path d="M16 3.5h-5.5a2 2 0 0 0-2 2V17a1.5 1.5 0 0 1 1.5-1.5H16V3.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-            </svg>
-            <span className="lp-read__label">Read this:</span>
-            <span className="lp-read__text">{it.text}</span>
+            {cover ? (
+              <img className="lp-read__cover" src={cover} alt="" aria-hidden="true" loading="lazy" />
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M4 3.5h5.5a2 2 0 0 1 2 2V17a1.5 1.5 0 0 0-1.5-1.5H4V3.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                <path d="M16 3.5h-5.5a2 2 0 0 0-2 2V17a1.5 1.5 0 0 1 1.5-1.5H16V3.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+              </svg>
+            )}
+            <span className="lp-read__body">
+              <span className="lp-read__label">Read this:</span>
+              <span className="lp-read__text">{it.text}</span>
+            </span>
           </React.Fragment>
         );
         return it.book === "rollout" ? (
@@ -477,6 +484,10 @@ function ProServeCallout({ phase }) {
           rather lean on people who do this every week, Ninety Professional Services works with you
           to develop and execute your plan.
         </p>
+        <p className="lp-ps__stuck">
+          Working with an EOS Implementer®? Good. We work alongside them, not in their place: your
+          Implementer guides the leadership team on EOS, and we help the whole company run it in Ninety.
+        </p>
         <div className="lp-ps__offer">
           <div className="lp-ps__offer-title">{phase.proServe.title}</div>
           {phase.proServe.blurb && <div className="lp-ps__offer-meta">{phase.proServe.blurb}</div>}
@@ -505,7 +516,8 @@ function ProServeSoft() {
     <section className="lp-ps-soft">
       <span className="lp-ps-soft__badge">90</span>
       <span className="lp-ps-soft__text">
-        <strong>Ninety Professional Services</strong> can help with your Rollout. Give us a call.
+        <strong>Ninety Professional Services</strong> can help with your Rollout, working alongside
+        your EOS Implementer® if you have one. Give us a call.
       </span>
       <button className="btn btn--sm btn--ghost lp-ps-soft__cta" type="button">Talk to our team →</button>
     </section>
@@ -605,11 +617,17 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           display: flex; flex-direction: column; gap: 6px;
         }
         .lp-read__line {
-          display: inline-flex; align-items: baseline; gap: 7px;
+          display: inline-flex; align-items: center; gap: 10px;
           font-size: 13.5px; line-height: 1.45; color: var(--fg-2);
           text-decoration: none;
         }
-        .lp-read__line svg { color: var(--color-brand-blue); flex: 0 0 auto; align-self: center; }
+        .lp-read__line svg { color: var(--color-brand-blue); flex: 0 0 auto; }
+        .lp-read__cover {
+          flex: 0 0 auto; width: 30px; height: 42px; object-fit: contain;
+          border-radius: 2px; box-shadow: var(--shadow-sm); background: var(--color-white);
+        }
+        .lp-read__body { display: inline; }
+        .lp-read__label { margin-right: 6px; }
         .lp-read__label { font-weight: 700; color: var(--color-brand-blue); white-space: nowrap; }
         a.lp-read__line:hover .lp-read__text { color: var(--fg-1); text-decoration: underline; text-underline-offset: 2px; }
 
