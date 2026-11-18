@@ -101,6 +101,22 @@ const SHARED_CSS = `
           position: absolute; inset: 0;
           background: radial-gradient(120% 80% at 30% 25%, #3a4a55 0%, #1a1f24 70%, #0f1316 100%);
         }
+        .lp-video__thumb {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .lp-video__shade {
+          position: absolute; inset: 0;
+          background: linear-gradient(180deg, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.72) 100%);
+        }
+        .lp-video__frame {
+          position: absolute; inset: 0;
+          width: 100%; height: 100%;
+          border: 0; display: block;
+          background: #000;
+        }
         .lp-video__disc {
           position: absolute;
           left: 50%; top: 50%;
@@ -157,18 +173,57 @@ function SharedStyles() {
   return <style>{SHARED_CSS}</style>;
 }
 
+/* YouTube poster: try the HD thumbnail, fall back to the standard one (YouTube
+   serves a grey placeholder for maxresdefault when a video has no HD still). */
+function ytThumb(id, hd) {
+  return `https://i.ytimg.com/vi/${id}/${hd ? "maxresdefault" : "hqdefault"}.jpg`;
+}
+
 function VideoCard({ video, backLabel }) {
   const [playing, setPlaying] = React.useState(false);
+  const [hd, setHd] = React.useState(true);
+  const yt = video.youtubeId;
+
+  const play = () => {
+    setPlaying(true);
+    if (window.rtTrack) window.rtTrack("video_play", { video_id: yt || null, video_title: video.title });
+  };
+
+  if (playing && yt) {
+    return (
+      <section className="lp-video">
+        <iframe
+          className="lp-video__frame"
+          src={`https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+          title={video.title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      </section>
+    );
+  }
+
   return (
     <section className="lp-video">
       {!playing ? (
         <button
           className="lp-video__poster"
-          onClick={() => setPlaying(true)}
+          onClick={play}
           aria-label={`Play video: ${video.title}`}
           type="button"
         >
           <span className="lp-video__bg" aria-hidden="true" />
+          {yt && (
+            <img
+              className="lp-video__thumb"
+              src={ytThumb(yt, hd)}
+              alt=""
+              loading="lazy"
+              onLoad={(e) => { if (hd && e.currentTarget.naturalWidth <= 120) setHd(false); }}
+              onError={() => { if (hd) setHd(false); }}
+            />
+          )}
+          {yt && <span className="lp-video__shade" aria-hidden="true" />}
           <span className="lp-video__disc">
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
               <path d="M11 8 L24 16 L11 24 Z" fill="currentColor" />
@@ -233,6 +288,9 @@ function IntroPage({ onBegin }) {
               </li>
             ))}
           </ol>
+          <p className="lp-intro__saved">
+            Your progress is saved in this browser. Use the same browser and device when you return.
+          </p>
         </div>
       </section>
 
@@ -269,6 +327,7 @@ function IntroPage({ onBegin }) {
         .lp-intro__list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
         .lp-intro__list li { font-size: 14.5px; line-height: 1.5; color: var(--fg-1); }
         .lp-intro__list strong { font-weight: 600; }
+        .lp-intro__saved { margin: 12px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--fg-2); }
         .lp-intro__foot { display: flex; }
         @media (max-width: 640px) {
           .lp--intro { gap: 20px; }
@@ -467,6 +526,20 @@ function PhaseResources({ phase }) {
   );
 }
 
+/* "Talk to our team" goes to the Professional Services exploration booking
+   page, tagged with the phase so launch traffic can be attributed. */
+const PROSERVE_BOOKING_URL = "https://info.ninety.io/meetings/ninety/services-exploration";
+function proServeHref(phaseId) {
+  return PROSERVE_BOOKING_URL +
+    "?utm_source=rollout-tracker&utm_medium=cta&utm_campaign=rollout&utm_content=" +
+    encodeURIComponent(phaseId);
+}
+function trackProServeClick(phaseId, variant) {
+  if (window.rtTrack) {
+    window.rtTrack("cta_click", { cta: "proserve_talk_to_team", variant: variant, phase_id: phaseId, link_url: proServeHref(phaseId) });
+  }
+}
+
 function ProServeCallout({ phase }) {
   return (
     <section className="lp-ps">
@@ -504,14 +577,22 @@ function ProServeCallout({ phase }) {
         </div>
       </div>
       <div className="lp-ps__cta">
-        <button className="btn btn--pill" type="button">Talk to our team</button>
+        <a
+          className="btn btn--pill"
+          href={proServeHref(phase.id)}
+          target="_blank"
+          rel="noopener"
+          onClick={() => trackProServeClick(phase.id, "callout")}
+        >
+          Talk to our team
+        </a>
         <span className="lp-ps__meta hand">Scoped to you</span>
       </div>
     </section>
   );
 }
 
-function ProServeSoft() {
+function ProServeSoft({ phase }) {
   return (
     <section className="lp-ps-soft">
       <span className="lp-ps-soft__badge">90</span>
@@ -519,7 +600,15 @@ function ProServeSoft() {
         <strong>Ninety Professional Services</strong> can help with your Rollout, working alongside
         your EOS Implementer® if you have one. Give us a call.
       </span>
-      <button className="btn btn--sm btn--ghost lp-ps-soft__cta" type="button">Talk to our team →</button>
+      <a
+        className="btn btn--sm btn--ghost lp-ps-soft__cta"
+        href={proServeHref(phase.id)}
+        target="_blank"
+        rel="noopener"
+        onClick={() => trackProServeClick(phase.id, "soft")}
+      >
+        Talk to our team →
+      </a>
     </section>
   );
 }
@@ -562,7 +651,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
       {phase.id === "integrate" ? (
         <ProServeCallout phase={phase} />
       ) : phase.id !== "prepare" ? (
-        <ProServeSoft />
+        <ProServeSoft phase={phase} />
       ) : null}
 
       <style>{`

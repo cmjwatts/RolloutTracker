@@ -31,8 +31,8 @@
 */
 
 window.ROLLOUT_LINKS = {
-  hub:     "https://www.rolloutbook.com/rollout-resources",
-  book:    "https://www.rolloutbook.com/",
+  hub:     "https://www.rolloutbook.com/rollout-resources?utm_source=ninety-rollout-tracker&utm_medium=referral",
+  book:    "https://www.rolloutbook.com/?utm_source=ninety-rollout-tracker&utm_medium=referral",
   checkup: "https://www.organizationalcheckup.com/",
 };
 
@@ -276,7 +276,8 @@ window.PLANNING = {
 
 /* ------------------------------------------------------------------
    Introduction — shown above Phase 1. Text is the intro from the top of the
-   printed Rollout Tracker (Marisa). Two videos are planned; no URLs yet.
+   printed Rollout Tracker (Marisa). The videos are the ROLLOUT book's YouTube
+   playlist (youtubeId); duration is the real length, shown on the poster.
 ------------------------------------------------------------------ */
 window.INTRO = {
   lead:
@@ -290,8 +291,8 @@ window.INTRO = {
     { t: "Identify Next Steps",     d: "Use your “NO” answers to identify what needs attention next" },
   ],
   videos: [
-    { title: "What the Heck is EOS Rollout?", presenter: "Marisa Smith", cue: "The idea behind Rollout, in five minutes" },
-    { title: "Why Rollout is Hard",           presenter: "Beth Fahey",   cue: "What gets in the way — and what to do about it" },
+    { title: "What the Heck is EOS Rollout?", presenter: "Marisa Smith", youtubeId: "LNVi9y23U5M", duration: "1:54", cue: "The ROLLOUT Roadmap, in under two minutes" },
+    { title: "Why Rollout is Hard",           presenter: "Beth Fahey",   youtubeId: "h8M2O32-8uw", duration: "2:13", cue: "Helping your team embrace change" },
   ],
 };
 
@@ -323,10 +324,11 @@ window.PHASES = [
     ],
     stepsNote: "Every Rollout is unique — you know your team best, so create a plan that works for you.",
     video: {
-      title: "What is the Rollout Roadmap?",
+      title: "Align Your Leadership Team",
       presenter: "Marisa Smith",
-      duration: "~5 min",
-      cue: "The four phases · why Preparation is non-negotiable",
+      youtubeId: "fWWNwLe9STg",
+      duration: "2:19",
+      cue: "Phase 1: Preparation",
     },
     resources: {
       hub: [
@@ -368,7 +370,7 @@ window.PHASES = [
       bullets: [
         "Leadership alignment: confirm what's rolling out, to whom, in what order",
         "Facilitated readiness and alignment sessions",
-        "Co-author the Rollout Plan with a Ninety Pro Serve guide",
+        "Co-author the Rollout Plan with a Ninety Professional Services guide",
         "Mid-manager prep workshop",
       ],
       stuckSignal: "Leadership Team keeps disagreeing on basics. No written plan. Mid-managers blindsided.",
@@ -391,10 +393,11 @@ window.PHASES = [
       "Next Quarterly State of the Company planned/scheduled",
     ],
     video: {
-      title: "Five Best Practices for a Great Launch",
+      title: "Introduce Your Vision and EOS",
       presenter: "Beth Fahey",
-      duration: "~5 min",
-      cue: "The launch-day checklist",
+      youtubeId: "VpfvHF4nDQ8",
+      duration: "1:59",
+      cue: "Phase 2: Launch",
     },
     resources: {
       hub: [
@@ -436,7 +439,7 @@ window.PHASES = [
       title: "Launch Day Prep",
       blurb: "Scoped to you — see below",
       bullets: [
-        "Build your all-company agenda with a Ninety Pro Serve guide",
+        "Build your all-company agenda with a Ninety Professional Services guide",
         "Dry-run the V/TO® presentation",
         "Pre-launch comms templates",
       ],
@@ -462,10 +465,11 @@ window.PHASES = [
       "Everyone has at least one number they're accountable for keeping on track",
     ],
     video: {
-      title: "Rolling Out to Departments",
+      title: "Bring EOS Into Every Department",
       presenter: "Marisa Smith",
-      duration: "~5 min",
-      cue: "Departmental Meeting Pulse® and accountability",
+      youtubeId: "H8tHcrmSQLQ",
+      duration: "2:26",
+      cue: "Phase 3: Integration",
     },
     resources: {
       hub: [
@@ -564,10 +568,11 @@ window.PHASES = [
       "Complete 90%+ of To-Dos weekly",
     ],
     video: {
-      title: "Running on EOS… Forever",
+      title: "Keep EOS Working for the Long Term",
       presenter: "Beth Fahey",
-      duration: "~5 min",
-      cue: "The sustain cadence",
+      youtubeId: "kuZ2AVyZt1k",
+      duration: "2:10",
+      cue: "Phase 4: Sustainability",
     },
     resources: {
       hub: [
