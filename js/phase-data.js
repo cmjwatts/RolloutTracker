@@ -339,7 +339,6 @@ window.PHASES = [
     name: "Preparation",
     headline: "The Leadership Team is Ready for Rollout",
     tagline: "The Leadership Team is ready for Rollout.",
-    why: "A successful Rollout starts long before anyone beyond the leadership team hears the word “EOS.” This phase is about getting the leadership team aligned, clear on the Vision, and ready to model the behaviors they’ll be asking of everyone else. Skip it or rush it, and you’ll be asking your people to sing a song the leaders haven’t learned yet.",
     quote: {
       text: "Readiness doesn't require perfection; it requires commitment, consistency, and the courage to begin.",
       who: "ROLLOUT, p. 83",
@@ -408,7 +407,6 @@ window.PHASES = [
     name: "Launch",
     headline: "The Leadership Team has introduced the vision and EOS to everyone",
     tagline: "Every employee has heard the why, seen the V/TO®, and knows the plan.",
-    why: "The Launch is your company’s first real look at EOS, and first impressions shape how people feel about everything that follows. When you share the context of why you’re running on EOS and what it means for each person, you turn uncertainty into curiosity and give people a reason to lean in rather than wait it out.",
     quote: {
       text: "Content without context will create confusion, and confusion kills momentum.",
       who: "ROLLOUT, p. 109",
@@ -478,7 +476,6 @@ window.PHASES = [
     name: "Integration",
     headline: "EOS Tools & Disciplines are Fully Integrated Company-wide",
     tagline: "Every department runs a Meeting Pulse®, uses Core Values, and is accountable to numbers.",
-    why: "Launch creates awareness, and Integration creates mastery. This is where the EOS Tools take root in every department, and your vision starts guiding everyday decisions.",
     quote: {
       text: "You’re not just implementing tools. You’re transforming the way your organization operates. Keep going.",
       who: "ROLLOUT, p. 206",
@@ -581,7 +578,6 @@ window.PHASES = [
     name: "Sustainability",
     headline: "The Leadership Team is Committed to Running on EOS…Forever.",
     tagline: "The org is 80%+ strong and stays there.",
-    why: "The companies that get the most out of EOS treat it as a lifelong commitment, not a one-time project. Sustainability is about staying disciplined so you don’t drift back into old habits: keeping the tools sharp, checking for understanding, and bringing new team members up to speed. That way, running on EOS becomes your permanent operating system rather than a phase you went through.",
     quote: {
       text: "EOS is a process. And like any process, it only works when it’s followed by all.",
       who: "ROLLOUT, p. 215",

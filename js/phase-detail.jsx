@@ -1,4 +1,4 @@
-/* Phase detail panel — intro (Phase 1 only), picture of done, why, video,
+/* Phase detail panel — intro (Phase 1 only), picture of done, quote, video,
    the work in this phase, resources, pro serve callout.
 
    The work cards are deliberately NOT numbered or called "steps" — Marisa:
@@ -57,19 +57,16 @@ function PictureOfDone({ phase, checked, onToggle }) {
   );
 }
 
-function Why({ phase }) {
+/* One line from ROLLOUT for the phase. The videos carry the "why", so this is
+   all that sits between the hero row and the work. */
+function PhaseQuote({ phase }) {
+  if (!phase.quote) return null;
   return (
-    <section className="lp-why-card">
-      <div className="lp-why-card__main">
-        <span className="lp-card__eyebrow hand">Why this phase matters</span>
-        <p className="lp-why-card__prose">{phase.why}</p>
-      </div>
-      <blockquote className="lp-quote">
-        <span className="lp-quote__mark">“</span>
-        <p>{phase.quote.text}</p>
-        <cite>— {phase.quote.who}</cite>
-      </blockquote>
-    </section>
+    <blockquote className="lp-quote lp-quote--strip">
+      <span className="lp-quote__mark">“</span>
+      <p>{phase.quote.text}</p>
+      <cite>— {phase.quote.who}</cite>
+    </blockquote>
   );
 }
 
@@ -728,7 +725,7 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         <PictureOfDone phase={phase} checked={checked} onToggle={(i) => onToggleCheck(phase.id, i)} />
       </div>
 
-      <Why phase={phase} />
+      <PhaseQuote phase={phase} />
 
       <section className="lp-steps">
         <header className="lp-steps__head">
@@ -903,23 +900,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         .lp-pod__bar > span { display: block; height: 100%; background: var(--color-brand-blue); transition: width 240ms var(--ease-out); }
         .lp-pod__count { font-size: 14px; color: var(--fg-2); white-space: nowrap; }
 
-        .lp-why-card {
-          display: grid;
-          grid-template-columns: 1.4fr 1fr;
-          gap: 22px;
-          padding: 22px 24px;
-          background: var(--bg-card);
-          border: 1.5px solid var(--border-subtle);
-          border-radius: var(--radius-md);
-          box-shadow: var(--shadow-xs);
-        }
-        @media (max-width: 880px) { .lp-why-card { grid-template-columns: 1fr; } }
-        .lp-why-card__main { display: flex; flex-direction: column; }
-        .lp-why-card__prose {
-          margin: 0;
-          font-size: 15px; line-height: 1.55;
-          color: var(--fg-1);
-        }
         .lp-quote {
           margin: 0;
           padding: 14px 18px;
@@ -949,6 +929,12 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           font-style: normal;
           font-size: 12px; color: var(--fg-2); font-weight: 500;
         }
+        .lp-quote--strip {
+          display: flex; flex-wrap: wrap; align-items: baseline;
+          gap: 4px 14px;
+          padding: 12px 18px 12px 24px;
+        }
+        .lp-quote--strip cite { margin-top: 0; white-space: nowrap; }
 
         .lp-steps__head { margin-bottom: 16px; }
         .lp-steps__head .eyebrow { color: var(--color-brand-blue); display: block; margin-bottom: 4px; font-size: 14px; }
@@ -1214,8 +1200,6 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
           .lp-card { padding: 16px 16px; }
           .lp-card__head { margin-bottom: 10px; }
 
-          .lp-why-card { padding: 16px 16px; gap: 16px; }
-          .lp-why-card__prose { font-size: 14.5px; }
           .lp-quote p { font-size: 15px; }
 
           .lp-step { padding: 18px 16px 16px; }
