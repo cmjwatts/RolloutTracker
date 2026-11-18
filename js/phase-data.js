@@ -23,8 +23,13 @@
      is not listed here — the Read-this lines on each card point at it.
    - explain / explainList text may contain [label](url) — rendered as a link.
    - "suggested" on a STEP — an optional, recommended aspect, shown as a callout.
-   - "url" on a NINETY item — the help-center how-to for that action; renders
-     as a "How-to" link at the row's far right.
+   - "video" on a NINETY item — the key of a Rollout Series video in
+     window.VIDEOS. Consecutive rows that share a key render under one video
+     header with a single "Watch" link. "at" (m:ss) is where that row's
+     walkthrough starts in the video: shown beside the row now, and a YouTube
+     deep link once the video is published. "article" keeps the help-center
+     how-to for the YouTube description; it is not rendered.
+   - "url" on a NINETY item with no video — a plain "How-to" link (or "cta").
    - "readinessTool" flag on a STEP — renders the readiness assessment inside it.
    - No percentages anywhere. The percentage belongs to the Organizational
      Checkup (80%+), not to this tracker. Progress is shown as counts only.
@@ -34,6 +39,26 @@ window.ROLLOUT_LINKS = {
   hub:     "https://www.rolloutbook.com/rollout-resources?utm_source=ninety-rollout-tracker&utm_medium=referral",
   book:    "https://www.rolloutbook.com/?utm_source=ninety-rollout-tracker&utm_medium=referral",
   checkup: "https://www.organizationalcheckup.com/",
+};
+
+/* ------------------------------------------------------------------
+   Rollout Series — Christine's Ninety how-to videos, one per key. Every
+   "Do this in Ninety" row points at one of these. All of them will live on
+   YouTube; youtubeId stays null until a video is published, and the tracker
+   renders a placeholder "Watch" that goes nowhere yet. "part" is the number
+   on the video's own title card; the planned videos get one when recorded.
+------------------------------------------------------------------ */
+window.VIDEOS = {
+  overview:  { part: 1, title: "Rolling Out Ninety Across Your Organization",        duration: "1:10", youtubeId: null },
+  prep:      {          title: "Preparation in Ninety",                               duration: null,   youtubeId: null }, // planned
+  setup:     { part: 2, title: "Setting Up Your Ninety Account: Teams, Roles, and Observers", duration: "4:45", youtubeId: null },
+  l10:       { part: 3, title: "Setting Up Your Team's Level 10 Meeting™",            duration: "6:21", youtubeId: null },
+  quarterly: { part: 4, title: "Department Quarterly and Annual Planning",            duration: "4:36", youtubeId: null },
+  people:    { part: 5, title: "People Analyzer® and Quarterly Conversations",        duration: null,   youtubeId: null }, // planned
+  process:   { part: 6, title: "Core Process Documentation in Ninety",                duration: "3:00", youtubeId: null },
+  sotc:      {          title: "State of the Company with Your Data",                 duration: null,   youtubeId: "4OIwDANO3wc" },
+  checkup:   {          title: "The Organizational Checkup® in Ninety",               duration: null,   youtubeId: null }, // planned
+  insights:  {          title: "Insights: Progress Across Teams",                     duration: null,   youtubeId: null }, // planned
 };
 
 /* ------------------------------------------------------------------
@@ -293,6 +318,7 @@ window.INTRO = {
   videos: [
     { title: "What the Heck is EOS Rollout?", presenter: "Marisa Smith", youtubeId: "LNVi9y23U5M", duration: "1:54", cue: "The ROLLOUT Roadmap, in under two minutes" },
     { title: "Why Rollout is Hard",           presenter: "Beth Fahey",   youtubeId: "h8M2O32-8uw", duration: "2:13", cue: "Helping your team embrace change" },
+    { title: "Rolling Out Ninety Across Your Organization", presenter: "Christine Watts", youtubeId: null, duration: "1:10", cue: "How Ninety fits the four phases" },
   ],
 };
 
@@ -343,8 +369,8 @@ window.PHASES = [
         readinessTool: true,
         explain: "Discuss these five questions from ROLLOUT as a leadership team to decide where you’re ready and what needs more preparation.",
         ninety: [
-          { kind: "V/TO",      label: "Open the V/TO® and Accountability Chart and review them together — they need to be current before you decide what to share" },
-          { kind: "Scorecard", label: "Review your Leadership Team Scorecard — confirm every leader owns their numbers and you'd trust the data in front of the company" },
+          { kind: "V/TO",      label: "Open the V/TO® and Accountability Chart and review them together — they need to be current before you decide what to share", video: "prep" },
+          { kind: "Scorecard", label: "Review your Leadership Team Scorecard — confirm every leader owns their numbers and you'd trust the data in front of the company", video: "prep" },
         ],
         readThis: [
           { text: "Learn more about Getting Ready for Rollout in Chapter 4 of ROLLOUT.", book: "rollout" },
@@ -356,7 +382,7 @@ window.PHASES = [
         planningTool: true,
         explain: "Build a plan around your company’s needs and capacity for change. Consider the four areas below.",
         ninety: [
-          { kind: "Rocks", label: "Add your Rollout Plan as a Company Rock so it stays alive" },
+          { kind: "Rocks", label: "Add your Rollout Plan as a Company Rock so it stays alive", video: "prep" },
         ],
         readThis: [
           { text: "Learn more about Planning Your Rollout in Chapter 5 of ROLLOUT.", book: "rollout" },
@@ -414,8 +440,8 @@ window.PHASES = [
         title: "Introduce your vision and EOS to the entire organization",
         explain: "Don't wing it. Agree on who will present each part of the launch with the Leadership Team, and brief mid-managers. Then go to the company for your launch event: V/TO® and Accountability Chart walkthrough, why EOS, and what's coming next. Make it visible: swag, displays, Ninety shared along with resources like the Rollout Plan and What the Heck is EOS?",
         ninety: [
-          { kind: "V/TO",      label: "Add your team to Ninety as Observers so they can view the V/TO® and Accountability Chart", url: "https://help.eos.ninety.io/en/articles/13719367-ninety-s-observer-role-explained" },
-          { kind: "Knowledge Portal", label: "Share launch content and the Rollout Plan in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/13653880-creating-and-editing-content-in-the-knowledge-portal" },
+          { kind: "V/TO",      label: "Directory → Add teammate → Observer: free, view-only access so everyone can see the V/TO® and Accountability Chart", video: "setup", at: "2:09", article: "https://help.eos.ninety.io/en/articles/13719367-ninety-s-observer-role-explained" },
+          { kind: "Knowledge Portal", label: "Put launch content and the Rollout Plan in a card collection and make it public so Observers can see it", video: "process", at: "2:03", article: "https://help.eos.ninety.io/en/articles/13653880-creating-and-editing-content-in-the-knowledge-portal" },
         ],
         resources: [],
       },
@@ -491,9 +517,9 @@ window.PHASES = [
           "Meet annually to review the Company V/TO, update the Departmental Plan (Goals and Rocks), and solve issues",
         ],
         ninety: [
-          { kind: "Meetings", label: "Stand up each department's Level 10 in Meetings", url: "https://help.eos.ninety.io/en/articles/13639370-level-10-meetings-powered-by-ninety" },
-          { kind: "Rocks",    label: "Set Departmental Rocks each quarter; share Rocks across teams", url: "https://help.eos.ninety.io/en/articles/13639806-creating-and-setting-up-rocks" },
-          { kind: "V/TO",     label: "Build a Departmental V/TO for each team", url: "https://help.eos.ninety.io/en/articles/13639337-documenting-your-company-or-team-vision" },
+          { kind: "Meetings", label: "Switch to your team → Agendas → Level 10, then set each section's time to fit the meeting you'll actually run", video: "l10", at: "0:46", article: "https://help.eos.ninety.io/en/articles/13639370-level-10-meetings-powered-by-ninety" },
+          { kind: "Rocks",    label: "Create the team's Rocks; share a Rock to other teams when more than one team is working on it", video: "l10", at: "4:15", article: "https://help.eos.ninety.io/en/articles/13639806-creating-and-setting-up-rocks" },
+          { kind: "V/TO",     label: "Vision cascades from leadership; set your team's own 1-Year and 90-day goals on the Traction page", video: "quarterly", at: "2:15", article: "https://help.eos.ninety.io/en/articles/13639337-documenting-your-company-or-team-vision" },
         ],
         readThis: [
           { text: "Learn more about Rolling Out to Departments in Chapter 7 of ROLLOUT.", book: "rollout" },
@@ -510,8 +536,8 @@ window.PHASES = [
           "Are holding Quarterly Conversations with direct reports",
         ],
         ninety: [
-          { kind: "1-on-1s", label: "Each manager becomes familiar with the People Analyzer® to hire, fire, and promote based on it", url: "https://help.eos.ninety.io/en/articles/13653795-the-people-analyzer" },
-          { kind: "1-on-1s", label: "Each manager sets up their Quarterly Conversations and is ready to run those consistently", url: "https://help.eos.ninety.io/en/articles/13653770-quarterly-and-annual-reviews" },
+          { kind: "1-on-1s", label: "Each manager becomes familiar with the People Analyzer® to hire, fire, and promote based on it", video: "people", article: "https://help.eos.ninety.io/en/articles/13653795-the-people-analyzer" },
+          { kind: "1-on-1s", label: "Each manager sets up their Quarterly Conversations and is ready to run those consistently", video: "people", article: "https://help.eos.ninety.io/en/articles/13653770-quarterly-and-annual-reviews" },
         ],
         readThis: [
           { text: "Learn more about Creating an Environment of Accountability in Chapter 9 of ROLLOUT.", book: "rollout" },
@@ -521,7 +547,7 @@ window.PHASES = [
         title: "Core Processes are Documented, Simplified, and Followed by All (FBA)",
         explain: "Capture the way the work actually gets done.",
         ninety: [
-          { kind: "Knowledge Portal", label: "Document Core Processes in Knowledge Portal", url: "https://help.eos.ninety.io/en/articles/13653878-documenting-your-processes-with-the-knowledge-portal" },
+          { kind: "Knowledge Portal", label: "Build a card collection per Core Process, nest the steps, and assign any layer as a Rock or To-Do — Maz answers from it", video: "process", at: "0:23", article: "https://help.eos.ninety.io/en/articles/13653878-documenting-your-processes-with-the-knowledge-portal" },
         ],
         readThis: [
           { text: "Process!, by Mike Paton & Lisa González", book: "other", cover: "assets/book-process.webp" },
@@ -531,7 +557,7 @@ window.PHASES = [
         title: "Everyone has a Number",
         explain: "When everyone in the company owns at least one number, they know exactly what’s expected in their role and can see how their performance contributes to the company’s success.",
         ninety: [
-          { kind: "Scorecard", label: "Build a Departmental Scorecard per leader; share measurables across teams", url: "https://help.eos.ninety.io/en/articles/13642363-creating-and-updating-measurables" },
+          { kind: "Scorecard", label: "New Measurable → Add Existing to pull leadership numbers onto the team Scorecard, or create its own; aim for 5 to 15 weekly measurables", video: "l10", at: "2:51", article: "https://help.eos.ninety.io/en/articles/13642363-creating-and-updating-measurables" },
         ],
         readThis: [
           { text: "Data, by Mark O’Donnell, Angela Kalemis & Mark Stanley", book: "other", cover: "assets/book-data.webp" },
@@ -584,8 +610,8 @@ window.PHASES = [
         title: "Deliver a State of the Company, every quarter…forever",
         explain: "A quarterly State of the Company keeps your vision front and center, so it doesn’t fade into the background once the excitement of launch wears off. Every 90 days, it gives you a chance to celebrate progress, report honestly on where you stand, and reconnect everyone to where you’re going, which keeps the whole company aligned for the long haul.",
         ninety: [
-          { kind: "State of the Co.", label: "Run the Quarterly State of the Company with your data", url: "https://youtu.be/4OIwDANO3wc", cta: "Watch" },
-          { kind: "Meetings",         label: "Run the weekly, quarterly, annual meeting pulse in Meetings", url: "https://help.eos.ninety.io/en/articles/13639439-introduction-to-meetings" },
+          { kind: "State of the Co.", label: "Run the Quarterly State of the Company with your data", video: "sotc" },
+          { kind: "Meetings",         label: "Meetings → Agendas → Quarterly Session: set each department's quarterly agenda and timings", video: "quarterly", at: "1:42", article: "https://help.eos.ninety.io/en/articles/13639439-introduction-to-meetings" },
         ],
         resources: [],
       },
@@ -593,7 +619,7 @@ window.PHASES = [
         title: "Achieve and maintain 80%+ on the Organizational Checkup®",
         explain: "Reaching 80%+ strong is where you’ll feel the “organizational flow” that makes running your business easier, and maintaining it is how you know EOS hasn’t started to drift. Taking the Checkup both as a leadership team and as an entire organization shows you whether the rest of the company sees things the same way you do. Any gaps between the scores reveal exactly where your Rollout needs more attention.",
         ninety: [
-          { kind: "Assessment", label: "Take the Organizational Checkup® on an annual schedule", url: "https://help.eos.ninety.io/en/articles/14062622-measuring-your-six-key-components-with-the-org-assessment" },
+          { kind: "Assessment", label: "Take the Organizational Checkup® on an annual schedule", video: "checkup", article: "https://help.eos.ninety.io/en/articles/14062622-measuring-your-six-key-components-with-the-org-assessment" },
         ],
         resources: [],
       },
@@ -606,7 +632,7 @@ window.PHASES = [
           "Complete 90%+ of To-Dos weekly",
         ],
         ninety: [
-          { kind: "Insights", label: "Track data and reporting across teams to see progress", url: "https://help.eos.ninety.io/en/articles/13719148-introduction-to-insights" },
+          { kind: "Insights", label: "Track data and reporting across teams to see progress", video: "insights", article: "https://help.eos.ninety.io/en/articles/13719148-introduction-to-insights" },
         ],
         readThis: [
           { text: "Learn more about Running on EOS Forever in Chapter 10 of ROLLOUT.", book: "rollout" },

@@ -131,6 +131,8 @@ const SHARED_CSS = `
           transition: transform var(--t-base) var(--ease-out);
         }
         .lp-video__poster:hover .lp-video__disc { transform: translate(-50%, -50%) scale(1.06); }
+        .lp-video__poster.is-soon { cursor: default; }
+        .lp-video__poster.is-soon:hover .lp-video__disc { transform: translate(-50%, -50%); }
         .lp-video__cap {
           position: absolute;
           left: 22px; right: 22px; bottom: 20px;
@@ -185,6 +187,7 @@ function VideoCard({ video, backLabel }) {
   const yt = video.youtubeId;
 
   const play = () => {
+    if (!yt) return; // placeholder: the video is not published yet
     setPlaying(true);
     if (window.rtTrack) window.rtTrack("video_play", { video_id: yt || null, video_title: video.title });
   };
@@ -207,9 +210,11 @@ function VideoCard({ video, backLabel }) {
     <section className="lp-video">
       {!playing ? (
         <button
-          className="lp-video__poster"
+          className={"lp-video__poster" + (yt ? "" : " is-soon")}
           onClick={play}
-          aria-label={`Play video: ${video.title}`}
+          aria-label={yt ? `Play video: ${video.title}` : `${video.title} (video coming soon)`}
+          aria-disabled={yt ? undefined : "true"}
+          title={yt ? undefined : "Video coming soon"}
           type="button"
         >
           <span className="lp-video__bg" aria-hidden="true" />
@@ -303,7 +308,7 @@ function IntroPage({ onBegin }) {
       <style>{`
         .lp--intro { display: flex; flex-direction: column; gap: 28px; }
         .lp-intro__videos {
-          display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px;
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px;
         }
         @media (max-width: 720px) { .lp-intro__videos { grid-template-columns: minmax(0, 1fr); } }
 
@@ -374,7 +379,74 @@ function ReadThis({ items }) {
   );
 }
 
+const LinkArrow = () => (
+  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+    <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+  </svg>
+);
+
+/* Rollout Series videos (window.VIDEOS). Every one will be on YouTube;
+   youtubeId is null until it is published, and until then "Watch" is a
+   placeholder that goes nowhere and a row's "at" time is plain text. */
+function videoHref(video, at) {
+  if (!video || !video.youtubeId) return null;
+  let href = "https://youtu.be/" + video.youtubeId;
+  if (at) {
+    const p = at.split(":").map(Number);
+    const secs = p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + (p[1] || 0);
+    href += "?t=" + secs;
+  }
+  return href;
+}
+function trackWatch(videoKey, at) {
+  if (window.rtTrack) window.rtTrack("video_watch_click", { video_key: videoKey, at: at || null });
+}
+
+function WatchLink({ videoKey }) {
+  const v = (window.VIDEOS || {})[videoKey];
+  const href = videoHref(v);
+  if (!href) {
+    return (
+      <a className="lp-rlink lp-rlink--soon" role="link" aria-disabled="true" title="Video coming soon">
+        Watch<LinkArrow />
+      </a>
+    );
+  }
+  return (
+    <a className="lp-rlink" href={href} target="_blank" rel="noopener" onClick={() => trackWatch(videoKey)}>
+      Watch<LinkArrow />
+    </a>
+  );
+}
+
+/* One header per video inside a "Do this in Ninety" list: series eyebrow,
+   title, length, and the single Watch link for the rows beneath it. */
+function VideoHead({ videoKey }) {
+  const v = (window.VIDEOS || {})[videoKey] || { title: videoKey };
+  return (
+    <li className="lp-vhead-li">
+      <div className="lp-vhead">
+        <span className="lp-vhead__disc" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M11 8 L24 16 L11 24 Z" fill="currentColor" />
+          </svg>
+        </span>
+        <span className="lp-vhead__text">
+          <span className="lp-vhead__eyebrow hand">Rollout Series{v.part ? ` · Part ${v.part}` : ""}</span>
+          <span className="lp-vhead__title">
+            {v.title}
+            {v.duration && <span className="lp-vhead__dur"> · {v.duration}</span>}
+          </span>
+        </span>
+        <WatchLink videoKey={videoKey} />
+      </div>
+    </li>
+  );
+}
+
 function ResourceItem({ item, accent }) {
+  const v = item.video ? (window.VIDEOS || {})[item.video] : null;
+  const atHref = item.video && item.at ? videoHref(v, item.at) : null;
   return (
     <li>
       <span className={"lp-kind" + (accent ? " is-accent" : "")}>{item.kind}</span>
@@ -382,18 +454,37 @@ function ResourceItem({ item, accent }) {
       {/* .lp-rlist is a 3-column grid and each <li> is display:contents, so every
           item must contribute exactly three cells — otherwise the columns shift
           and a long label lands in the max-content column and blows the layout out. */}
-      {item.url ? (
+      {item.video && item.at ? (
+        atHref ? (
+          <a className="lp-rlink lp-rlink--at" href={atHref} target="_blank" rel="noopener"
+             onClick={() => trackWatch(item.video, item.at)}>
+            at {item.at}<LinkArrow />
+          </a>
+        ) : (
+          <span className="lp-rlink lp-rlink--at">at {item.at}</span>
+        )
+      ) : item.url ? (
         <a className="lp-rlink" href={item.url} target="_blank" rel="noopener">
           {item.cta || (accent ? "How-to" : "Open")}
-          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M3 9 L9 3 M9 3 H4 M9 3 V8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-          </svg>
+          <LinkArrow />
         </a>
       ) : (
         <span className="lp-rlink lp-rlink--none" aria-hidden="true" />
       )}
     </li>
   );
+}
+
+/* Consecutive rows that share a video render under one VideoHead. */
+function groupByVideo(items) {
+  const out = [];
+  items.forEach((it) => {
+    const key = it.video || null;
+    const last = out[out.length - 1];
+    if (key && last && last.video === key) last.items.push(it);
+    else out.push({ video: key, items: [it] });
+  });
+  return out;
 }
 
 function ResourceSubList({ label, accent, items }) {
@@ -411,7 +502,12 @@ function ResourceSubList({ label, accent, items }) {
         <span>{label}</span>
       </h5>
       <ul className="lp-rlist">
-        {items.map((it, i) => <ResourceItem key={i} item={it} accent={accent} />)}
+        {groupByVideo(items).map((g, gi) => (
+          <React.Fragment key={gi}>
+            {g.video && <VideoHead videoKey={g.video} />}
+            {g.items.map((it, i) => <ResourceItem key={i} item={it} accent={accent} />)}
+          </React.Fragment>
+        ))}
       </ul>
     </div>
   );
@@ -979,6 +1075,37 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         }
         .lp-rlink:hover { color: var(--color-brand-black); }
         .lp-rlink--none { padding: 0; }
+        .lp-rlink--soon { cursor: default; }
+        .lp-rlink--soon:hover { color: var(--color-brand-blue); }
+        span.lp-rlink--at { color: var(--fg-2); font-weight: 500; }
+
+        /* Video header inside the Ninety list: spans all three grid columns. */
+        .lp-vhead {
+          grid-column: 1 / -1;
+          display: grid;
+          grid-template-columns: auto minmax(0, 1fr) max-content;
+          align-items: center;
+          gap: 10px;
+          margin-top: 8px;
+          padding: 8px 12px 8px 8px;
+          background: var(--bg-alt);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-sm);
+        }
+        .lp-rlist li:first-child .lp-vhead { margin-top: 0; }
+        .lp-vhead .lp-rlink { grid-column: 3; padding-top: 0; }
+        .lp-vhead__disc {
+          width: 28px; height: 28px; border-radius: 50%;
+          background: var(--color-brand-blue); color: var(--color-white);
+          display: grid; place-items: center; padding-left: 2px;
+        }
+        .lp-vhead__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+        .lp-vhead__eyebrow {
+          font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+          color: var(--color-brand-blue);
+        }
+        .lp-vhead__title { font-size: 13.5px; font-weight: 600; color: var(--fg-1); line-height: 1.3; }
+        .lp-vhead__dur { font-weight: 500; color: var(--fg-2); }
 
         .lp-pres {
           background: var(--bg-card);
