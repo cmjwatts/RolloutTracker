@@ -6,6 +6,41 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="description" content="Navigate your Rollout with the four-phase Rollout Roadmap and Tracker — from leadership readiness to Running on EOS® forever. An interactive companion to the ROLLOUT book, powered by Ninety." />
 
+<!-- Share previews (LinkedIn, Slack, X, etc.) -->
+<meta property="og:title" content="Rollout Tracker, powered by Ninety" />
+<meta property="og:description" content="Navigate your Rollout with the four-phase Rollout Roadmap and Tracker — from leadership readiness to Running on EOS® forever. An interactive companion to the ROLLOUT book, powered by Ninety." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://rollouttracker.netlify.app/" />
+<meta property="og:image" content="https://rollouttracker.netlify.app/assets/share-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="The Rollout Tracker, powered by Ninety" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rollout Tracker, powered by Ninety" />
+<meta name="twitter:description" content="Navigate your Rollout with the four-phase Rollout Roadmap and Tracker — from leadership readiness to Running on EOS® forever. An interactive companion to the ROLLOUT book, powered by Ninety." />
+<meta name="twitter:image" content="https://rollouttracker.netlify.app/assets/share-card.png" />
+
+<!-- Analytics: a tiny event helper (phase views + CTA clicks go to window.dataLayer;
+     phase changes also log a HubSpot page view), then the HubSpot tracking code. -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.rtTrack = function (event, props) {
+    props = props || {};
+    try {
+      var payload = { event: event };
+      for (var k in props) { if (Object.prototype.hasOwnProperty.call(props, k)) payload[k] = props[k]; }
+      window.dataLayer.push(payload);
+      // HubSpot already counts the initial page load; log later phase changes as page views.
+      if (event === "phase_view" && !props.initial && window._hsq) {
+        window._hsq.push(["setPath", "/" + (props.phase_id === "intro" ? "" : props.phase_id)]);
+        window._hsq.push(["trackPageView"]);
+      }
+    } catch (e) {}
+  };
+</script>
+<script type="text/javascript" id="hs-script-loader" async defer src="https://js.hs-scripts.com/3439997.js"></script>
+<!-- GA4: add the gtag.js snippet here once marketing confirms the measurement ID (rtTrack events already land in window.dataLayer). -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -444,10 +479,10 @@
       Want the deep dive? Read <strong>ROLLOUT</strong> by Marisa Smith &amp; Beth Fahey.
     </span>
     <span class="book-banner__actions">
-      <a class="book-banner__link" href="https://www.rolloutbook.com/rollout-resources" target="_blank" rel="noopener">
+      <a class="book-banner__link" href="https://www.rolloutbook.com/rollout-resources?utm_source=ninety-rollout-tracker&utm_medium=referral" target="_blank" rel="noopener">
         Free resources
       </a>
-      <a class="book-banner__cta" href="https://www.rolloutbook.com/" target="_blank" rel="noopener">
+      <a class="book-banner__cta" href="https://www.rolloutbook.com/?utm_source=ninety-rollout-tracker&utm_medium=referral" target="_blank" rel="noopener">
         Get the book
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
           <path d="M3 7 H11 M8 4 L11 7 L8 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
@@ -482,7 +517,7 @@
 <footer class="site-footer">
   <div class="site-footer__inner">
     <span class="site-footer__credit">
-      <a href="https://www.rolloutbook.com/" target="_blank" rel="noopener">Rollout Book</a>
+      <a href="https://www.rolloutbook.com/?utm_source=ninety-rollout-tracker&utm_medium=referral" target="_blank" rel="noopener">Rollout Book</a>
       <span class="site-footer__x" aria-hidden="true">&times;</span>
       <a href="https://www.ninety.io/" target="_blank" rel="noopener">Ninety</a>
     </span>
@@ -494,7 +529,7 @@
       Adapted from <em>ROLLOUT: Get Your Entire Team Running on EOS to Achieve Your Vision</em>
       and reproduced by Ninety with permission. No part may be copied, modified, or
       redistributed without written consent. Learn more at
-      <a href="https://www.rolloutbook.com/" target="_blank" rel="noopener">rolloutbook.com</a>.
+      <a href="https://www.rolloutbook.com/?utm_source=ninety-rollout-tracker&utm_medium=referral" target="_blank" rel="noopener">rolloutbook.com</a>.
     </p>
     <p>
       EOS&reg;, The Entrepreneurial Operating System&reg;, and related terms are trademarks of

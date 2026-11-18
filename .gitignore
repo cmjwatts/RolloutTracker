@@ -1,2 +1,5 @@
 .claude/
 .DS_Store
+
+exports/
+capture.mjs

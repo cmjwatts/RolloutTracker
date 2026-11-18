@@ -68,6 +68,13 @@ function App() {
     try { localStorage.setItem(VIEW_KEY, JSON.stringify(activeId)); } catch (e) {}
   }, [activeId]);
 
+  // Analytics: one phase_view per view change (see window.rtTrack in index.html).
+  const firstView = React.useRef(true);
+  React.useEffect(() => {
+    if (window.rtTrack) window.rtTrack("phase_view", { phase_id: activeId, initial: firstView.current });
+    firstView.current = false;
+  }, [activeId]);
+
   const phase = phases.find((p) => p.id === activeId);
 
   return (
