@@ -399,44 +399,29 @@ function trackWatch(videoKey, at) {
   if (window.rtTrack) window.rtTrack("video_watch_click", { video_key: videoKey, at: at || null });
 }
 
-function WatchLink({ videoKey }) {
+/* One line per video inside a "Do this in Ninety" list, above the rows it
+   walks through: "Watch: <title> · <length>", the whole line a link. It
+   mirrors the "Read this:" line at the foot of the card. Until the video is
+   published there is nothing to watch, so the line is not rendered. */
+function VideoHead({ videoKey }) {
   const v = (window.VIDEOS || {})[videoKey];
   const href = videoHref(v);
-  if (!href) {
-    return (
-      <a className="lp-rlink lp-rlink--soon" role="link" aria-disabled="true" title="Video coming soon">
-        Watch<LinkArrow />
-      </a>
-    );
-  }
-  return (
-    <a className="lp-rlink" href={href} target="_blank" rel="noopener" onClick={() => trackWatch(videoKey)}>
-      Watch<LinkArrow />
-    </a>
-  );
-}
-
-/* One header per video inside a "Do this in Ninety" list: series eyebrow,
-   title, length, and the single Watch link for the rows beneath it. */
-function VideoHead({ videoKey }) {
-  const v = (window.VIDEOS || {})[videoKey] || { title: videoKey };
+  if (!href) return null;
   return (
     <li className="lp-vhead-li">
-      <div className="lp-vhead">
+      <a className="lp-vhead" href={href} target="_blank" rel="noopener" onClick={() => trackWatch(videoKey)}>
         <span className="lp-vhead__disc" aria-hidden="true">
-          <svg width="12" height="12" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <svg width="10" height="10" viewBox="0 0 32 32" fill="none" aria-hidden="true">
             <path d="M11 8 L24 16 L11 24 Z" fill="currentColor" />
           </svg>
         </span>
         <span className="lp-vhead__text">
-          <span className="lp-vhead__eyebrow hand">Rollout Series{v.part ? ` · Part ${v.part}` : ""}</span>
-          <span className="lp-vhead__title">
-            {v.title}
-            {v.duration && <span className="lp-vhead__dur"> · {v.duration}</span>}
-          </span>
+          <span className="lp-vhead__label">Watch:</span>
+          <span className="lp-vhead__title">{v.title}</span>
+          {v.duration && <span className="lp-vhead__dur"> · {v.duration}</span>}
+          <LinkArrow />
         </span>
-        <WatchLink videoKey={videoKey} />
-      </div>
+      </a>
     </li>
   );
 }
@@ -458,7 +443,7 @@ function ResourceItem({ item, accent }) {
             at {item.at}<LinkArrow />
           </a>
         ) : (
-          <span className="lp-rlink lp-rlink--at">at {item.at}</span>
+          <span className="lp-rlink lp-rlink--none" aria-hidden="true" />
         )
       ) : item.url ? (
         <a className="lp-rlink" href={item.url} target="_blank" rel="noopener">
@@ -1061,37 +1046,30 @@ function PhaseDetail({ phase, checkedMap, onToggleCheck, readiness, setReadiness
         }
         .lp-rlink:hover { color: var(--color-brand-black); }
         .lp-rlink--none { padding: 0; }
-        .lp-rlink--soon { cursor: default; }
-        .lp-rlink--soon:hover { color: var(--color-brand-blue); }
-        span.lp-rlink--at { color: var(--fg-2); font-weight: 500; }
 
-        /* Video header inside the Ninety list: spans all three grid columns. */
+        /* Video line inside the Ninety list: spans all three grid columns and
+           reads like the "Read this:" line (icon, bold label, quiet text). */
         .lp-vhead {
           grid-column: 1 / -1;
-          display: grid;
-          grid-template-columns: auto minmax(0, 1fr) max-content;
-          align-items: center;
-          gap: 10px;
-          margin-top: 8px;
-          padding: 8px 12px 8px 8px;
-          background: var(--bg-alt);
-          border: 1px solid var(--border-subtle);
-          border-radius: var(--radius-sm);
+          display: inline-flex; align-items: center; gap: 10px;
+          justify-self: start;
+          margin-top: 6px;
+          font-size: 13.5px; line-height: 1.45; color: var(--fg-2);
+          text-decoration: none;
         }
         .lp-rlist li:first-child .lp-vhead { margin-top: 0; }
-        .lp-vhead .lp-rlink { grid-column: 3; padding-top: 0; }
         .lp-vhead__disc {
-          width: 28px; height: 28px; border-radius: 50%;
+          flex: 0 0 auto;
+          width: 22px; height: 22px; border-radius: 50%;
           background: var(--color-brand-blue); color: var(--color-white);
-          display: grid; place-items: center; padding-left: 2px;
+          display: grid; place-items: center; padding-left: 1px;
         }
-        .lp-vhead__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-        .lp-vhead__eyebrow {
-          font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
-          color: var(--color-brand-blue);
-        }
-        .lp-vhead__title { font-size: 13.5px; font-weight: 600; color: var(--fg-1); line-height: 1.3; }
-        .lp-vhead__dur { font-weight: 500; color: var(--fg-2); }
+        .lp-vhead__text { display: inline; min-width: 0; }
+        .lp-vhead__text svg { color: var(--color-brand-blue); margin-left: 4px; vertical-align: -1px; }
+        .lp-vhead__label { font-weight: 700; color: var(--color-brand-blue); margin-right: 6px; white-space: nowrap; }
+        .lp-vhead__title { color: var(--fg-1); font-weight: 500; }
+        .lp-vhead__dur { color: var(--fg-2); }
+        .lp-vhead:hover .lp-vhead__title { text-decoration: underline; text-underline-offset: 2px; }
 
         .lp-pres {
           background: var(--bg-card);
